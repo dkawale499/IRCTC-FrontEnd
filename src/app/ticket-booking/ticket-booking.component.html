@@ -1,0 +1,49 @@
+<form class="booking-card" (ngSubmit)="submitBooking()" #bookingForm="ngForm">
+  <div class="booking-tabs">
+    <span class="booking-tab active">BOOK TICKET</span>
+    <span class="booking-tab">PNR STATUS</span>
+  </div>
+  <h2>BOOK TICKET</h2>
+
+  <div class="booking-grid">
+    <label>Passenger name
+      <input name="name" [(ngModel)]="passenger.name" placeholder="Enter passenger name" required>
+    </label>
+    <label>Date of birth
+      <input name="dob" type="date" [(ngModel)]="passenger.dob" required>
+    </label>
+    <label>From
+      <input name="source" [(ngModel)]="passenger.source" placeholder="Enter source station" required>
+    </label>
+    <label>To
+      <input name="dest" [(ngModel)]="passenger.dest" placeholder="Enter destination station" required>
+    </label>
+    <label>Train number
+      <input name="trainNo" [(ngModel)]="passenger.trainNo" placeholder="e.g. 12915" required>
+    </label>
+    <label>Journey date
+      <input name="doj" type="date" [(ngModel)]="passenger.doj" required>
+    </label>
+    <label>Gender
+      <select name="gender" [(ngModel)]="passenger.gender" required>
+        <option value="" disabled>Select gender</option>
+        <option>Male</option><option>Female</option><option>Other</option>
+      </select>
+    </label>
+    <label>Class
+      <select name="class" [(ngModel)]="selectedClass"><option>All Classes</option><option>AC First Class</option><option>AC 2 Tier</option><option>Sleeper</option></select>
+    </label>
+  </div>
+
+  <select class="quota-select" name="quota" [(ngModel)]="quota"><option>GENERAL</option><option>LADIES</option><option>LOWER BERTH / SENIOR CITIZEN</option></select>
+  <div class="booking-options">
+    <label><input type="checkbox" name="flexibleDate" [(ngModel)]="flexibleDate"> Flexible with date</label>
+    <label><input type="checkbox" name="availableBerth" [(ngModel)]="availableBerth"> Train with available berth</label>
+  </div>
+  <p class="form-message success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="form-message error" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <div class="booking-actions">
+    <button class="search-button" type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Booking...' : 'Book ticket' }}</button>
+    <span class="required-note">All fields are required</span>
+  </div>
+</form>

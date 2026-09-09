@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/styles.css"],
+  "sourcesContent": ["@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');\r\n\r\n* { box-sizing: border-box; }\r\nhtml, body { margin: 0; min-height: 100%; font-family: 'DM Sans', sans-serif; }\r\nbody { background: #f7f9fb; }\r\nbutton, input { font-family: inherit; }\r\n"],
+  "mappings": ";;;AAEA;AAAI,cAAY;AAAY;AAC5B;AAAM;AAAO,UAAQ;AAAG,cAAY;AAAM,eAAa,SAAS,EAAE;AAAY;AAC9E;AAAO,cAAY;AAAS;AAC5B;AAAQ;AAAQ,eAAa;AAAS;",
+  "names": []
+}

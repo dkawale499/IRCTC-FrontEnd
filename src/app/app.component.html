@@ -1,0 +1,117 @@
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><span></span><span></span><span></span></div>
+      <div><strong>railwise</strong><small>ticket desk</small></div>
+    </div>
+
+    <div class="workspace-label">Workspace</div>
+    <nav class="nav-list" aria-label="Primary navigation">
+      <button class="nav-item active" type="button"><span class="nav-icon">▦</span>Ticket overview</button>
+      <button class="nav-item" type="button"><span class="nav-icon">⌁</span>Passenger list</button>
+      <button class="nav-item" type="button"><span class="nav-icon">◷</span>Travel calendar</button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="support-card">
+        <span class="support-icon">?</span>
+        <div><strong>Need a hand?</strong><p>Open the booking guide</p></div>
+        <span class="arrow">↗</span>
+      </div>
+      <div class="profile-row">
+        <div class="avatar">D</div>
+        <div><strong>Dnyaneshwar</strong><small>Administrator</small></div>
+        <span class="more">•••</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="utility-bar">
+      <div class="utility-links"><button class="utility-active" type="button">LOGIN</button><button type="button">REGISTER</button><button type="button">AGENT LOGIN</button><button type="button">CONTACT US</button><button type="button">HELP &amp; SUPPORT</button><button type="button">DAILY DEALS</button><button type="button">ALERTS</button></div>
+      <div class="utility-user">09-Sep-2026 | 14:29:40 &nbsp; A- &nbsp; A &nbsp; A+ &nbsp; हिंदी <strong>Dnyaneshwar</strong></div>
+    </header>
+    <nav class="rail-nav" aria-label="IRCTC navigation"><div class="rail-logo"><span>IR</span><small>indian railways</small></div><button class="home-link home-nav" type="button" (click)="openHome()">⌂ HOME</button><button class="book-nav" type="button" (click)="openBooking()">BOOK TICKET</button><button class="rail-active available-nav" type="button" (click)="openAvailableTickets()"><strong>CHECK AVAILABLE TICKETS</strong></button><button type="button">TRAINS</button><button type="button">LOYALTY</button><button type="button">IRCTC eWallet</button><button type="button">BUSES</button><button type="button">FLIGHTS</button><button type="button">HOTELS</button><button type="button">HOLIDAYS</button><button type="button">MEALS</button><button type="button">PROMOTIONS</button><button type="button">MORE</button></n    Build IRCTC Angular frontend    Build IRCTC Angular frontend    git -C "C:\Spring Boot\S Projects" push -u origin HEADav>
+
+    <section class="booking-hero" *ngIf="!showAvailableTickets && !showBookingPage">
+      <div class="hero-copy"><p class="hero-kicker">Safety <span>|</span> Security <span>|</span> Punctuality</p><h1>INDIAN RAILWAYS</h1><p>Journey with confidence</p></div>
+      <form class="home-search-panel" (ngSubmit)="searchTrains()">
+        <div class="home-search-tabs"><button class="home-tab active" type="button">▣ &nbsp; Book Ticket</button><button type="button">▣ &nbsp; PNR Status</button><button type="button">▤ &nbsp; Charts/Vacancy</button></div>
+        <div class="home-search-form">
+          <div class="search-selects"><select name="searchQuota" [(ngModel)]="searchQuota"><option>General</option><option>Ladies</option><option>Senior Citizen</option></select><select name="searchClass" [(ngModel)]="searchClass"><option>All Class</option><option>AC First Class</option><option>AC 2 Tier</option><option>Sleeper</option></select></div>
+          <label><span>From</span><input name="searchFrom" [(ngModel)]="searchFrom" placeholder="From station"></label>
+          <button class="swap-stations" type="button" aria-label="Swap stations" (click)="swapStations()">↔</button>
+          <label><span>To</span><input name="searchTo" [(ngModel)]="searchTo" placeholder="To station"></label>
+          <label><span>Journey Date</span><input name="searchDate" type="date" [(ngModel)]="searchDate"></label>
+          <button class="search-train-button" type="submit">Search Train <b>›</b></button>
+        </div>
+        <p class="train-search-message" *ngIf="trainSearchMessage">{{ trainSearchMessage }}</p>
+      </form>
+      <div class="hero-train" aria-hidden="true"><div class="train-window"></div><div class="train-nose"></div><div class="train-stripe"></div><span>वंदे भारत</span></div>
+    </section>
+
+    <section class="booking-page" id="booking-page" *ngIf="showBookingPage">
+      <div class="booking-page-copy"><p class="eyebrow">Indian Railways booking</p><h1>Book your journey</h1><p>Enter passenger and travel details to create a ticket.</p></div>
+      <app-ticket-booking (ticketBooked)="addBookedTicket($event)"></app-ticket-booking>
+    </section>
+
+    <section class="admin-strip"><div><span class="admin-dot"></span> Administrator workspace</div><strong>Dnyaneshwar's ticket desk</strong><span class="api-state" [class.connected]="!isLoading && apiMessage === 'Live data from Spring Boot'"><i></i>{{ apiMessage }}</span></section>
+
+    <section class="available-heading" *ngIf="showAvailableTickets"><p class="eyebrow">Live ticket availability</p><h1>Available tickets</h1><p>All departure and passenger details from your Spring Boot ticket desk.</p></section>
+
+    <section class="route-banner" id="available-summary" aria-label="Journey snapshot" *ngIf="showAvailableTickets">
+      <div class="route-copy"><span class="live-dot"></span><span>Next departure</span><strong>Rajdhani Express</strong></div>
+      <div class="route-line"><div class="station"><strong>NDLS</strong><small>New Delhi</small></div><div class="track"><span class="train-pin">▰</span></div><div class="station end"><strong>JP</strong><small>Jaipur</small></div></div>
+      <div class="route-time"><strong>5h 15m</strong><small>Train 12915 · 16:55</small></div>
+    </section>
+
+    <section class="metric-grid" aria-label="Ticket totals" *ngIf="showAvailableTickets">
+      <article class="metric-card"><div class="metric-icon blue">▦</div><div><span>Total tickets</span><strong>{{ tickets.length }}</strong></div><small class="trend up">↗ 12.5%</small></article>
+      <article class="metric-card"><div class="metric-icon green">✓</div><div><span>Confirmed</span><strong>{{ countFor('Confirmed') }}</strong></div><small class="trend up">↗ 8.2%</small></article>
+      <article class="metric-card"><div class="metric-icon amber">◷</div><div><span>RAC tickets</span><strong>{{ countFor('RAC') }}</strong></div><small class="trend neutral">— steady</small></article>
+      <article class="metric-card"><div class="metric-icon coral">!</div><div><span>Waitlisted</span><strong>{{ countFor('Waitlisted') }}</strong></div><small class="trend down">↘ 4.1%</small></article>
+    </section>
+
+    <section class="tickets-section" id="available-tickets" *ngIf="showAvailableTickets">
+      <div class="section-head"><div><h2>Recent tickets</h2><p>Manage passenger journeys and booking status.</p></div><button class="export-button" type="button">⇩ Export list</button></div>
+      <div class="toolbar">
+        <div class="tabs" role="tablist" aria-label="Ticket status filter">
+          <button type="button" [class.selected]="activeView === 'All tickets'" (click)="setView('All tickets')">All tickets <span>{{ tickets.length }}</span></button>
+          <button type="button" [class.selected]="activeView === 'Confirmed'" (click)="setView('Confirmed')">Confirmed <span>{{ countFor('Confirmed') }}</span></button>
+          <button type="button" [class.selected]="activeView === 'RAC'" (click)="setView('RAC')">RAC <span>{{ countFor('RAC') }}</span></button>
+          <button type="button" [class.selected]="activeView === 'Waitlisted'" (click)="setView('Waitlisted')">Waitlisted <span>{{ countFor('Waitlisted') }}</span></button>
+        </div>
+        <label class="search-box"><span>⌕</span><input type="search" [(ngModel)]="searchTerm" placeholder="Search by name, train or PNR" aria-label="Search tickets"></label>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Passenger</th><th>Journey</th><th>Train no.</th><th>Travel date</th><th>Status</th><th><span class="sr-only">Actions</span></th></tr></thead>
+          <tbody>
+            <tr *ngFor="let ticket of filteredTickets" (click)="selectTicket(ticket)">
+              <td><div class="passenger"><div class="passenger-avatar">{{ ticket.name.charAt(0) }}</div><div><strong>{{ ticket.name }}</strong><small>PNR {{ ticket.ticketId }}</small></div></div></td>
+              <td><div class="journey"><strong>{{ ticket.source }} <span>→</span> {{ ticket.dest }}</strong><small>{{ ticket.coach }} · {{ ticket.berth }}</small></div></td>
+              <td><strong class="train-number">{{ ticket.trainNo }}</strong></td>
+              <td><strong>{{ ticket.doj }}</strong><small class="muted">One way</small></td>
+              <td><span class="status" [class.confirmed]="ticket.ticketStatus === 'Confirmed'" [class.rac]="ticket.ticketStatus === 'RAC'" [class.waitlisted]="ticket.ticketStatus === 'Waitlisted'"><i></i>{{ ticket.ticketStatus }}</span></td>
+              <td><button class="row-action" type="button" aria-label="View ticket details" (click)="$event.stopPropagation(); selectTicket(ticket)">•••</button></td>
+            </tr>
+            <tr *ngIf="filteredTickets.length === 0"><td class="empty-state" colspan="6">No tickets match your search.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-foot"><span>Showing {{ filteredTickets.length }} of {{ tickets.length }} tickets</span><div class="pagination"><button type="button" disabled>‹</button><button class="current" type="button">1</button><button type="button" disabled>›</button></div></div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" *ngIf="selectedTicket" (click)="closeDetails()">
+  <aside class="details-drawer" (click)="$event.stopPropagation()">
+    <button class="close-button" type="button" aria-label="Close details" (click)="closeDetails()">×</button>
+    <p class="eyebrow">Ticket details</p><h2>{{ selectedTicket.name }}</h2><p class="drawer-pnr">PNR {{ selectedTicket.ticketId }}</p>
+    <span class="status" [class.confirmed]="selectedTicket.ticketStatus === 'Confirmed'" [class.rac]="selectedTicket.ticketStatus === 'RAC'" [class.waitlisted]="selectedTicket.ticketStatus === 'Waitlisted'"><i></i>{{ selectedTicket.ticketStatus }}</span>
+    <div class="detail-route"><div><small>From</small><strong>{{ selectedTicket.source }}</strong></div><span>→</span><div><small>To</small><strong>{{ selectedTicket.dest }}</strong></div></div>
+    <dl><div><dt>Train number</dt><dd>{{ selectedTicket.trainNo }}</dd></div><div><dt>Travel date</dt><dd>{{ selectedTicket.doj }}</dd></div><div><dt>Date of birth</dt><dd>{{ selectedTicket.dob }}</dd></div><div><dt>Gender</dt><dd>{{ selectedTicket.gender }}</dd></div><div><dt>Coach / berth</dt><dd>{{ selectedTicket.coach }} · {{ selectedTicket.berth }}</dd></div></dl>
+    <button class="primary-button full" type="button">Manage booking <span>↗</span></button>
+  </aside>
+</div>
