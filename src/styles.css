@@ -1,6 +1,499 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+@import './app/wallet-dashboard/wallet-dashboard.component.css';
 
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; font-family: 'DM Sans', sans-serif; }
-body { background: #f7f9fb; }
-button, input { font-family: inherit; }
+body { background: #f4f8f6; color: #193d46; }
+button, input, select { font-family: inherit; }
+
+:root {
+  --rail-ink: #193d46;
+  --rail-deep: #123642;
+  --rail-teal: #197d79;
+  --rail-mint: #dceee6;
+  --rail-coral: #df815b;
+  --rail-gold: #efbb72;
+  --rail-muted: #71878a;
+  --rail-border: #d9e6e1;
+}
+
+button, a, input, select { transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #efbb72; outline-offset: 3px; }
+
+.home-page { background: #e8f5ff; color: var(--rail-ink); }
+.hero { position: relative; overflow: hidden; }
+.hero-copy { text-shadow: 0 2px 18px #102a4366; }
+.home-page .search-card { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.search-card input, .user-login-card input, .admin-login-card input, .auth-card input, .schedule-form input { border-radius: 9px; }
+.search-card input:focus, .user-login-card input:focus, .admin-login-card input:focus, .auth-card input:focus, .schedule-form input:focus { outline: 3px solid #197d7933; border-color: var(--rail-teal); }
+.home-page .search-card button, .user-login-page .user-login-card button, .auth-page .primary-button, .tickets-page .primary-button { border-radius: 9px; background-image: linear-gradient(110deg, var(--rail-teal), #249b8c); box-shadow: 0 8px 18px #197d7930; }
+.home-page .search-card button:hover, .user-login-page .user-login-card button:not(:disabled):hover, .admin-login-page .admin-login-card button:not(:disabled):hover, .auth-page .primary-button:hover, .tickets-page .primary-button:hover { transform: translateY(-2px); box-shadow: 0 12px 24px #197d7944; }
+.results article { border: 1px solid var(--rail-border); border-radius: 12px; box-shadow: 0 8px 24px #1745530c; }
+
+header.site-header { position: relative; z-index: 2; background: #fbfdfb; border-bottom-color: var(--rail-border); box-shadow: 0 4px 18px #1236420b; }
+.site-header .brand, .brand { color: var(--rail-deep); }
+.site-header nav a:hover, .session-info a:hover { color: var(--rail-coral); }
+.site-header.dashboard-header { min-height: 64px; gap: 30px; padding: 0 6%; border: 1px solid #edf1f1; background: #fff; box-shadow: 0 8px 24px #173a5908; }
+.dashboard-header .brand { font-size: 16px; }
+.dashboard-header .brand small { font-size: 8px; }
+.dashboard-header nav { gap: 20px; }
+.dashboard-header nav a { color: #657b7f; font-size: 11px; }
+.dashboard-header nav a.dashboard-current { color: #197d79; font-weight: 700; }
+.dashboard-header .session-info { gap: 9px; }
+.dashboard-header .session-info time { font-size: 10px; }
+.dashboard-header .role-badge { padding: 6px 9px; border-radius: 5px; background: #e7f3ed; color: #43856b; }
+.dashboard-header .identity { max-width: 220px; overflow: hidden; border-radius: 5px; background: #edf3f3; color: #31525c; text-overflow: ellipsis; }
+.dashboard-header .session-info button { color: #ca7159; }
+@media (max-width: 1100px) { .site-header.dashboard-header { gap: 10px; padding: 0 2%; }.dashboard-header nav { gap: 12px; }.dashboard-header .identity { max-width: 145px; } }
+@media (max-width: 700px) { .site-header.dashboard-header { align-items: flex-start; gap: 12px; padding: 14px 5%; }.dashboard-header nav { order: 3; width: 100%; gap: 16px; }.dashboard-header .session-info { width: 100%; justify-content: flex-start; margin-left: 0; }.dashboard-header .session-info time { display: none; } }
+
+main.admin-page .admin-overview { padding: 4px 0 30px; }
+main.admin-page .admin-operation-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 0 7%; }
+main.admin-page .admin-operation-cards a { display: grid; grid-template-columns: 42px minmax(0, 1fr) 16px; align-items: center; gap: 12px; min-height: 100px; padding: 17px; border: 1px solid #c3d9ee; border-radius: 14px; background: linear-gradient(115deg, #fff, #eff7ff); box-shadow: 0 8px 24px #1745530c; color: #173c59; text-decoration: none; }
+main.admin-page .admin-operation-cards a:hover { transform: translateY(-2px); border-color: #8db9ed; box-shadow: 0 12px 26px #1745531c; }
+main.admin-page .admin-operation-icon { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #b8d2f3; border-radius: 12px; background: #e5f2ff; color: #145bc4; font-size: 18px; }
+main.admin-page .admin-operation-cards a > span:nth-child(2) { display: grid; gap: 6px; }
+main.admin-page .admin-operation-cards strong { font-size: 12px; }
+main.admin-page .admin-operation-cards small { color: #71869b; font-size: 10px; line-height: 1.5; }
+main.admin-page .admin-operation-arrow { color: #145bc4; font-size: 17px; }
+main.admin-page .ticket-operations { margin: 22px 7% 40px; padding: 22px; border: 1px solid #c3d9ee; border-radius: 14px; background: #fff; box-shadow: 0 8px 24px #1745530c; }
+main.admin-page .ticket-operations-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+main.admin-page .ticket-operations h2 { margin: 5px 0 0; color: #11264d; font-size: 20px; }
+main.admin-page .ticket-operations-heading p { margin: 7px 0 0; color: #61758b; font-size: 12px; }
+main.admin-page .ticket-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 16px 0; }
+main.admin-page .admin-ticket-table-wrap { overflow-x: auto; border: 1px solid #d5e5f4; border-radius: 10px; }
+main.admin-page .admin-ticket-table { width: 100%; border-collapse: collapse; text-align: left; }
+main.admin-page .admin-ticket-table th, main.admin-page .admin-ticket-table td { padding: 12px; border-bottom: 1px solid #e3edf6; color: #526b79; font-size: 11px; white-space: nowrap; }
+main.admin-page .admin-ticket-table th { background: #f3f8ff; color: #315b91; font-size: 10px; }
+main.admin-page .admin-ticket-table td:first-child { display: grid; gap: 3px; }
+main.admin-page .admin-ticket-table td:first-child strong { color: #173c59; }
+main.admin-page .admin-ticket-table td:first-child small { color: #71869b; font-size: 9px; }
+main.admin-page .ticket-status { padding: 5px 8px; border-radius: 12px; background: #e7f5ed; color: #24744d; font-size: 10px; font-weight: 700; }
+main.admin-page .ticket-status.cancelled { background: #fff0ea; color: #ad4b37; }
+main.admin-page .admin-ticket-table .admin-ticket-empty { padding: 24px; color: #71869b; text-align: center; }
+@media (max-width: 1000px) { main.admin-page .admin-operation-cards { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  main.admin-page .admin-operation-cards { padding-right: 5%; padding-left: 5%; }
+  main.admin-page .ticket-operations { margin: 18px 5% 32px; padding: 16px; }
+}
+@media (max-width: 520px) {
+  main.admin-page .ticket-operations-heading { align-items: flex-start; }
+  main.admin-page .ticket-stats { grid-template-columns: 1fr; }
+}
+
+main.auth-page, main.user-login-page, main.admin-login-page, main.booking-page {
+  background-image: url('/assets/route-pattern.svg'), linear-gradient(135deg, #e7f2ed 0%, #f8f6ef 55%, #e6f1ed 100%);
+  background-repeat: repeat, no-repeat;
+  background-size: 320px 320px, cover;
+  background-attachment: fixed;
+}
+.auth-page .auth-card, .user-login-page .user-login-card { border: 1px solid #ffffffd9; border-top: 5px solid var(--rail-teal); border-radius: 18px; box-shadow: 0 24px 70px #17455320; }
+.auth-card h1, .user-login-card h1 { color: var(--rail-deep); }
+.auth-page .brand, .user-login-page .brand { color: var(--rail-teal); }
+.user-login-page .user-login-card button { background: linear-gradient(110deg, var(--rail-teal), #249b8c); }
+.role-label, .eyebrow { color: var(--rail-coral); }
+.admin-login-page .admin-login-card { border: 1px solid #ffffff2b; border-top: 5px solid var(--rail-gold); border-radius: 18px; box-shadow: 0 28px 80px #102a4370; }
+.admin-login-page .admin-login-card button { background: linear-gradient(110deg, var(--rail-gold), #f4a96a); }
+
+.booking-page { background-color: #eaf3ef; }
+.booking-content { align-items: start; }
+.booking-content > div:first-child { position: sticky; top: 40px; padding: 28px; border: 1px solid #ffffffbb; border-radius: 18px; background: #fbfdfbe8; box-shadow: 0 16px 44px #12364214; }
+.booking-content h1 { color: var(--rail-deep); }
+.booking-card { overflow: hidden; border: 1px solid var(--rail-border); border-radius: 16px; box-shadow: 0 18px 48px #12364220 !important; }
+.booking-tab, .booking-tab.active { background: var(--rail-teal); }
+.booking-card h2 { color: var(--rail-deep); }
+.search-button { background: linear-gradient(110deg, var(--rail-coral), #edaa67); }
+
+.tickets-page { background-color: #f2f7f4; }
+.page-intro h1 { color: var(--rail-deep); }
+.tickets-page .metrics article, .tickets-page .ticket-panel { border-color: var(--rail-border); border-radius: 14px; box-shadow: 0 10px 28px #1236420d; }
+.metrics article strong { color: var(--rail-teal); }
+.filters button.selected { background: var(--rail-teal); }
+th { color: #6e8989; background: #f4f8f5; }
+.cancel-button { border-radius: 8px; }
+
+.admin-page { background-color: #153943; background-image: linear-gradient(120deg, #123642ee, #1b5c5ce8), url('/assets/railway-journey.svg'); background-position: center, center; background-size: cover; background-attachment: fixed; }
+.admin-page .admin-header { background: #0e303bd9; border-bottom-color: #ffffff24; }
+.admin-page .admin-intro { background: linear-gradient(110deg, #197d79d9, #244e58d9); }
+.admin-page .admin-stats article, .admin-page .schedule-form, .admin-page .schedule-list { border-color: #ffffff25; border-radius: 16px; background: #13343fe8; box-shadow: 0 12px 32px #071e2a30; }
+.admin-stats article strong, .coach-row > strong { color: var(--rail-gold); }
+.admin-page .schedule-form button:not(.secondary-button) { border-radius: 9px; background: linear-gradient(110deg, var(--rail-coral), #efb36a); }
+.schedule-form button:hover, .schedule-summary button:hover { transform: translateY(-1px); }
+.schedule-summary button { border-radius: 8px; }
+
+@media (max-width: 760px) {
+  .booking-content > div:first-child { position: static; }
+  .auth-card, .user-login-card, .admin-login-card { padding: 30px 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
+
+header.site-header.home-header { position: relative; z-index: 5; width: 100%; min-height: 78px; justify-content: space-between; gap: clamp(12px, 2vw, 30px); padding: 0 6%; background: #0d70b3; border-bottom: 1px solid #ffffff55; color: #fff; box-shadow: 0 5px 18px #12649630; }
+header.site-header.admin-home-header { padding-right: 2%; padding-left: 2%; }
+.home-branding { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; }
+.beta-badge { padding: 9px 11px; border: 1px solid #7da8ff; border-radius: 5px; background: #10168e; box-shadow: 0 3px 8px #08255838; color: #fff; font-size: 11px; font-weight: 800; white-space: nowrap; }
+.railway-mark, .irctc-mark { display: grid; flex: 0 0 48px; width: 48px; height: 48px; place-items: center; border: 2px solid #fff; border-radius: 50%; text-decoration: none; }
+.railway-mark { background: #e72c37; color: #fff; }
+.railway-mark span { display: grid; width: 33px; height: 33px; place-items: center; border: 1px solid #ffffffb3; border-radius: 50%; font-family: Georgia, serif; font-size: 22px; font-weight: 700; }
+.irctc-mark { background: #fff; color: #133a97; }
+.irctc-mark span { display: grid; width: 36px; height: 36px; place-items: center; border: 2px solid #173b99; border-radius: 50%; font-size: 10px; font-weight: 900; letter-spacing: -1px; }
+.home-header nav { position: static; justify-content: center; gap: clamp(10px, 1.5vw, 25px); flex: 1 1 auto; padding: 7px 18px; border: 1px solid #ffffff55; border-radius: 32px; background: #1683c2; box-shadow: inset 0 1px 5px #14577c55; }
+.home-header nav > .home-link { position: relative; display: inline-flex; align-items: center; min-height: 42px; color: #fff !important; font-size: 13px; font-weight: 700; text-transform: uppercase; text-shadow: 0 1px 2px #00252b55; }
+.home-header nav > .home-link:hover, .home-header nav > .home-link:focus-visible { color: #fff !important; }
+.admin-home-header .home-branding { display: none; }
+.admin-home-header nav { flex: 0 1 70%; justify-content: space-around; margin-right: auto; }
+.admin-home-header nav > .admin-header-link { flex: 0 0 auto; justify-content: center; padding: 0 12px; border: 1px solid transparent; border-radius: 24px; white-space: nowrap; }
+.admin-home-header nav > .admin-header-link.admin-header-current { border-color: #ffffff99; background: #ffffff0d; }
+.admin-home-header nav > .admin-header-link.admin-header-current:hover { border-color: #fff; }
+.admin-home-header .session-info { flex: 0 0 auto; margin-left: auto; }
+.trains-menu { display: flex; align-items: center; }
+.trains-menu-trigger { display: inline-flex; align-items: center; gap: 10px; min-height: 42px; padding: 0; border: 0; background: transparent; color: #fff !important; font: inherit; font-size: 13px; font-weight: 700; text-shadow: 0 1px 2px #00252b55; text-transform: uppercase; cursor: pointer; }
+.trains-menu-trigger:hover, .trains-menu-trigger:focus-visible, .trains-menu.open .trains-menu-trigger { color: #fff !important; }
+.chevron { width: 8px; height: 8px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .18s ease; }
+.trains-menu.open .chevron { transform: translateY(2px) rotate(225deg); }
+.mega-menu { position: absolute; top: calc(100% - 1px); left: 50%; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; width: min(820px, calc(100vw - 32px)); padding: 22px 24px; border: 1px solid #f0dfd0; border-radius: 0 0 18px 18px; background: linear-gradient(135deg, #fff 0%, #fffaf5 100%); box-shadow: 0 18px 42px #182b4333; color: #33261c; transform: translateX(-50%); }
+.mega-menu-column { display: grid; align-content: start; gap: 7px; min-width: 0; }
+.mega-menu-column + .mega-menu-column { padding-left: 26px; border-left: 1px solid #f2d5bb; }
+.mega-menu-column h2 { margin: 0 0 4px; color: #9c511b; font-size: 13px; font-weight: 800; }
+.home-header nav .mega-menu-link { display: flex; align-items: center; gap: 12px; min-height: 54px; padding: 6px; border-radius: 10px; color: #38291e; font-size: 13px; font-weight: 500; text-decoration: none; text-transform: none; }
+.home-header nav .mega-menu-link:hover, .home-header nav .mega-menu-link:focus-visible { background: #fff0e2; color: #81400f; }
+.mega-menu-link > span:last-child { display: grid; gap: 4px; }
+.home-header nav .mega-menu-link small { color: #86796f; font-size: 10px; font-weight: 400; }
+.menu-icon { display: grid; flex: 0 0 38px; width: 38px; height: 38px; place-items: center; border: 1px solid #f4d7bc; border-radius: 11px; background: #fff; color: #d76b17; font-size: 18px; font-weight: 700; box-shadow: 0 2px 6px #6630000d; }
+.mega-menu-divider { height: 1px; margin: 5px 0; background: #f0dfd0; }
+.wallet-services-menu { position: absolute; top: calc(100% - 1px); left: 50%; z-index: 3; display: grid; width: min(420px, calc(100vw - 32px)); padding: 14px 16px; border: 1px solid #f0dfd0; border-radius: 0 0 16px 16px; background: linear-gradient(135deg, #fff 0%, #fffaf5 100%); box-shadow: 0 18px 42px #182b4333; transform: translateX(-50%); }
+.home-header .session-info { gap: 12px; }
+.home-header .session-info time, .home-header .session-info .home-timestamp { color: #fff !important; }
+.home-header .session-info .home-timestamp { font-size: 11px; font-weight: 600; white-space: nowrap; text-shadow: 0 1px 2px #12527955; }
+.home-header .session-info .home-login { display: inline-flex; align-items: center; justify-content: center; min-width: 96px; padding: 12px 24px; border: 1px solid #fff; border-radius: 24px; background: #07508a; color: #fff !important; font: inherit; font-size: 13px; font-weight: 800; box-shadow: 0 5px 16px #06436d55; text-transform: uppercase; cursor: pointer; }
+.home-header .session-info .home-login:hover { transform: translateY(-1px); background: #063e6b; color: #fff !important; box-shadow: 0 8px 20px #06436d66; }
+.home-header .session-info button { color: #fff; }
+.home-header .role-badge.admin { background: #fff1df; }
+.home-header .identity { background: #ffffff20; color: #fff; }
+.coming-menu { position: absolute; top: calc(100% - 1px); z-index: 2; display: grid; gap: 6px; min-width: 220px; padding: 16px 18px; border: 1px solid #f0dfd0; border-radius: 0 0 12px 12px; background: #fffaf5; box-shadow: 0 14px 28px #182b4333; color: #33261c; }
+.coming-menu strong { color: #9c511b; font-size: 13px; }
+.coming-menu span { color: #71665d; font-size: 11px; line-height: 1.5; }
+
+@media (max-width: 900px) {
+  .site-header.home-header { justify-content: center; padding: 14px 5%; }
+  .home-header nav { justify-content: center; flex-wrap: wrap; overflow: visible; }
+  .home-branding { margin-right: auto; }
+  .home-header .session-info { margin-left: 0; }
+  .home-header nav > .home-link, .trains-menu-trigger { min-height: 36px; }
+  .mega-menu { top: calc(100% - 1px); }
+  .site-header.admin-home-header { flex-wrap: wrap; justify-content: space-between; gap: 8px; padding: 10px 4%; }
+  .admin-home-header nav { order: 2; flex: 1 0 100%; width: 100%; justify-content: space-around; overflow-x: auto; margin: 0; }
+  .admin-home-header .session-info { order: 1; margin-left: auto; }
+}
+
+@media (min-width: 1200px) {
+  .site-header.home-header { flex-wrap: nowrap; }
+  .home-header nav { flex-wrap: nowrap; }
+}
+
+@media (max-width: 560px) {
+  .site-header.home-header { gap: 12px; }
+  .home-branding { gap: 7px; }
+  .beta-badge { padding: 7px; font-size: 9px; }
+  .railway-mark, .irctc-mark { flex-basis: 38px; width: 38px; height: 38px; }
+  .railway-mark span { width: 27px; height: 27px; font-size: 18px; }
+  .irctc-mark span { width: 29px; height: 29px; font-size: 8px; }
+  .home-header nav { order: 3; width: 100%; gap: 8px 12px; padding: 7px 10px; }
+  .home-header nav > .home-link, .trains-menu-trigger { min-height: 30px; font-size: 10px; }
+  .home-header .session-info { margin-left: auto; }
+  .admin-home-header nav { order: 2; flex: 1 0 100%; width: 100%; flex-wrap: nowrap; justify-content: flex-start; gap: 6px; padding: 5px 8px; }
+  .admin-home-header nav > .admin-header-link { min-height: 34px; padding: 0 10px; font-size: 9px; }
+  .admin-home-header .session-info { order: 1; margin-left: auto; }
+  .mega-menu { grid-template-columns: 1fr; gap: 14px; padding: 18px; }
+  .mega-menu-column + .mega-menu-column { padding-top: 14px; padding-left: 0; border-top: 1px solid #f2d5bb; border-left: 0; }
+}
+
+.admin-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.user-management { margin: 0 7% 60px; padding: 26px; border: 1px solid #ffffff25; border-radius: 16px; background: #13343fe8; box-shadow: 0 12px 32px #071e2a30; }
+.user-management-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 20px; }
+.user-management-heading h2 { margin: 7px 0; font-size: 22px; }
+.user-management-heading p { margin: 0; color: #aebdc0; font-size: 12px; }
+.user-count { padding: 8px 12px; border: 1px solid #526169; border-radius: 20px; color: #f2bd75; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.user-message { margin: 0 0 16px; color: #83d6ac; font-size: 12px; }
+.user-message.error { color: #f0a08d; }
+.user-management-grid { display: grid; grid-template-columns: minmax(260px, 340px) minmax(0, 1fr); gap: 22px; }
+.user-create-form, .registered-users { min-width: 0; padding: 20px; border: 1px solid #ffffff20; border-radius: 12px; background: #ffffff08; }
+.user-create-form { display: grid; align-content: start; gap: 12px; }
+.user-create-form h3, .registered-users h3 { margin: 0 0 5px; font-size: 16px; }
+.user-create-form label { display: grid; gap: 5px; color: #b9c5c4; font-size: 11px; }
+.user-create-form input { width: 100%; min-width: 0; padding: 10px 11px; border: 1px solid #526169; border-radius: 6px; background: #172a31; color: #fff; font: inherit; }
+.user-create-form input:focus { border-color: #efbb72; outline: 2px solid #efbb7233; }
+.password-hint { color: #9caeb0; font-size: 10px; line-height: 1.5; }
+.user-create-form button { padding: 11px; border: 0; border-radius: 7px; background: linear-gradient(110deg, #efbb72, #f4a96a); color: #211a12; font-weight: 800; cursor: pointer; }
+.user-create-form button:disabled { opacity: .6; cursor: wait; }
+.registered-users { display: grid; align-content: start; gap: 8px; }
+.registered-user { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 11px; border: 1px solid #ffffff1a; border-radius: 9px; background: #172e37; }
+.user-avatar { display: grid; flex: 0 0 38px; width: 38px; height: 38px; place-items: center; border-radius: 50%; background: #275360; color: #f2bd75; font-size: 14px; font-weight: 800; text-transform: uppercase; }
+.registered-user-details { display: grid; flex: 1; gap: 3px; min-width: 0; }
+.registered-user-details strong { overflow: hidden; color: #eef3f0; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+.registered-user-details span, .registered-user-details small { overflow: hidden; color: #aebdc0; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.remove-user-button { flex: 0 0 auto; padding: 7px 10px; border: 1px solid #a76759; border-radius: 6px; background: transparent; color: #f0a08d; font-size: 10px; font-weight: 700; cursor: pointer; }
+.remove-user-button:hover:not(:disabled) { background: #a3403733; }
+.remove-user-button:disabled { opacity: .55; cursor: wait; }
+.users-empty { margin: 5px 0; color: #9caeb0; font-size: 12px; }
+
+@media (max-width: 900px) {
+  .user-management { margin-right: 5%; margin-left: 5%; }
+  .user-management-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 760px) {
+  .admin-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .user-management { padding: 18px; }
+}
+
+@media (max-width: 480px) {
+  .user-management-heading { align-items: flex-start; }
+  .user-create-form, .registered-users { padding: 14px; }
+  .registered-user { gap: 8px; padding: 8px; }
+  .user-avatar { flex-basis: 32px; width: 32px; height: 32px; }
+  .remove-user-button { padding: 6px 7px; }
+}
+
+.login-overlay { position: fixed; z-index: 20; inset: 0; display: grid; place-items: center; overflow-y: auto; padding: 22px 14px; background: #10243b99; backdrop-filter: blur(5px); }
+.login-dialog { position: relative; width: min(540px, 100%); overflow: hidden; border: 1px solid #ffffffb3; border-radius: 20px; background: #dceeff; box-shadow: 0 28px 80px #06192f66; color: #172a4a; }
+.login-dialog-banner { position: relative; min-height: 158px; display: flex; flex-direction: column; justify-content: flex-end; padding: 22px 28px; overflow: hidden; background: linear-gradient(90deg, #fff5ebd9, #d5e8ffcf), url('/assets/home-hero-train.svg') center 53% / cover; }
+.login-dialog-banner h2 { position: relative; z-index: 1; margin: 0; color: #11264d; font-size: 23px; }
+.login-dialog-banner p { position: relative; z-index: 1; margin: 5px 0 0; color: #52657e; font-size: 12px; }
+.login-brand-marks { position: absolute; top: 24px; right: 30px; display: flex; align-items: center; gap: 12px; }
+.login-brand-marks .railway-mark, .login-brand-marks .irctc-mark { flex-basis: 54px; width: 54px; height: 54px; }
+.login-brand-marks .railway-mark span { width: 39px; height: 39px; }
+.login-brand-marks .irctc-mark span { width: 41px; height: 41px; }
+.login-close { position: absolute; z-index: 2; top: 12px; right: 12px; display: grid; width: 32px; height: 32px; place-items: center; border: 0; border-radius: 50%; background: #fff; color: #182b44; font-size: 23px; line-height: 1; cursor: pointer; box-shadow: 0 3px 12px #16375b2e; }
+.login-tabs { display: grid; grid-template-columns: 1fr 1fr; background: #f9fcff; }
+.login-tabs button { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 54px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: #53647b; font: inherit; font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
+.login-tabs button span { color: #3150d8; font-size: 18px; }
+.login-tabs button.active { border-bottom-color: #145bc4; color: #145bc4; }
+.login-form { display: grid; gap: 13px; padding: 24px 24px 10px; }
+.login-form label { position: relative; display: grid; gap: 4px; padding: 9px 42px 9px 14px; border: 1px solid #b8d7f0; border-radius: 11px; background: #eaf4ff; color: #445773; font-size: 10px; }
+.login-form label:focus-within { border-color: #286bd0; box-shadow: 0 0 0 3px #286bd01a; }
+.login-form input { width: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: #172a4a; font: inherit; font-size: 14px; }
+.login-form input::placeholder { color: #8293a8; }
+.field-icon { position: absolute; top: 50%; right: 15px; color: #3150d8; font-size: 18px; transform: translateY(-50%); }
+.login-forgot { justify-self: center; color: #184eb1; font-size: 11px; font-weight: 800; }
+.login-message { margin: 0; color: #a63e35; font-size: 11px; text-align: center; }
+.login-form .login-submit { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 47px; margin-top: 3px; border: 0; border-radius: 24px; background: #145bc4; color: #fff; font: inherit; font-size: 14px; font-weight: 800; text-transform: uppercase; cursor: pointer; }
+.login-form .login-submit:hover { background: #0e4fae; }
+.login-form .login-submit:disabled { opacity: .65; cursor: wait; }
+.login-form .login-submit span:last-child { display: grid; width: 21px; height: 21px; place-items: center; border: 1px solid #ffffffb3; border-radius: 50%; font-size: 14px; }
+.login-divider { display: flex; align-items: center; gap: 12px; padding: 8px 24px 10px; color: #65768a; font-size: 11px; }
+.login-divider::before, .login-divider::after { height: 1px; flex: 1; background: #b6cadb; content: ''; }
+.login-signup { display: block; margin: 0 24px 20px; padding: 13px; border-radius: 24px; background: #f9fcff; color: #263d5e; font-size: 11px; text-align: center; text-decoration: none; }
+.login-signup strong { color: #184eb1; }
+
+@media (max-width: 560px) {
+  .login-dialog-banner { min-height: 140px; padding: 18px; }
+  .login-brand-marks { top: 27px; right: 54px; gap: 8px; }
+  .login-brand-marks .railway-mark, .login-brand-marks .irctc-mark { flex-basis: 44px; width: 44px; height: 44px; }
+  .login-brand-marks .railway-mark span { width: 32px; height: 32px; }
+  .login-brand-marks .irctc-mark span { width: 34px; height: 34px; }
+  .login-form { padding: 18px 16px 8px; }
+  .login-signup { margin-right: 16px; margin-left: 16px; }
+}
+
+main.admin-page {
+  color: #173a59;
+  background-color: #dcedfb;
+  background-image: linear-gradient(135deg, #d8efffeF, #f1f8ffeF), url('/assets/railway-journey.svg');
+  background-position: center, center 35%;
+  background-size: cover;
+  background-attachment: fixed;
+}
+main.admin-page .admin-header {
+  background: linear-gradient(100deg, #123f70, #147fa9);
+  border-bottom-color: #ffffff55;
+  box-shadow: 0 5px 20px #154c7730;
+}
+main.admin-page .brand, main.admin-page .admin-header nav a,
+main.admin-page .admin-header nav button { color: #fff; }
+main.admin-page .brand small { color: #c4e7ff; }
+main.admin-page .admin-header nav a:hover,
+main.admin-page .admin-header nav button:hover { color: #ffe2a8; }
+main.admin-page .admin-intro {
+  background: linear-gradient(110deg, #1679b9f2, #19a0b0eF);
+  box-shadow: inset 0 1px #ffffff3d;
+}
+main.admin-page .admin-intro h1 { color: #fff; }
+main.admin-page .admin-intro p { color: #e4f5ff; }
+main.admin-page .admin-intro .eyebrow { color: #ffe1a3; }
+main.admin-page .admin-badge {
+  border-color: #ffffffa6;
+  border-radius: 999px;
+  background: #ffffff20;
+  color: #fff;
+}
+main.admin-page .admin-stats article,
+main.admin-page .schedule-form,
+main.admin-page .schedule-list,
+main.admin-page .user-management {
+  border: 1px solid #ffffffd9;
+  border-radius: 18px;
+  background: #ffffffed;
+  box-shadow: 0 14px 36px #174e7620;
+  color: #173a59;
+}
+main.admin-page .admin-stats article strong { color: #087caa; }
+main.admin-page .admin-stats article span { color: #607d91; }
+main.admin-page .message { color: #075f98; }
+main.admin-page .user-management { margin-bottom: 30px; }
+main.admin-page .user-management-heading h2,
+main.admin-page .schedule-form h2,
+main.admin-page .schedule-list h2 { color: #173a59; }
+main.admin-page .user-management-heading p,
+main.admin-page .schedule-form p { color: #60798b; }
+main.admin-page .user-management-heading .eyebrow { color: #0781a7; }
+main.admin-page .user-count {
+  border-color: #aad8ee;
+  background: #e8f7ff;
+  color: #0875a5;
+}
+main.admin-page .user-create-form,
+main.admin-page .registered-users {
+  border-color: #d6e8f3;
+  background: linear-gradient(145deg, #f7fcff, #edf7ff);
+}
+main.admin-page .user-create-form h3,
+main.admin-page .registered-users h3 { color: #173a59; }
+main.admin-page .user-create-form label { color: #47677f; }
+main.admin-page .user-create-form input {
+  border-color: #c4dce9;
+  background: #fff;
+  color: #173a59;
+}
+main.admin-page .user-create-form input:focus {
+  border-color: #1687bb;
+  outline-color: #1687bb30;
+}
+main.admin-page .password-hint,
+main.admin-page .users-empty { color: #678195; }
+main.admin-page .user-create-form button,
+main.admin-page .schedule-form button:not(.secondary-button) {
+  background: linear-gradient(110deg, #0879b8, #15a0ad);
+  color: #fff;
+  box-shadow: 0 7px 16px #0879b82b;
+}
+main.admin-page .registered-user {
+  border-color: #d7e8f2;
+  background: #fff;
+}
+main.admin-page .user-avatar {
+  background: linear-gradient(135deg, #087bb7, #14a2ae);
+  color: #fff;
+}
+main.admin-page .registered-user-details strong { color: #173a59; }
+main.admin-page .registered-user-details span,
+main.admin-page .registered-user-details small { color: #617b8d; }
+main.admin-page .remove-user-button {
+  border-color: #efb4aa;
+  background: #fff7f5;
+  color: #a63e35;
+}
+main.admin-page .schedule-form label { color: #47677f; }
+main.admin-page .schedule-form input {
+  border-color: #c4dce9;
+  background: #fafdff;
+  color: #173a59;
+}
+main.admin-page .coach-fields { border-color: #d3e4ee; }
+main.admin-page .coach-fields legend { color: #087da5; }
+main.admin-page .coach-row > strong,
+main.admin-page .seat-preview strong { color: #087caa; }
+main.admin-page .seat-preview { color: #47677f; }
+main.admin-page .schedule-list small { color: #678195; }
+main.admin-page .schedule-list article { border-bottom-color: #e1edf4; }
+main.admin-page .schedule-summary button {
+  border-color: #abd4e7;
+  background: #eff9ff;
+  color: #0876a5;
+}
+main.admin-page .coach-summary span {
+  border-color: #d4e7f1;
+  border-radius: 999px;
+  background: #f3faff;
+  color: #47677f;
+}
+
+@media (max-width: 620px) {
+  main.admin-page .user-management { margin-right: 5%; margin-left: 5%; }
+  main.admin-page .user-create-form { grid-template-columns: minmax(0, 1fr); }
+}
+
+.home-page .passenger-awareness { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 88px; padding: 14px 6%; background: #f7fbff; box-shadow: 0 3px 14px #14376012; color: #173c70; }
+.home-page .awareness-mark { display: grid; flex: 0 0 60px; width: 60px; height: 48px; place-items: center; border-right: 1px solid #90b8ff; color: #1069bf; }
+.home-page .awareness-mark span { display: grid; width: 38px; height: 38px; place-items: center; border: 3px solid #1e9a62; border-radius: 50% 50% 45% 45%; color: #1e9a62; font-size: 24px; font-weight: 800; }
+.home-page .awareness-message { display: grid; flex: 1; gap: 5px; text-align: center; }
+.home-page .awareness-message strong { font-size: 16px; }
+.home-page .awareness-message span, .home-page .awareness-prompt { color: #536f91; font-size: 11px; }
+.home-page .awareness-prompt { padding-left: 24px; border-left: 1px solid #90b8ff; }
+.home-page .awareness-prompt span { margin: 0 5px; color: #e87516; }
+.home-page .passenger-dashboard { position: relative; min-height: 540px; overflow: hidden; padding: clamp(42px, 5vw, 82px) 10% 40px; background: #e9f2ff url('/assets/railway-journey.svg') center 40% / cover no-repeat; }
+.home-page .passenger-dashboard::before { position: absolute; inset: 0; background: linear-gradient(90deg, #dce8fff2 0%, #fff6f0dc 100%); content: ''; pointer-events: none; }
+.home-page .passenger-hero-copy, .home-page .passenger-search-panel { position: relative; z-index: 1; }
+.home-page .passenger-hero-copy { margin: 0 0 38px; }
+.home-page .passenger-hero-copy .eyebrow { color: #315eb7; }
+.home-page .passenger-hero-copy h1 { margin: 0; color: #102450; font-size: clamp(38px, 5vw, 60px); font-weight: 800; letter-spacing: -1.5px; line-height: 1.1; }
+.home-page .passenger-hero-copy h1 span { color: #ef7413; }
+.home-page .passenger-search-panel { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 18px 22px; padding: 22px 24px; border: 1px solid #ffffffd9; border-radius: 22px; background: #ffffffd9; box-shadow: 0 14px 34px #16355830; backdrop-filter: blur(12px); }
+.home-page .passenger-search-form { min-width: 0; }
+.home-page .passenger-search-fields { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(170px, .9fr); gap: 10px; }
+.home-page .station-field, .home-page .date-field { display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 72px; padding: 12px 16px; border: 1px solid #e1e9f4; border-radius: 10px; background: #fff; color: #293d5a; }
+.home-page .field-symbol { flex: 0 0 auto; color: #66717e; font-size: 23px; }
+.home-page .destination-symbol { color: #e47b1a; }
+.home-page .field-content { display: grid; flex: 1; gap: 5px; min-width: 0; }
+.home-page .field-content > span, .home-page .date-field > span { color: #253c5c; font-size: 12px; font-weight: 600; }
+.home-page .field-content input, .home-page .date-field input { width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; background: transparent; color: #253c5c; font: inherit; font-size: 14px; }
+.home-page .field-content input::placeholder { color: #9aa8bb; }
+.home-page .station-field:focus-within, .home-page .date-field:focus-within { border-color: #326ed1; box-shadow: 0 0 0 3px #326ed11a; }
+.home-page .date-field { align-items: flex-start; flex-direction: column; justify-content: center; gap: 7px; }
+.home-page .swap-stations { position: absolute; z-index: 1; top: 50%; left: calc((100% + 20px) / 3); display: grid; width: 34px; height: 34px; place-items: center; border: 2px solid #fff; border-radius: 50%; background: #145bc4; color: #fff; font-size: 19px; cursor: pointer; transform: translate(-50%, -50%); }
+.home-page .passenger-search-button { display: flex; align-items: center; justify-content: center; gap: 12px; grid-column: 1 / -1; min-height: 60px; border: 0; border-radius: 32px; background: #145bc4; box-shadow: 0 8px 18px #145bc433; color: #fff; font: inherit; font-size: 15px; font-weight: 800; cursor: pointer; }
+.home-page .passenger-search-button:hover { background: #0e4fae; box-shadow: 0 11px 22px #145bc444; transform: translateY(-1px); }
+.home-page .passenger-search-button span:last-child { font-size: 23px; line-height: 1; }
+.home-page .passenger-search-message { margin: 10px 0 0; color: #ad4b37; font-size: 12px; }
+.home-page .passenger-shortcuts { display: grid; align-content: start; gap: 8px; padding-left: 20px; border-left: 1px solid #85aaff; }
+.home-page .passenger-shortcuts a { display: flex; align-items: center; gap: 11px; min-height: 48px; padding: 9px 13px; border: 1px solid #c5d8f6; border-radius: 10px; background: #fff; color: #173c70; font-size: 12px; text-decoration: none; }
+.home-page .passenger-shortcuts a:hover { border-color: #145bc4; background: #f2f7ff; }
+.home-page .passenger-shortcuts a span { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; background: #eff3ff; color: #145bc4; font-size: 17px; }
+.home-page .journey-overview { display: grid; grid-column: 1 / -1; grid-template-columns: 1fr 1fr; gap: 18px; padding: 17px; border: 1px solid #c2dcf7; border-radius: 10px; background: #edf7ff; }
+.home-page .journey-overview-card + .journey-overview-card { padding-left: 18px; border-left: 1px solid #85aaff; }
+.home-page .overview-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; color: #293d5a; font-size: 13px; font-weight: 700; }
+.home-page .overview-heading a { color: #145bc4; font-size: 10px; text-decoration: none; }
+.home-page .overview-empty { display: flex; align-items: center; gap: 10px; max-width: 370px; min-height: 58px; padding: 9px 12px; border: 1px solid #d5e5f4; border-radius: 10px; background: #fff; }
+.home-page .overview-icon { display: grid; flex: 0 0 32px; width: 32px; height: 32px; place-items: center; border-radius: 50%; background: #edf3ff; color: #145bc4; }
+.home-page .overview-empty > span:last-child { display: grid; gap: 4px; }
+.home-page .overview-empty strong { color: #344a67; font-size: 11px; }
+.home-page .overview-empty small { color: #718198; font-size: 9px; }
+@media (max-width: 760px) {
+  .home-page .passenger-awareness { gap: 10px; padding: 12px 5%; }
+  .home-page .awareness-mark { flex-basis: 44px; width: 44px; }
+  .home-page .awareness-mark span { width: 32px; height: 32px; }
+  .home-page .awareness-message strong { font-size: 12px; }
+  .home-page .awareness-message span, .home-page .awareness-prompt { font-size: 9px; }
+  .home-page .awareness-prompt { max-width: 120px; padding-left: 10px; }
+  .home-page .passenger-dashboard { padding: 36px 5% 28px; }
+  .home-page .passenger-hero-copy { margin-bottom: 24px; }
+  .home-page .passenger-search-panel { grid-template-columns: 1fr; padding: 16px; }
+  .home-page .passenger-search-fields { grid-template-columns: 1fr 1fr; }
+  .home-page .date-field { min-height: 60px; }
+  .home-page .swap-stations { left: 50%; }
+  .home-page .passenger-search-button { grid-column: 1 / -1; min-height: 52px; }
+  .home-page .passenger-shortcuts { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 12px 0 0; border-top: 1px solid #85aaff; border-left: 0; }
+  .home-page .passenger-shortcuts a { justify-content: center; flex-direction: column; gap: 5px; padding: 8px 4px; font-size: 10px; text-align: center; }
+  .home-page .journey-overview { grid-template-columns: 1fr; gap: 12px; }
+  .home-page .journey-overview-card + .journey-overview-card { padding-top: 12px; padding-left: 0; border-top: 1px solid #85aaff; border-left: 0; }
+}
+@media (max-width: 420px) {
+  .home-page .passenger-awareness { align-items: flex-start; }
+  .home-page .awareness-prompt { display: none; }
+  .home-page .passenger-search-fields { grid-template-columns: 1fr; }
+  .home-page .swap-stations { top: calc(33.33% + 5px); left: auto; right: 12px; transform: translateY(-50%) rotate(90deg); }
+  .home-page .passenger-shortcuts a { font-size: 9px; }
+  .home-page .journey-overview { padding: 12px; }
+}

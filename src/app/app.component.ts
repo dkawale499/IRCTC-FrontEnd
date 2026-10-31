@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OnInit } from '@angular/core';
-import { Ticket, TicketService, TicketStatus } from './ticket.service';
+import { AuthService } from './auth.service';
+import { Ticket, TicketService, TicketStatus, TrainSchedule } from './ticket.service';
 import { TicketBookingModule } from './ticket-booking/ticket-booking.module';
 
 type ViewMode = 'All tickets' | TicketStatus;
@@ -22,12 +23,28 @@ export class AppComponent implements OnInit {
   apiMessage = 'Connecting to Spring Boot';
   showAvailableTickets = false;
   showBookingPage = false;
+  showAdminPanel = false;
   searchFrom = '';
   searchTo = '';
   searchDate = '';
   searchClass = 'All Class';
   searchQuota = 'General';
   trainSearchMessage = '';
+  trainResults: TrainSchedule[] = [];
+  authEmail = '';
+  authPassword = '';
+  authFullName = '';
+  authPhone = '';
+  authMessage = '';
+  showAuthForm = false;
+  authMode: 'login' | 'register' | 'forgot' | 'reset' = 'login';
+  isAuthenticated = false;
+  userRole = 'USER';
+  adminTrains: TrainSchedule[] = [];
+  adminTrain: Omit<TrainSchedule, 'id'> = this.createEmptyTrain();
+  adminMessage = '';
+  resetToken = '';
+  resetPassword = '';
 
   tickets: Ticket[] = [
     { ticketId: 847291, name: 'Ananya Sharma', dob: '14 Aug 1996', gender: 'Female', doj: '18 Sep 2024', source: 'New Delhi', dest: 'Jaipur', trainNo: '12915', ticketStatus: 'Confirmed', coach: 'A2', berth: '32 · Lower' },
@@ -37,18 +54,33 @@ export class AppComponent implements OnInit {
     { ticketId: 847241, name: 'Nisha Verma', dob: '22 Mar 1993', gender: 'Female', doj: '21 Sep 2024', source: 'Lucknow', dest: 'Varanasi', trainNo: '12559', ticketStatus: 'Confirmed', coach: 'D3', berth: '41 · Upper' }
   ];
 
-  constructor(private readonly ticketService: TicketService) {}
+  constructor(private readonly ticketService: TicketService, private readonly authService: AuthService) {}
 
   ngOnInit(): void {
-    this.ticketService.getAllTickets().subscribe({
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.userRole = this.authService.getRole();
+    this.loadTickets();
+  }
+
+  get isAdmin(): boolean {
+    return this.userRole.toUpperCase() === 'ADMIN';
+  }
+
+  private loadTickets(): void {
+    this.isLoading = true;
+    const ticketsRequest = this.isAdmin
+      ? this.ticketService.getAdminTickets()
+      : this.ticketService.getPassengerTickets();
+    ticketsRequest.subscribe({
       next: (tickets) => {
         this.tickets = tickets;
         this.isLoading = false;
         this.apiMessage = 'Live data from Spring Boot';
       },
-      error: () => {
+      error: (error) => {
         this.isLoading = false;
-        this.apiMessage = 'Spring Boot is unavailable · showing sample data';
+        this.apiMessage = this.errorMessage(error, 'Spring Boot is unavailable · showing sample data');
+        this.handleUnauthorized(error);
       }
     });
   }
@@ -96,9 +128,94 @@ export class AppComponent implements OnInit {
   }
 
   openAvailableTickets(): void {
+    this.showAdminPanel = false;
     this.showBookingPage = false;
     this.showAvailableTickets = true;
     setTimeout(() => document.querySelector('#available-summary')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  }
+
+  openAdminPanel(): void {
+    if (!this.isAdmin) {
+      this.authMessage = 'Administrator access is required.';
+      this.showAuthForm = true;
+      this.authMode = 'login';
+      return;
+    }
+    this.showBookingPage = false;
+    this.showAvailableTickets = false;
+    this.showAdminPanel = true;
+    this.loadAdminTrains();
+  }
+
+  createTrain(): void {
+    this.adminMessage = '';
+    this.ticketService.createTrain(this.adminTrain).subscribe({
+      next: (train) => {
+        this.adminTrains = [train, ...this.adminTrains];
+        this.adminTrain = this.createEmptyTrain();
+        this.adminMessage = 'Train schedule created successfully.';
+      },
+      error: (error) => {
+        this.adminMessage = this.errorMessage(error, 'Could not create train schedule.');
+        this.handleUnauthorized(error);
+      }
+    });
+  }
+
+  cancelSelectedTicket(): void {
+    if (!this.selectedTicket || this.selectedTicket.ticketStatus === 'Cancelled') {
+      return;
+    }
+    this.ticketService.cancelTicket(this.selectedTicket.ticketId).subscribe({
+      next: (ticket) => {
+        this.tickets = this.tickets.map((item) => item.ticketId === ticket.ticketId ? ticket : item);
+        this.selectedTicket = ticket;
+      },
+      error: (error) => {
+        this.apiMessage = this.errorMessage(error, 'Could not cancel this ticket.');
+        this.handleUnauthorized(error);
+      }
+    });
+  }
+
+  requestPasswordReset(): void {
+    this.authService.forgotPassword(this.authEmail.trim()).subscribe({
+      next: (response) => {
+        this.resetToken = response.resetToken ?? '';
+        this.authMessage = response.resetToken
+          ? 'Reset token created. Enter it below with your new password.'
+          : 'No account was found for that email.';
+        if (response.resetToken) {
+          this.authMode = 'reset';
+        }
+      },
+      error: (error) => this.authMessage = this.errorMessage(error, 'Could not request a password reset.')
+    });
+  }
+
+  resetAccountPassword(): void {
+    this.authService.resetPassword(this.resetToken.trim(), this.resetPassword).subscribe({
+      next: () => {
+        this.authMode = 'login';
+        this.resetPassword = '';
+        this.authMessage = 'Password reset successful. You can now log in.';
+      },
+      error: (error) => this.authMessage = this.errorMessage(error, 'Could not reset password.')
+    });
+  }
+
+  private loadAdminTrains(): void {
+    this.ticketService.getAdminTrains().subscribe({
+      next: (trains) => this.adminTrains = trains,
+      error: (error) => {
+        this.adminMessage = this.errorMessage(error, 'Could not load train schedules.');
+        this.handleUnauthorized(error);
+      }
+    });
+  }
+
+  private createEmptyTrain(): Omit<TrainSchedule, 'id'> {
+    return { trainNo: '', source: '', destination: '', availableSeats: 0, journeyDate: '' };
   }
 
   searchTrains(): void {
@@ -107,7 +224,79 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    this.trainSearchMessage = `Searching trains from ${this.searchFrom} to ${this.searchTo}.`;
+    this.trainSearchMessage = 'Searching trains...';
+    this.ticketService.searchTrains(this.searchFrom.trim(), this.searchTo.trim(), this.searchDate).subscribe({
+      next: (trains) => {
+        this.trainResults = trains;
+        this.trainSearchMessage = trains.length
+          ? `${trains.length} train${trains.length === 1 ? '' : 's'} found.`
+          : 'No trains found for this route and date.';
+      },
+      error: (error) => {
+        this.trainResults = [];
+        this.trainSearchMessage = this.errorMessage(error, 'Train search failed.');
+        this.handleUnauthorized(error);
+      }
+    });
+  }
+
+  login(): void {
+    this.authMessage = '';
+    this.authService.login(this.authEmail.trim(), this.authPassword).subscribe({
+      next: () => {
+        this.isAuthenticated = true;
+        this.userRole = this.authService.getRole();
+        this.showAuthForm = false;
+        this.authPassword = '';
+        this.showAdminPanel = false;
+        this.authMessage = 'Logged in successfully.';
+        this.loadTickets();
+      },
+      error: (error) => this.authMessage = this.errorMessage(error, 'Login failed.')
+    });
+  }
+
+  register(): void {
+    this.authMessage = '';
+    this.authService.register({
+      fullName: this.authFullName.trim(),
+      email: this.authEmail.trim(),
+      phone: this.authPhone.trim(),
+      password: this.authPassword
+    }).subscribe({
+      next: () => {
+        this.authMode = 'login';
+        this.authMessage = 'Registration successful. You can now log in.';
+        this.authPassword = '';
+      },
+      error: (error) => this.authMessage = this.errorMessage(error, 'Registration failed.')
+    });
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.isAuthenticated = false;
+    this.userRole = 'USER';
+    this.showAdminPanel = false;
+    this.apiMessage = 'Logged out';
+  }
+
+  private handleUnauthorized(error: { status?: number }): void {
+    if (error.status === 401) {
+      this.authService.logout();
+      this.isAuthenticated = false;
+      this.showAuthForm = true;
+    }
+  }
+
+  private errorMessage(error: { error?: { message?: string } | string }, fallback: string): string {
+    if (typeof error.error === 'string' && error.error) {
+      return error.error;
+    }
+    if (error.error && typeof error.error === 'object') {
+      return error.error.message ?? fallback;
+    }
+    return fallback;
   }
 
   swapStations(): void {

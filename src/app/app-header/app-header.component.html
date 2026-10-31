@@ -1,0 +1,213 @@
+<header class="site-header" [class.home-header]="variant === 'home' || variant === 'admin'" [class.admin-home-header]="variant === 'admin'" [class.dashboard-header]="variant === 'dashboard'">
+  <div *ngIf="variant === 'home' || variant === 'admin'; else standardBrand" class="home-branding">
+    <span class="beta-badge">BETA Version</span>
+    <a class="railway-mark" routerLink="/" aria-label="Railwise railway home"><span>R</span></a>
+    <a class="irctc-mark" routerLink="/" aria-label="Railwise ticket desk home"><span>RW</span></a>
+  </div>
+  <ng-template #standardBrand><a class="brand" routerLink="/">railwise <small>ticket desk</small></a></ng-template>
+  <nav *ngIf="variant === 'home' || variant === 'admin'; else standardNavigation">
+    <ng-container *ngIf="variant === 'admin'; else passengerHomeNavigation">
+      <a class="home-link admin-header-link" routerLink="/admin" [class.admin-header-current]="isAdminPathActive('/admin')">Overview</a>
+      <a class="home-link admin-header-link" routerLink="/admin/schedules" [class.admin-header-current]="isAdminPathActive('/admin/schedules')">Schedules &amp; fares</a>
+      <a class="home-link admin-header-link" routerLink="/admin/users" [class.admin-header-current]="isAdminPathActive('/admin/users')">Passenger accounts</a>
+      <a class="home-link admin-header-link" routerLink="/admin/tickets" [class.admin-header-current]="isAdminPathActive('/admin/tickets')">Ticket operations</a>
+    </ng-container>
+    <ng-template #passengerHomeNavigation>
+    <a class="home-link" routerLink="/" fragment="train-search" (click)="closeHomeMenu()">Home</a>
+    <div class="trains-menu" [class.open]="openHomeMenu === 'trains'">
+      <button
+        class="trains-menu-trigger"
+        type="button"
+        aria-controls="trains-mega-menu"
+        [attr.aria-expanded]="openHomeMenu === 'trains'"
+        (click)="toggleHomeMenu('trains')">
+        Trains <span class="chevron" aria-hidden="true"></span>
+      </button>
+      <section class="mega-menu" id="trains-mega-menu" *ngIf="openHomeMenu === 'trains'" aria-label="Train services">
+        <div class="mega-menu-column">
+          <h2>Book</h2>
+          <a class="mega-menu-link" href="#train-search" (click)="closeHomeMenu()">
+            <span class="menu-icon" aria-hidden="true">⌕</span>
+            <span>Search trains<small>Find trains and check seat availability</small></span>
+          </a>
+          <a class="mega-menu-link" routerLink="/booking" (click)="closeHomeMenu()">
+            <span class="menu-icon" aria-hidden="true">▣</span>
+            <span>Book a ticket<small>Enter passenger and journey details</small></span>
+          </a>
+        </div>
+        <div class="mega-menu-column">
+          <h2>Track and enquire</h2>
+          <a class="mega-menu-link" routerLink="/available-tickets" (click)="closeHomeMenu()">
+            <span class="menu-icon" aria-hidden="true">?</span>
+            <span>My tickets<small>Review ticket status and journey details</small></span>
+          </a>
+          <div class="mega-menu-divider"></div>
+          <h2>Manage</h2>
+          <a *ngIf="isAuthenticated && isAdmin" class="mega-menu-link" routerLink="/admin/schedules" (click)="closeHomeMenu()">
+            <span class="menu-icon" aria-hidden="true">⚙</span>
+            <span>Publish schedule<small>Manage train fares, coaches, and schedules</small></span>
+          </a>
+          <a *ngIf="!isAuthenticated || !isAdmin" class="mega-menu-link" routerLink="/admin-login" (click)="closeHomeMenu()">
+            <span class="menu-icon" aria-hidden="true">↗</span>
+            <span>Admin sign in<small>Open the administrator dashboard</small></span>
+          </a>
+          <a *ngIf="!isAuthenticated" class="mega-menu-link" routerLink="/register" (click)="closeHomeMenu()">
+            <span class="menu-icon" aria-hidden="true">+</span>
+            <span>Create account<small>Register for a passenger account</small></span>
+          </a>
+        </div>
+      </section>
+    </div>
+    <div class="trains-menu" [class.open]="openHomeMenu === 'meals'">
+      <button class="trains-menu-trigger" type="button" aria-controls="meals-menu" [attr.aria-expanded]="openHomeMenu === 'meals'" (click)="toggleHomeMenu('meals')">
+        Meals <span class="chevron" aria-hidden="true"></span>
+      </button>
+      <section class="coming-menu" id="meals-menu" *ngIf="openHomeMenu === 'meals'"><strong>Meals</strong><span>Meal booking will be available soon.</span></section>
+    </div>
+    <div class="trains-menu" [class.open]="openHomeMenu === 'loyalty'">
+      <button class="trains-menu-trigger" type="button" aria-controls="loyalty-menu" [attr.aria-expanded]="openHomeMenu === 'loyalty'" (click)="toggleHomeMenu('loyalty')">
+        Loyalty <span class="chevron" aria-hidden="true"></span>
+      </button>
+      <section class="coming-menu" id="loyalty-menu" *ngIf="openHomeMenu === 'loyalty'"><strong>Loyalty</strong><span>Passenger rewards will be available soon.</span></section>
+    </div>
+    <div *ngIf="isAuthenticated && !isAdmin" class="trains-menu wallet-menu" [class.open]="openHomeMenu === 'wallet'">
+      <button class="trains-menu-trigger" type="button" aria-controls="wallet-services-menu" [attr.aria-expanded]="openHomeMenu === 'wallet'" (click)="toggleHomeMenu('wallet')">
+        E-Wallet <span class="chevron" aria-hidden="true"></span>
+      </button>
+      <section class="wallet-services-menu" id="wallet-services-menu" *ngIf="openHomeMenu === 'wallet'" aria-label="E-Wallet services">
+        <a class="mega-menu-link" routerLink="/wallet/about" (click)="closeHomeMenu()">
+          <span class="menu-icon" aria-hidden="true">▱</span>
+          <span>About IRCTC eWallet<small>Learn about wallet credits, payments, and refunds</small></span>
+        </a>
+        <a class="mega-menu-link" routerLink="/wallet" (click)="closeHomeMenu()">
+          <span class="menu-icon" aria-hidden="true">♧</span>
+          <span>E-Wallet Dashboard<small>View your balance and transaction history</small></span>
+        </a>
+      </section>
+    </div>
+    <div *ngIf="!isAuthenticated || isAdmin" class="trains-menu" [class.open]="openHomeMenu === 'wallet'">
+      <button class="trains-menu-trigger" type="button" aria-controls="wallet-menu" [attr.aria-expanded]="openHomeMenu === 'wallet'" (click)="toggleHomeMenu('wallet')">
+        E-Wallet <span class="chevron" aria-hidden="true"></span>
+      </button>
+      <section class="coming-menu" id="wallet-menu" *ngIf="openHomeMenu === 'wallet'"><strong>E-Wallet</strong><span>Wallet services will be available soon.</span></section>
+    </div>
+    <a class="home-link" routerLink="/" fragment="travel-advisory" (click)="closeHomeMenu()">Alerts</a>
+    <a class="home-link" routerLink="/" fragment="home-footer" (click)="closeHomeMenu()">Contact Us</a>
+    </ng-template>
+  </nav>
+  <ng-template #standardNavigation>
+    <nav>
+      <a routerLink="/">Search trains</a>
+      <a routerLink="/booking">Book ticket</a>
+      <a routerLink="/available-tickets" [class.dashboard-current]="variant === 'dashboard'">Available tickets</a>
+      <a *ngIf="isAuthenticated && isAdmin" routerLink="/admin">Admin console</a>
+    </nav>
+  </ng-template>
+  <div class="session-info">
+    <time *ngIf="variant !== 'home' && variant !== 'admin'" aria-label="Current date and time">{{ currentTime }}</time>
+    <time *ngIf="variant === 'home' || variant === 'admin'" class="home-timestamp" aria-label="Current date and time">{{ currentTime }}</time>
+    <div *ngIf="isAuthenticated && (variant === 'home' || variant === 'admin')" class="account-menu" [class.open]="isAccountMenuOpen">
+      <button
+        class="account-menu-trigger"
+        type="button"
+        aria-controls="passenger-account-menu"
+        [attr.aria-expanded]="isAccountMenuOpen"
+        (click)="toggleAccountMenu()">
+        <span class="account-user-icon" aria-hidden="true">♙</span>
+        <span>{{ isAdmin ? authService.getDisplayName() : displayName }}</span>
+        <span class="account-chevron" aria-hidden="true"></span>
+      </button>
+      <section id="passenger-account-menu" class="account-menu-panel" *ngIf="isAccountMenuOpen" [attr.aria-label]="isAdmin ? 'Administrator account' : 'Passenger account'">
+        <div class="account-menu-profile">
+          <span class="account-menu-icon" aria-hidden="true">{{ isAdmin ? '⚙' : '♙' }}</span>
+          <span><strong>{{ isAdmin ? 'Administrator profile' : 'My Profile' }}</strong><small>{{ isAdmin ? authService.getDisplayName() : displayName }}</small></span>
+        </div>
+        <ng-container *ngIf="isAdmin">
+          <a class="account-menu-link" routerLink="/admin" (click)="closeAccountMenu()">
+            <span class="account-menu-icon" aria-hidden="true">⌂</span>
+            <span>Admin overview</span>
+          </a>
+          <a class="account-menu-link" routerLink="/admin/schedules" (click)="closeAccountMenu()">
+            <span class="account-menu-icon" aria-hidden="true">↗</span>
+            <span>Schedules &amp; fares</span>
+          </a>
+          <a class="account-menu-link" routerLink="/admin/users" (click)="closeAccountMenu()">
+            <span class="account-menu-icon" aria-hidden="true">♙</span>
+            <span>Passenger accounts</span>
+          </a>
+          <a class="account-menu-link" routerLink="/admin/tickets" (click)="closeAccountMenu()">
+            <span class="account-menu-icon" aria-hidden="true">▤</span>
+            <span>Ticket operations</span>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="!isAdmin">
+        <a class="account-menu-link" routerLink="/available-tickets" (click)="closeAccountMenu()">
+          <span class="account-menu-icon" aria-hidden="true">▤</span>
+          <span>My bookings &amp; transactions</span>
+        </a>
+        <a class="account-menu-link" routerLink="/" fragment="home-footer" (click)="closeAccountMenu()">
+          <span class="account-menu-icon" aria-hidden="true">☆</span>
+          <span>Feedback &amp; contact</span>
+        </a>
+        </ng-container>
+        <button class="account-menu-link account-logout" type="button" (click)="logout()">
+          <span class="account-menu-icon" aria-hidden="true">↪</span>
+          <span>{{ isAdmin ? 'Sign out' : 'Logout' }}</span>
+        </button>
+      </section>
+    </div>
+    <ng-container *ngIf="isAuthenticated">
+      <ng-container *ngIf="variant !== 'home' && variant !== 'admin'">
+        <span class="role-badge" [class.admin]="isAdmin">{{ isAdmin ? 'ADMIN' : 'USER' }}</span>
+        <span class="identity">{{ displayName }}</span>
+      </ng-container>
+    </ng-container>
+    <button *ngIf="!isAuthenticated && variant === 'home'" class="home-login" type="button" (click)="openLogin()">Login</button>
+    <a *ngIf="!isAuthenticated && variant !== 'home'" routerLink="/user-login">User login</a>
+    <a *ngIf="!isAuthenticated && variant !== 'home'" routerLink="/admin-login">Admin login</a>
+    <a *ngIf="!isAuthenticated && variant !== 'home'" routerLink="/register">Register</a>
+    <button *ngIf="isAuthenticated && variant !== 'home' && variant !== 'admin'" type="button" (click)="logout()">Log out</button>
+  </div>
+</header>
+
+<div *ngIf="variant === 'home' && isLoginOpen" class="login-overlay" (click)="closeLogin()">
+  <section class="login-dialog" role="dialog" aria-modal="true" aria-labelledby="login-dialog-title" (click)="$event.stopPropagation()">
+    <div class="login-dialog-banner">
+      <button class="login-close" type="button" aria-label="Close login" (click)="closeLogin()">×</button>
+      <div class="login-brand-marks" aria-hidden="true">
+        <span class="railway-mark"><span>R</span></span>
+        <span class="irctc-mark"><span>RW</span></span>
+      </div>
+      <h2 id="login-dialog-title">Welcome aboard</h2>
+      <p>Sign in to continue your journey</p>
+    </div>
+    <div class="login-tabs" role="tablist" aria-label="Choose login type">
+      <button type="button" role="tab" [attr.aria-selected]="loginRole === 'user'" [class.active]="loginRole === 'user'" (click)="selectLoginRole('user')">
+        <span aria-hidden="true">♙</span> User Login
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="loginRole === 'admin'" [class.active]="loginRole === 'admin'" (click)="selectLoginRole('admin')">
+        <span aria-hidden="true">♧</span> Admin Login
+      </button>
+    </div>
+    <form class="login-form" (ngSubmit)="login()">
+      <label>
+        <span>{{ loginRole === 'admin' ? 'Administrator email' : 'Email address' }}</span>
+        <input name="loginEmail" type="email" [(ngModel)]="loginEmail" autocomplete="username" placeholder="Enter your email" required>
+        <span class="field-icon" aria-hidden="true">♙</span>
+      </label>
+      <label>
+        <span>Password</span>
+        <input name="loginPassword" type="password" [(ngModel)]="loginPassword" autocomplete="current-password" placeholder="Enter your password" required>
+        <span class="field-icon" aria-hidden="true">⌑</span>
+      </label>
+      <a *ngIf="loginRole === 'user'" class="login-forgot" routerLink="/forgot-password" (click)="closeLogin()">Forgot account details?</a>
+      <p *ngIf="loginMessage" class="login-message" role="alert">{{ loginMessage }}</p>
+      <button class="login-submit" type="submit" [disabled]="isSubmittingLogin">
+        <span>{{ isSubmittingLogin ? 'Signing in...' : 'Login' }}</span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </form>
+    <div class="login-divider"><span>OR</span></div>
+    <a class="login-signup" routerLink="/register" (click)="closeLogin()">Don't have an account? <strong>Sign Up</strong></a>
+  </section>
+</div>

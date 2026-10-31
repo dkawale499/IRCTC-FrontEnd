@@ -1,3 +1,20 @@
+.auth-panel { display: flex; gap: 12px; align-items: end; padding: 12px 24px; background: #fff; border-bottom: 1px solid #dce3ea; }
+.admin-page { padding: 42px 5%; background: #f7f9fb; min-height: 560px; }
+.admin-grid { display: grid; grid-template-columns: minmax(280px, 380px) 1fr; gap: 24px; margin-top: 28px; }
+.admin-form, .admin-schedules { padding: 24px; background: #fff; border: 1px solid #dce3ea; }
+.admin-form { display: grid; gap: 14px; align-content: start; }
+.admin-form label { display: grid; gap: 6px; color: #526674; font-size: 12px; }
+.admin-form input { padding: 10px; border: 1px solid #c8d3db; }
+.schedule-row { display: grid; grid-template-columns: 90px 1fr auto; gap: 16px; align-items: center; padding: 16px 0; border-bottom: 1px solid #edf1f3; }
+.schedule-row small { color: #6c7c85; }
+@media (max-width: 850px) { .admin-grid { grid-template-columns: 1fr; }.schedule-row { grid-template-columns: 1fr; gap: 5px; } }
+.auth-panel label { display: grid; gap: 4px; font-size: 12px; }
+.auth-panel input { padding: 7px; border: 1px solid #b7c3cf; }
+.auth-panel button { padding: 8px 14px; cursor: pointer; }
+.auth-panel span { font-size: 12px; }
+.train-results { display: grid; gap: 8px; margin-top: 12px; }
+.train-results article { display: flex; gap: 14px; align-items: center; padding: 10px 14px; background: #fff; border: 1px solid #dce3ea; }
+.train-results small { margin-left: auto; }
 :host { display: block; }
 
 .rail-nav button[font-weight="bold"] { font-weight: 700; }

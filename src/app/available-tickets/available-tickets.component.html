@@ -1,0 +1,57 @@
+<main class="tickets-page">
+  <app-header variant="dashboard"></app-header>
+  <section class="page-intro">
+    <div>
+      <p class="eyebrow">{{ isAdmin ? 'Administrator view' : 'Passenger view' }}</p>
+      <h1>{{ isAdmin ? 'All tickets' : 'My tickets' }}</h1>
+      <p>Review live ticket status and journey details from the backend.</p>
+    </div>
+    <a class="primary-button" routerLink="/booking">Book a ticket</a>
+  </section>
+  <p class="message" *ngIf="message" role="status">{{ message }}</p>
+  <section class="metrics" aria-label="Ticket totals">
+    <article><strong>{{ tickets.length }}</strong><span>Total tickets</span></article>
+    <article><strong>{{ countFor('Confirmed') }}</strong><span>Confirmed</span></article>
+    <article><strong>{{ countFor('RAC') }}</strong><span>RAC</span></article>
+    <article><strong>{{ countFor('Waitlisted') }}</strong><span>Waitlisted</span></article>
+    <article><strong>{{ countFor('Cancelled') }}</strong><span>Cancelled</span></article>
+  </section>
+  <section class="ticket-panel">
+    <div class="panel-head">
+      <div>
+        <h2>Ticket list</h2>
+        <p *ngIf="isLoading">Loading live tickets...</p>
+        <p *ngIf="!isLoading">{{ filteredTickets.length }} ticket(s) shown</p>
+      </div>
+      <label class="ticket-search">
+        <span aria-hidden="true">⌕</span>
+        <input type="search" [(ngModel)]="searchTerm" placeholder="Search passenger, train, or PNR" aria-label="Search tickets">
+      </label>
+    </div>
+    <div class="filters" aria-label="Filter tickets by status">
+      <button type="button" [class.selected]="selectedStatus === 'All'" (click)="selectedStatus = 'All'">All</button>
+      <button type="button" [class.selected]="selectedStatus === 'Confirmed'" (click)="selectedStatus = 'Confirmed'">Confirmed</button>
+      <button type="button" [class.selected]="selectedStatus === 'RAC'" (click)="selectedStatus = 'RAC'">RAC</button>
+      <button type="button" [class.selected]="selectedStatus === 'Waitlisted'" (click)="selectedStatus = 'Waitlisted'">Waitlisted</button>
+      <button type="button" [class.selected]="selectedStatus === 'Cancelled'" (click)="selectedStatus = 'Cancelled'">Cancelled</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Passenger</th><th>Journey</th><th>Train</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let ticket of filteredTickets">
+            <td><strong>{{ ticket.name }}</strong><small>PNR {{ ticket.ticketId }}</small></td>
+            <td>{{ ticket.source }} → {{ ticket.dest }}</td>
+            <td>{{ ticket.trainNo }}</td>
+            <td>{{ ticket.doj }}</td>
+            <td><span class="status" [ngClass]="ticket.ticketStatus.toLowerCase()">{{ ticket.ticketStatus }}</span></td>
+            <td><button class="cancel-button" *ngIf="!isAdmin && ticket.ticketStatus !== 'Cancelled'" type="button" (click)="cancel(ticket)">Cancel</button></td>
+          </tr>
+          <tr *ngIf="!isLoading && filteredTickets.length === 0">
+            <td colspan="6" class="empty">No tickets found. Your journeys will appear here after booking.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>

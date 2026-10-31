@@ -7,9 +7,10 @@
 
     <div class="workspace-label">Workspace</div>
     <nav class="nav-list" aria-label="Primary navigation">
-      <button class="nav-item active" type="button"><span class="nav-icon">▦</span>Ticket overview</button>
+      <button class="nav-item active" type="button" (click)="openAvailableTickets()"><span class="nav-icon">▦</span>{{ isAdmin ? 'All tickets' : 'My tickets' }}</button>
       <button class="nav-item" type="button"><span class="nav-icon">⌁</span>Passenger list</button>
       <button class="nav-item" type="button"><span class="nav-icon">◷</span>Travel calendar</button>
+      <button class="nav-item admin-nav-item" *ngIf="isAdmin" type="button" (click)="openAdminPanel()"><span class="nav-icon">⚙</span>Admin console</button>
     </nav>
 
     <div class="sidebar-footer">
@@ -20,7 +21,7 @@
       </div>
       <div class="profile-row">
         <div class="avatar">D</div>
-        <div><strong>Dnyaneshwar</strong><small>Administrator</small></div>
+        <div><strong>{{ isAuthenticated ? userRole : 'Guest' }}</strong><small>{{ isAdmin ? 'Administrator' : 'Passenger' }}</small></div>
         <span class="more">•••</span>
       </div>
     </div>
@@ -28,12 +29,40 @@
 
   <main class="main-content">
     <header class="utility-bar">
-      <div class="utility-links"><button class="utility-active" type="button">LOGIN</button><button type="button">REGISTER</button><button type="button">AGENT LOGIN</button><button type="button">CONTACT US</button><button type="button">HELP &amp; SUPPORT</button><button type="button">DAILY DEALS</button><button type="button">ALERTS</button></div>
+      <div class="utility-links"><button class="utility-active" type="button" (click)="authMode = 'login'; showAuthForm = !showAuthForm">{{ isAuthenticated ? 'ACCOUNT' : 'LOGIN' }}</button><button type="button" (click)="authMode = 'register'; showAuthForm = true">REGISTER</button><button type="button">AGENT LOGIN</button><button type="button">CONTACT US</button><button type="button">HELP &amp; SUPPORT</button><button type="button">DAILY DEALS</button><button type="button">ALERTS</button></div>
       <div class="utility-user">09-Sep-2026 | 14:29:40 &nbsp; A- &nbsp; A &nbsp; A+ &nbsp; हिंदी <strong>Dnyaneshwar</strong></div>
     </header>
-    <nav class="rail-nav" aria-label="IRCTC navigation"><div class="rail-logo"><span>IR</span><small>indian railways</small></div><button class="home-link home-nav" type="button" (click)="openHome()">⌂ HOME</button><button class="book-nav" type="button" (click)="openBooking()">BOOK TICKET</button><button class="rail-active available-nav" type="button" (click)="openAvailableTickets()"><strong>CHECK AVAILABLE TICKETS</strong></button><button type="button">TRAINS</button><button type="button">LOYALTY</button><button type="button">IRCTC eWallet</button><button type="button">BUSES</button><button type="button">FLIGHTS</button><button type="button">HOTELS</button><button type="button">HOLIDAYS</button><button type="button">MEALS</button><button type="button">PROMOTIONS</button><button type="button">MORE</button></n    Build IRCTC Angular frontend    Build IRCTC Angular frontend    git -C "C:\Spring Boot\S Projects" push -u origin HEADav>
+    <form class="auth-panel" *ngIf="showAuthForm && !isAuthenticated && authMode === 'login'" (ngSubmit)="login()">
+      <label>Email <input name="authEmail" type="email" [(ngModel)]="authEmail" required></label>
+      <label>Password <input name="authPassword" type="password" [(ngModel)]="authPassword" required></label>
+      <button type="submit">Login</button>
+      <button type="button" (click)="authMode = 'forgot'">Forgot password?</button>
+      <span *ngIf="authMessage">{{ authMessage }}</span>
+    </form>
+    <form class="auth-panel" *ngIf="showAuthForm && !isAuthenticated && authMode === 'register'" (ngSubmit)="register()">
+      <label>Full name <input name="authFullName" [(ngModel)]="authFullName" required></label>
+      <label>Email <input name="authEmail" type="email" [(ngModel)]="authEmail" required></label>
+      <label>Phone <input name="authPhone" type="tel" [(ngModel)]="authPhone" required></label>
+      <label>Password <input name="authPassword" type="password" [(ngModel)]="authPassword" required></label>
+      <button type="submit">Register</button>
+      <span *ngIf="authMessage">{{ authMessage }}</span>
+    </form>
+    <form class="auth-panel" *ngIf="showAuthForm && !isAuthenticated && authMode === 'forgot'" (ngSubmit)="requestPasswordReset()">
+      <label>Email <input name="forgotEmail" type="email" [(ngModel)]="authEmail" required></label>
+      <button type="submit">Create reset token</button>
+      <button type="button" (click)="authMode = 'login'">Back to login</button>
+      <span *ngIf="authMessage">{{ authMessage }}</span>
+    </form>
+    <form class="auth-panel" *ngIf="showAuthForm && !isAuthenticated && authMode === 'reset'" (ngSubmit)="resetAccountPassword()">
+      <label>Reset token <input name="resetToken" [(ngModel)]="resetToken" required></label>
+      <label>New password <input name="resetPassword" type="password" [(ngModel)]="resetPassword" required></label>
+      <button type="submit">Reset password</button>
+      <span *ngIf="authMessage">{{ authMessage }}</span>
+    </form>
+    <div class="auth-panel" *ngIf="showAuthForm && isAuthenticated"><span>{{ authMessage || 'Authenticated' }}</span><button type="button" (click)="logout()">Log out</button></div>
+    <nav class="rail-nav" aria-label="IRCTC navigation"><div class="rail-logo"><span>IR</span><small>indian railways</small></div><button class="home-link home-nav" type="button" (click)="openHome()">⌂ HOME</button><button class="book-nav" type="button" (click)="openBooking()">BOOK TICKET</button><button class="rail-active available-nav" type="button" (click)="openAvailableTickets()"><strong>CHECK AVAILABLE TICKETS</strong></button><button type="button">TRAINS</button><button type="button">LOYALTY</button><button type="button">IRCTC eWallet</button><button type="button">BUSES</button><button type="button">FLIGHTS</button><button type="button">HOTELS</button><button type="button">HOLIDAYS</button><button type="button">MEALS</button><button type="button">PROMOTIONS</button><button type="button">MORE</button></nav>
 
-    <section class="booking-hero" *ngIf="!showAvailableTickets && !showBookingPage">
+    <section class="booking-hero" *ngIf="!showAvailableTickets && !showBookingPage && !showAdminPanel">
       <div class="hero-copy"><p class="hero-kicker">Safety <span>|</span> Security <span>|</span> Punctuality</p><h1>INDIAN RAILWAYS</h1><p>Journey with confidence</p></div>
       <form class="home-search-panel" (ngSubmit)="searchTrains()">
         <div class="home-search-tabs"><button class="home-tab active" type="button">▣ &nbsp; Book Ticket</button><button type="button">▣ &nbsp; PNR Status</button><button type="button">▤ &nbsp; Charts/Vacancy</button></div>
@@ -46,6 +75,9 @@
           <button class="search-train-button" type="submit">Search Train <b>›</b></button>
         </div>
         <p class="train-search-message" *ngIf="trainSearchMessage">{{ trainSearchMessage }}</p>
+        <div class="train-results" *ngIf="trainResults.length">
+          <article *ngFor="let train of trainResults"><strong>{{ train.trainNo }}</strong><span>{{ train.source }} to {{ train.destination }}</span><small>{{ train.availableSeats }} seats available</small></article>
+        </div>
       </form>
       <div class="hero-train" aria-hidden="true"><div class="train-window"></div><div class="train-nose"></div><div class="train-stripe"></div><span>वंदे भारत</span></div>
     </section>
@@ -55,7 +87,28 @@
       <app-ticket-booking (ticketBooked)="addBookedTicket($event)"></app-ticket-booking>
     </section>
 
-    <section class="admin-strip"><div><span class="admin-dot"></span> Administrator workspace</div><strong>Dnyaneshwar's ticket desk</strong><span class="api-state" [class.connected]="!isLoading && apiMessage === 'Live data from Spring Boot'"><i></i>{{ apiMessage }}</span></section>
+    <section class="admin-page" *ngIf="showAdminPanel && isAdmin">
+      <div class="page-heading"><p class="eyebrow">Protected admin workspace</p><h1>Operations console</h1><p>Review every ticket and publish train schedules for passengers.</p></div>
+      <div class="admin-grid">
+        <form class="admin-form" (ngSubmit)="createTrain()">
+          <div class="section-head"><div><h2>Create train schedule</h2><p>Available to administrators only.</p></div></div>
+          <label>Train number<input name="adminTrainNo" [(ngModel)]="adminTrain.trainNo" required></label>
+          <label>Source<input name="adminSource" [(ngModel)]="adminTrain.source" required></label>
+          <label>Destination<input name="adminDestination" [(ngModel)]="adminTrain.destination" required></label>
+          <label>Available seats<input name="adminSeats" type="number" min="1" [(ngModel)]="adminTrain.availableSeats" required></label>
+          <label>Journey date<input name="adminDate" type="date" [(ngModel)]="adminTrain.journeyDate" required></label>
+          <button class="primary-button" type="submit">Create schedule</button>
+          <p class="form-message" *ngIf="adminMessage">{{ adminMessage }}</p>
+        </form>
+        <div class="admin-schedules">
+          <div class="section-head"><div><h2>Train schedules</h2><p>{{ adminTrains.length }} schedules published</p></div></div>
+          <div class="schedule-row" *ngFor="let train of adminTrains"><strong>{{ train.trainNo }}</strong><span>{{ train.source }} → {{ train.destination }}</span><small>{{ train.journeyDate }} · {{ train.availableSeats }} seats</small></div>
+          <p class="empty-state" *ngIf="adminTrains.length === 0">No train schedules found.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-strip"><div><span class="admin-dot"></span>{{ isAdmin ? 'Administrator workspace' : 'Passenger workspace' }}</div><strong>{{ isAdmin ? 'Operations ticket desk' : 'Your ticket desk' }}</strong><span class="api-state" [class.connected]="!isLoading && apiMessage === 'Live data from Spring Boot'"><i></i>{{ apiMessage }}</span></section>
 
     <section class="available-heading" *ngIf="showAvailableTickets"><p class="eyebrow">Live ticket availability</p><h1>Available tickets</h1><p>All departure and passenger details from your Spring Boot ticket desk.</p></section>
 
@@ -112,6 +165,6 @@
     <span class="status" [class.confirmed]="selectedTicket.ticketStatus === 'Confirmed'" [class.rac]="selectedTicket.ticketStatus === 'RAC'" [class.waitlisted]="selectedTicket.ticketStatus === 'Waitlisted'"><i></i>{{ selectedTicket.ticketStatus }}</span>
     <div class="detail-route"><div><small>From</small><strong>{{ selectedTicket.source }}</strong></div><span>→</span><div><small>To</small><strong>{{ selectedTicket.dest }}</strong></div></div>
     <dl><div><dt>Train number</dt><dd>{{ selectedTicket.trainNo }}</dd></div><div><dt>Travel date</dt><dd>{{ selectedTicket.doj }}</dd></div><div><dt>Date of birth</dt><dd>{{ selectedTicket.dob }}</dd></div><div><dt>Gender</dt><dd>{{ selectedTicket.gender }}</dd></div><div><dt>Coach / berth</dt><dd>{{ selectedTicket.coach }} · {{ selectedTicket.berth }}</dd></div></dl>
-    <button class="primary-button full" type="button">Manage booking <span>↗</span></button>
+    <button class="primary-button full" type="button" *ngIf="!isAdmin && selectedTicket.ticketStatus !== 'Cancelled'" (click)="cancelSelectedTicket()">Cancel ticket <span>×</span></button>
   </aside>
 </div>

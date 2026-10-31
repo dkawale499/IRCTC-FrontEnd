@@ -1,0 +1,177 @@
+<main class="admin-page">
+  <app-header variant="admin"></app-header>
+
+  <section class="admin-intro">
+    <div>
+      <span class="eyebrow">ADMINISTRATOR CONTROL ROOM</span>
+      <h1>{{ operationTitle }}</h1>
+      <p>{{ operationDescription }}</p>
+    </div>
+  </section>
+
+  <p class="message" *ngIf="message" role="status">{{ message }}</p>
+
+  <section class="admin-overview" *ngIf="activeOperation === 'overview'" aria-label="Admin operation overview">
+    <section class="admin-stats">
+      <article><strong>{{ tickets.length }}</strong><span>All tickets</span></article>
+      <article><strong>{{ trains.length }}</strong><span>Train schedules</span></article>
+      <article><strong>{{ users.length }}</strong><span>Registered users</span></article>
+      <article><strong>{{ cancelledTickets }}</strong><span>Cancelled tickets</span></article>
+    </section>
+    <div class="admin-operation-cards">
+      <a routerLink="/admin/schedules">
+        <span class="admin-operation-icon" aria-hidden="true">↗</span>
+        <span><strong>Schedules &amp; fares</strong><small>Publish trains, set ticket fares, and configure coaches.</small></span>
+        <span class="admin-operation-arrow" aria-hidden="true">→</span>
+      </a>
+      <a routerLink="/admin/users">
+        <span class="admin-operation-icon" aria-hidden="true">♙</span>
+        <span><strong>Passenger accounts</strong><small>Create passenger accounts and manage registered users.</small></span>
+        <span class="admin-operation-arrow" aria-hidden="true">→</span>
+      </a>
+      <a routerLink="/admin/tickets">
+        <span class="admin-operation-icon" aria-hidden="true">▤</span>
+        <span><strong>Ticket operations</strong><small>Review ticket records and booking status.</small></span>
+        <span class="admin-operation-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="admin-grid" *ngIf="activeOperation === 'schedules'" aria-label="Train schedule management">
+    <form class="schedule-form" (ngSubmit)="saveSchedule()">
+      <h2>{{ editingScheduleId === null ? 'Publish schedule' : 'Update coach configuration' }}</h2>
+      <p>Add a train that passengers can find through search. Total available seats are calculated from coach counts and seats per coach.</p>
+
+      <label>Train number<input name="trainNo" [(ngModel)]="train.trainNo" required></label>
+      <label>Source<input name="source" [(ngModel)]="train.source" required></label>
+      <label>Destination<input name="destination" [(ngModel)]="train.destination" required></label>
+      <label>Journey date<input name="date" type="date" [(ngModel)]="train.journeyDate" required></label>
+      <label *ngIf="editingScheduleId === null">Ticket fare (₹)<input name="ticketFare" type="number" min="0.01" step="0.01" [(ngModel)]="train.ticketFare" required></label>
+
+      <fieldset class="coach-fields">
+        <legend>Coach configuration</legend>
+        <div class="coach-row" *ngFor="let type of coachTypes">
+          <strong>{{ type }}</strong>
+          <label>
+            Coaches
+            <input [name]="type + 'Count'" type="number" min="0" step="1" [(ngModel)]="coachCounts[type]" required>
+          </label>
+          <label>
+            Seats per coach
+            <input [name]="type + 'Seats'" type="number" min="1" step="1" [(ngModel)]="seatsPerCoach[type]" required>
+          </label>
+        </div>
+      </fieldset>
+
+      <p class="seat-preview">Calculated seats: <strong>{{ calculatedSeats }}</strong></p>
+      <button type="submit" [disabled]="isSavingSchedule || calculatedSeats < 1">
+        {{ isSavingSchedule ? 'Saving...' : editingScheduleId === null ? 'Publish schedule' : 'Update coaches' }}
+      </button>
+      <button class="secondary-button" *ngIf="editingScheduleId !== null" type="button" (click)="cancelEdit()">Cancel edit</button>
+    </form>
+
+    <section class="schedule-list">
+      <h2>Published schedules</h2>
+      <article class="schedule-card" *ngFor="let item of trains">
+        <div class="schedule-summary">
+          <strong>{{ item.trainNo }}</strong>
+          <span>{{ item.source }} → {{ item.destination }}</span>
+          <small>{{ item.journeyDate }} · {{ item.availableSeats }} seats · ₹{{ item.ticketFare | number:'1.2-2' }} per ticket</small>
+          <button type="button" (click)="editCoaches(item)">Edit coaches</button>
+          <div class="fare-management">
+            <label [for]="'fare-' + item.id">Ticket fare (₹)</label>
+            <input [id]="'fare-' + item.id" [name]="'fare-' + item.id" type="number" min="0.01" step="0.01" [(ngModel)]="fareUpdates[item.id]">
+            <button type="button" [disabled]="savingFareScheduleId !== null" (click)="saveFare(item)">
+              {{ savingFareScheduleId === item.id ? 'Saving...' : 'Update fare' }}
+            </button>
+          </div>
+        </div>
+        <div class="coach-summary" *ngIf="item.coaches?.length">
+          <span *ngFor="let coach of item.coaches">
+            {{ coach.coachType }}: {{ coach.coachCount }} × {{ coach.seatsPerCoach }} seats
+          </span>
+        </div>
+      </article>
+      <p *ngIf="!trains.length">No schedules published yet.</p>
+    </section>
+  </section>
+
+  <section class="user-management" *ngIf="activeOperation === 'users'" aria-labelledby="user-management-title">
+    <div class="user-management-heading">
+      <div>
+        <span class="eyebrow">ACCOUNT MANAGEMENT</span>
+        <h2 id="user-management-title">Registered users</h2>
+        <p>Create passenger accounts or remove an account that is no longer needed.</p>
+      </div>
+      <span class="user-count">{{ users.length }} {{ users.length === 1 ? 'user' : 'users' }}</span>
+    </div>
+
+    <p *ngIf="userMessage" class="user-message" [class.error]="isUserMessageError" role="status">{{ userMessage }}</p>
+
+    <div class="user-management-grid">
+      <form class="user-create-form" (ngSubmit)="createUser()">
+        <h3>Add a user</h3>
+        <label>Full name<input name="newUserFullName" [(ngModel)]="newUser.fullName" autocomplete="name" required></label>
+        <label>Email<input name="newUserEmail" type="email" [(ngModel)]="newUser.email" autocomplete="email" required></label>
+        <label>Phone<input name="newUserPhone" type="tel" [(ngModel)]="newUser.phone" autocomplete="tel" required></label>
+        <label>Password<input name="newUserPassword" type="password" [(ngModel)]="newUser.password" autocomplete="new-password" minlength="8" required></label>
+        <small class="password-hint">Use at least 8 characters. The password is securely hashed by the server.</small>
+        <button type="submit" [disabled]="isSavingUser">{{ isSavingUser ? 'Creating account...' : 'Create user account' }}</button>
+      </form>
+
+      <section class="registered-users" aria-label="Registered passenger accounts">
+        <h3>User accounts</h3>
+        <p *ngIf="isLoadingUsers" class="users-empty">Loading registered users...</p>
+        <p *ngIf="!isLoadingUsers && users.length === 0" class="users-empty">No registered passenger accounts.</p>
+        <article class="registered-user" *ngFor="let user of users">
+          <div class="user-avatar" aria-hidden="true">{{ user.fullName.charAt(0) || '?' }}</div>
+          <div class="registered-user-details">
+            <strong>{{ user.fullName }}</strong>
+            <span>{{ user.email }}</span>
+            <small>{{ user.phone }}</small>
+          </div>
+          <button
+            class="remove-user-button"
+            type="button"
+            [disabled]="deletingUserId !== null"
+            (click)="deleteUser(user)">
+            {{ deletingUserId === user.id ? 'Removing...' : 'Remove' }}
+          </button>
+        </article>
+      </section>
+    </div>
+  </section>
+
+  <section class="ticket-operations" *ngIf="activeOperation === 'tickets'" aria-labelledby="ticket-operations-title">
+    <div class="ticket-operations-heading">
+      <div>
+        <span class="eyebrow">BOOKING MANAGEMENT</span>
+        <h2 id="ticket-operations-title">All tickets</h2>
+        <p>Review passenger, journey, fare, and booking status details.</p>
+      </div>
+      <span class="user-count">{{ tickets.length }} {{ tickets.length === 1 ? 'ticket' : 'tickets' }}</span>
+    </div>
+    <div class="admin-stats ticket-stats">
+      <article><strong>{{ tickets.length }}</strong><span>Total tickets</span></article>
+      <article><strong>{{ tickets.length - cancelledTickets }}</strong><span>Active tickets</span></article>
+      <article><strong>{{ cancelledTickets }}</strong><span>Cancelled tickets</span></article>
+    </div>
+    <div class="admin-ticket-table-wrap">
+      <table class="admin-ticket-table">
+        <thead><tr><th>Passenger</th><th>Journey</th><th>Train</th><th>Date</th><th>Fare</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let ticket of tickets">
+            <td><strong>{{ ticket.name }}</strong><small>PNR {{ ticket.ticketId }}</small></td>
+            <td>{{ ticket.source }} → {{ ticket.dest }}</td>
+            <td>{{ ticket.trainNo }}</td>
+            <td>{{ ticket.doj }}</td>
+            <td>₹{{ (ticket.ticketFare ?? 100) | number:'1.2-2' }}</td>
+            <td><span class="ticket-status" [class.cancelled]="ticket.ticketStatus === 'Cancelled'">{{ ticket.ticketStatus }}</span></td>
+          </tr>
+          <tr *ngIf="!tickets.length"><td class="admin-ticket-empty" colspan="6">No tickets found.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>

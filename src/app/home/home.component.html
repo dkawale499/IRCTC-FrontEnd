@@ -1,0 +1,130 @@
+<main class="home-page">
+  <app-header variant="home"></app-header>
+  <ng-container *ngIf="isPassengerDashboard; else publicLanding">
+    <section class="passenger-awareness" aria-label="Passenger travel awareness">
+      <div class="awareness-mark" aria-hidden="true"><span>✓</span></div>
+      <div class="awareness-message">
+        <strong>Passenger Travel Awareness</strong>
+        <span>Make every journey safer with informed travel planning.</span>
+      </div>
+      <div class="awareness-prompt">Plan ahead <span>•</span> Travel with confidence</div>
+    </section>
+
+    <section class="passenger-dashboard" id="train-search">
+      <div class="passenger-hero-copy">
+        <p class="eyebrow">WELCOME BACK, {{ displayName }}</p>
+        <h1>Your Journey, <span>Made Simple</span></h1>
+      </div>
+
+      <section class="passenger-search-panel" aria-label="Search trains">
+        <form class="passenger-search-form" (ngSubmit)="search()">
+          <div class="passenger-search-fields">
+            <label class="station-field">
+              <span class="field-symbol" aria-hidden="true">◯</span>
+              <span class="field-content"><span>From</span><input name="source" [(ngModel)]="source" placeholder="Select source station" autocomplete="off" required></span>
+            </label>
+            <button class="swap-stations" type="button" aria-label="Swap source and destination" (click)="swapStations()">⇄</button>
+            <label class="station-field">
+              <span class="field-symbol destination-symbol" aria-hidden="true">⌖</span>
+              <span class="field-content"><span>To</span><input name="destination" [(ngModel)]="destination" placeholder="Select destination" autocomplete="off" required></span>
+            </label>
+            <label class="date-field">
+              <span>Date</span>
+              <input name="journeyDate" type="date" [(ngModel)]="journeyDate" required>
+            </label>
+            <button class="passenger-search-button" type="submit">
+              <span>Search Trains</span><span aria-hidden="true">⌕</span>
+            </button>
+          </div>
+          <p *ngIf="message" class="passenger-search-message" role="status">{{ message }}</p>
+        </form>
+
+        <nav class="passenger-shortcuts" aria-label="Passenger services">
+          <a routerLink="/available-tickets"><span aria-hidden="true">▤</span>My Bookings</a>
+          <a routerLink="/booking"><span aria-hidden="true">◷</span>Book a Ticket</a>
+          <a routerLink="/wallet"><span aria-hidden="true">₹</span>E-Wallet</a>
+        </nav>
+
+        <div class="journey-overview">
+          <article class="journey-overview-card">
+            <div class="overview-heading"><span>Last transaction</span><a routerLink="/available-tickets">View bookings</a></div>
+            <div class="overview-empty">
+              <span class="overview-icon" aria-hidden="true">▤</span>
+              <span><strong>Your recent bookings</strong><small>Booking activity will appear here when available.</small></span>
+            </div>
+          </article>
+          <article class="journey-overview-card">
+            <div class="overview-heading"><span>Upcoming trips</span><a routerLink="/available-tickets">My bookings</a></div>
+            <div class="overview-empty">
+              <span class="overview-icon" aria-hidden="true">◷</span>
+              <span><strong>Ready for your next journey?</strong><small>Search trains to plan an upcoming trip.</small></span>
+            </div>
+          </article>
+        </div>
+      </section>
+    </section>
+  </ng-container>
+
+  <ng-template #publicLanding>
+    <section class="hero" id="train-search">
+      <div class="hero-copy">
+        <p class="eyebrow">A smoother way to travel</p>
+        <h1>Your Journey, <span>Made Simple</span></h1>
+      </div>
+      <div class="booking-panel">
+        <form class="search-card" (ngSubmit)="search()">
+          <div class="search-title">
+            <div><span>Plan your journey</span><small>Search trains and live seat availability</small></div>
+          </div>
+          <div class="search-fields">
+            <label><span>From</span><input name="source" [(ngModel)]="source" placeholder="Select source station" autocomplete="off" required></label>
+            <label><span>To</span><input name="destination" [(ngModel)]="destination" placeholder="Select destination" autocomplete="off" required></label>
+            <label><span>Journey date</span><input name="journeyDate" type="date" [(ngModel)]="journeyDate" required></label>
+          </div>
+          <div class="search-actions">
+            <p *ngIf="message" role="status">{{ message }}</p>
+            <button type="submit"><span>Search trains</span><span aria-hidden="true">→</span></button>
+          </div>
+          <div class="search-footnote"><span aria-hidden="true">●</span> Live availability from our train schedule</div>
+        </form>
+        <nav class="booking-shortcuts" aria-label="More journey options">
+          <a routerLink="/available-tickets"><span class="shortcut-icon" aria-hidden="true">▣</span><span><strong>Check ticket status</strong><small>View your ticket details</small></span></a>
+          <a routerLink="/booking"><span class="shortcut-icon" aria-hidden="true">＋</span><span><strong>Book a ticket</strong><small>Continue to passenger booking</small></span></a>
+        </nav>
+      </div>
+    </section>
+  </ng-template>
+  <section class="results" *ngIf="results.length" aria-label="Available trains">
+    <div class="results-heading">
+      <div><p class="eyebrow">YOUR JOURNEY</p><h2>Available trains</h2><p>{{ source }} → {{ destination }} <span>·</span> {{ journeyDate | date:'EEE, dd MMM yyyy' }}</p></div>
+      <span class="results-count">{{ results.length }} train{{ results.length === 1 ? '' : 's' }} found</span>
+    </div>
+    <article *ngFor="let train of results">
+      <div class="train-main">
+        <div class="train-heading">
+          <strong>{{ train.trainNo }}</strong>
+          <span>{{ train.source }} <span aria-hidden="true">→</span> {{ train.destination }}</span>
+          <small>{{ train.journeyDate | date:'EEE, dd MMM yyyy' }}</small>
+        </div>
+        <div class="train-fare"><small>Ticket fare per passenger</small><strong>₹{{ train.ticketFare | number:'1.2-2' }}</strong></div>
+      </div>
+      <div class="seat-availability">
+        <span class="seat-total"><strong>{{ train.availableSeats }}</strong> total available seats</span>
+        <div class="coach-availability" *ngIf="train.coaches?.length; else noCoachBreakdown">
+          <span class="coach-seat" *ngFor="let coach of train.coaches">
+            <strong>{{ coach.coachType }}</strong>
+            <span>{{ coach.availableSeats ?? coach.totalSeats ?? (coach.coachCount * coach.seatsPerCoach) }} seats</span>
+          </span>
+        </div>
+        <ng-template #noCoachBreakdown>
+          <small>Coach-type availability is not included in this train result.</small>
+        </ng-template>
+        <button class="select-train-button" type="button" (click)="bookTrain(train)">Book this train <span aria-hidden="true">→</span></button>
+      </div>
+    </article>
+  </section>
+  <footer class="home-footer" id="home-footer">
+    <p>Copyright © 2026 - [Dnyaneswar kawale] All Rights Reserved</p>
+    <p>Designed &amp; hosted by CRIS: Dnyaneshwar &amp; Pallavi</p>
+  </footer>
+</main>

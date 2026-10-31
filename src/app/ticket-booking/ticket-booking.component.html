@@ -1,49 +1,128 @@
-<form class="booking-card" (ngSubmit)="submitBooking()" #bookingForm="ngForm">
-  <div class="booking-tabs">
-    <span class="booking-tab active">BOOK TICKET</span>
-    <span class="booking-tab">PNR STATUS</span>
-  </div>
-  <h2>BOOK TICKET</h2>
-
-  <div class="booking-grid">
-    <label>Passenger name
-      <input name="name" [(ngModel)]="passenger.name" placeholder="Enter passenger name" required>
-    </label>
-    <label>Date of birth
-      <input name="dob" type="date" [(ngModel)]="passenger.dob" required>
-    </label>
-    <label>From
-      <input name="source" [(ngModel)]="passenger.source" placeholder="Enter source station" required>
-    </label>
-    <label>To
-      <input name="dest" [(ngModel)]="passenger.dest" placeholder="Enter destination station" required>
-    </label>
-    <label>Train number
-      <input name="trainNo" [(ngModel)]="passenger.trainNo" placeholder="e.g. 12915" required>
-    </label>
-    <label>Journey date
-      <input name="doj" type="date" [(ngModel)]="passenger.doj" required>
-    </label>
-    <label>Gender
-      <select name="gender" [(ngModel)]="passenger.gender" required>
-        <option value="" disabled>Select gender</option>
-        <option>Male</option><option>Female</option><option>Other</option>
-      </select>
-    </label>
-    <label>Class
-      <select name="class" [(ngModel)]="selectedClass"><option>All Classes</option><option>AC First Class</option><option>AC 2 Tier</option><option>Sleeper</option></select>
-    </label>
+<section class="booking-flow">
+  <div class="booking-flow-heading">
+    <a class="back-home" routerLink="/" aria-label="Back to train search">← Back to trains</a>
+    <p class="eyebrow">YOUR JOURNEY</p>
+    <h1>Complete your booking</h1>
+    <p>Review your trip and pay securely with your e-wallet.</p>
   </div>
 
-  <select class="quota-select" name="quota" [(ngModel)]="quota"><option>GENERAL</option><option>LADIES</option><option>LOWER BERTH / SENIOR CITIZEN</option></select>
-  <div class="booking-options">
-    <label><input type="checkbox" name="flexibleDate" [(ngModel)]="flexibleDate"> Flexible with date</label>
-    <label><input type="checkbox" name="availableBerth" [(ngModel)]="availableBerth"> Train with available berth</label>
+  <nav class="booking-stepper" aria-label="Booking steps">
+    <div class="step-line" aria-hidden="true"></div>
+    <div class="step-item" *ngFor="let item of steps" [class.active]="step >= item.number" [class.current]="step === item.number">
+      <span class="step-number">{{ step > item.number ? '✓' : item.number }}</span>
+      <span class="step-label">{{ item.title }}</span>
+    </div>
+  </nav>
+
+  <div class="no-train-selected" *ngIf="!hasTrainSelection">
+    <span aria-hidden="true">ⓘ</span>
+    <div><strong>Choose a train to get started</strong><p>Search your route on the home page and select a train to continue booking.</p></div>
+    <a routerLink="/">Search trains</a>
   </div>
-  <p class="form-message success" *ngIf="successMessage">{{ successMessage }}</p>
-  <p class="form-message error" *ngIf="errorMessage">{{ errorMessage }}</p>
-  <div class="booking-actions">
-    <button class="search-button" type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Booking...' : 'Book ticket' }}</button>
-    <span class="required-note">All fields are required</span>
+
+  <div class="booking-layout" *ngIf="hasTrainSelection">
+    <section class="booking-step-card">
+      <div class="journey-banner">
+        <div class="journey-title"><span class="train-icon" aria-hidden="true">🚆</span><div><small>SELECTED TRAIN · {{ passenger.trainNo }}</small><h2>{{ passenger.source }} <span>→</span> {{ passenger.dest }}</h2></div></div>
+        <span class="journey-date">{{ passenger.doj | date:'EEE, dd MMM yyyy' }}</span>
+      </div>
+
+      <ng-container [ngSwitch]="step">
+        <form *ngSwitchCase="1" class="step-content" (ngSubmit)="continueToReview()">
+          <div class="section-title"><span class="section-icon" aria-hidden="true">01</span><div><h2>Passenger details</h2><p>Enter the traveller's details exactly as shown on their ID.</p></div></div>
+          <div class="passenger-fields">
+            <label class="field-full">Full name
+              <input name="name" [(ngModel)]="passenger.name" placeholder="Full name as per government ID" autocomplete="name" required>
+            </label>
+            <label>Date of birth
+              <input name="dob" type="date" [(ngModel)]="passenger.dob" [max]="passenger.doj" required>
+            </label>
+            <label>Gender
+              <select name="gender" [(ngModel)]="passenger.gender" required>
+                <option value="" disabled>Select gender</option>
+                <option>Male</option><option>Female</option><option>Other</option>
+              </select>
+            </label>
+          </div>
+          <div class="contact-summary">
+            <span class="contact-icon" aria-hidden="true">✉</span>
+            <div><strong>Ticket contact details</strong><p>{{ passengerEmail || 'Your registered email' }} <span>·</span> {{ passengerPhone || 'Your registered phone' }}</p></div>
+            <span class="verified-badge">Account</span>
+          </div>
+          <p class="booking-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+          <div class="step-actions"><span>Step 1 of 3</span><button class="primary-button" type="submit" [disabled]="isFareLoading">Continue to review <span aria-hidden="true">→</span></button></div>
+        </form>
+
+        <section *ngSwitchCase="2" class="step-content">
+          <div class="section-title"><span class="section-icon" aria-hidden="true">02</span><div><h2>Review your journey</h2><p>Check passenger and train details before payment.</p></div></div>
+          <div class="review-card">
+            <div class="review-heading"><span>TRAIN JOURNEY</span><strong>{{ passenger.trainNo }}</strong></div>
+            <div class="route-review"><div><small>FROM</small><strong>{{ passenger.source }}</strong><span>{{ passenger.doj | date:'EEE, dd MMM yyyy' }}</span></div><div class="route-dash"><span aria-hidden="true">●</span><i></i><span aria-hidden="true">●</span></div><div><small>TO</small><strong>{{ passenger.dest }}</strong><span>Scheduled destination</span></div></div>
+          </div>
+          <div class="review-card passenger-review">
+            <div class="review-heading"><span>PASSENGER</span><span>1 traveller</span></div>
+            <div class="review-passenger"><span class="passenger-avatar" aria-hidden="true">{{ passenger.name.charAt(0) || 'P' }}</span><div><strong>{{ passenger.name }}</strong><span>{{ passenger.gender }} <span>·</span> DOB {{ passenger.dob | date:'dd MMM yyyy' }}</span></div></div>
+          </div>
+          <p class="booking-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+          <div class="step-actions"><button class="secondary-button" type="button" (click)="goBack()">← Back</button><span>Step 2 of 3</span><button class="primary-button" type="button" (click)="continueToPayment()">Continue to payment <span aria-hidden="true">→</span></button></div>
+        </section>
+
+        <section *ngSwitchCase="3" class="step-content">
+          <div class="section-title"><span class="section-icon" aria-hidden="true">03</span><div><h2>Payment</h2><p>Select how you would like to pay for this journey.</p></div></div>
+          <div class="payment-method-card selected">
+            <span class="radio-indicator" aria-hidden="true"></span>
+            <span class="wallet-method-icon" aria-hidden="true">₹</span>
+            <span class="payment-method-copy"><strong>E-Wallet</strong><small>Pay securely from your Railwise wallet</small></span>
+            <span class="recommended-badge">Recommended</span>
+          </div>
+          <div class="wallet-payment-summary">
+            <div class="wallet-available"><span><span class="wallet-small-icon" aria-hidden="true">₹</span><span><small>Available wallet balance</small><strong *ngIf="!isWalletLoading && !walletError">₹{{ walletBalance | number:'1.2-2' }}</strong><strong *ngIf="isWalletLoading">Loading balance…</strong><strong class="balance-error" *ngIf="walletError">{{ walletError }}</strong></span></span><a routerLink="/wallet">Wallet details</a></div>
+            <div class="fare-line"><span>Ticket fare</span><strong *ngIf="ticketFare !== null">₹{{ ticketFare | number:'1.2-2' }}</strong><strong *ngIf="ticketFare === null">—</strong></div>
+            <div class="fare-line total"><span>Total to pay</span><strong *ngIf="ticketFare !== null">₹{{ ticketFare | number:'1.2-2' }}</strong><strong *ngIf="ticketFare === null">—</strong></div>
+            <div class="fare-line balance-after" *ngIf="ticketFare !== null && !isWalletLoading && !walletError && walletBalance >= ticketFare"><span>Balance after payment</span><strong>₹{{ (walletBalance - ticketFare) | number:'1.2-2' }}</strong></div>
+            <div class="fare-line balance-after" *ngIf="ticketFare !== null && !isWalletLoading && !walletError && walletBalance < ticketFare"><span>Amount still needed</span><strong class="insufficient">₹{{ (ticketFare - walletBalance) | number:'1.2-2' }}</strong></div>
+          </div>
+          <p class="insufficient-note" *ngIf="!isWalletLoading && !walletError && ticketFare !== null && walletBalance < ticketFare">Your wallet balance is not enough. Top-ups are currently unavailable.</p>
+          <p class="booking-error" *ngIf="errorMessage" role="alert">{{ errorMessage }}</p>
+          <div class="secure-note"><span aria-hidden="true">✓</span> Your payment is protected and recorded in your wallet transaction history.</div>
+          <div class="step-actions"><button class="secondary-button" type="button" (click)="goBack()" [disabled]="isSubmitting">← Back</button><span>Step 3 of 3</span><button class="primary-button pay-button" type="button" (click)="payAndBook()" [disabled]="isSubmitting || isWalletLoading || !!walletError || ticketFare === null || walletBalance < ticketFare">{{ isSubmitting ? 'Processing payment…' : ticketFare === null ? 'Fare unavailable' : walletBalance < ticketFare ? 'Insufficient balance' : 'Pay ₹' + (ticketFare | number:'1.2-2') + ' & book' }}</button></div>
+        </section>
+
+        <section *ngSwitchCase="4" class="booking-complete" role="status">
+          <span class="success-check" aria-hidden="true">✓</span>
+          <p class="eyebrow">BOOKING CONFIRMED</p>
+          <h2>Your journey is booked!</h2>
+          <p>Payment was made using your e-wallet. Your ticket is ready.</p>
+          <div class="confirmation-ticket">
+            <span>PNR / TICKET NUMBER</span><strong>{{ booking?.ticketId }}</strong>
+            <div><span>{{ passenger.source }}</span><i aria-hidden="true">→</i><span>{{ passenger.dest }}</span></div>
+            <small>{{ passenger.doj | date:'EEE, dd MMM yyyy' }} · {{ passenger.name }}</small>
+          </div>
+          <button class="primary-button" type="button" (click)="finishBooking()">Done · View my bookings</button>
+        </section>
+      </ng-container>
+    </section>
+
+    <aside class="fare-summary">
+      <div class="fare-summary-heading"><span class="summary-icon" aria-hidden="true">▤</span><div><h2>Fare summary</h2><p>One passenger</p></div></div>
+      <div class="fare-summary-route"><span>{{ passenger.source }}</span><span aria-hidden="true">→</span><span>{{ passenger.dest }}</span></div>
+      <div class="fare-summary-date">{{ passenger.doj | date:'EEE, dd MMM yyyy' }} <span>·</span> Train {{ passenger.trainNo }}</div>
+      <div class="fare-summary-line"><span>Ticket fare</span><strong *ngIf="ticketFare !== null">₹{{ ticketFare | number:'1.2-2' }}</strong><strong *ngIf="ticketFare === null">{{ isFareLoading ? 'Loading…' : 'Unavailable' }}</strong></div>
+      <div class="fare-summary-total"><span>Total fare</span><strong *ngIf="ticketFare !== null">₹{{ ticketFare | number:'1.2-2' }}</strong><strong *ngIf="ticketFare === null">—</strong></div>
+      <p class="fare-loading-error" *ngIf="fareError">{{ fareError }}</p>
+      <p class="fare-footnote"><span aria-hidden="true">✓</span> No extra payment fees</p>
+    </aside>
   </div>
-</form>
+
+  <div class="success-overlay" *ngIf="step === 4" role="presentation">
+    <section class="success-dialog" role="dialog" aria-modal="true" aria-labelledby="booking-success-title">
+      <button class="success-close" type="button" aria-label="Close confirmation" (click)="finishBooking()">×</button>
+      <span class="success-check" aria-hidden="true">✓</span>
+      <p class="eyebrow">PAYMENT SUCCESSFUL</p>
+      <h2 id="booking-success-title">Booking confirmed</h2>
+      <p>Your e-wallet payment is complete. Your ticket has been created successfully.</p>
+      <div class="dialog-pnr"><small>YOUR PNR</small><strong>{{ booking?.ticketId }}</strong></div>
+      <button class="primary-button" type="button" (click)="finishBooking()">Done · View my bookings</button>
+    </section>
+  </div>
+</section>

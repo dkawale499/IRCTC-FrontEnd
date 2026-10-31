@@ -1,0 +1,103 @@
+<app-header variant="home"></app-header>
+<main class="wallet-page">
+  <header class="wallet-page-header">
+    <div class="wallet-title-group">
+      <a class="wallet-back" routerLink="/">Back</a>
+      <h1>E-Wallet dashboard</h1>
+    </div>
+    <a class="wallet-help" routerLink="/" fragment="home-footer">Need help?</a>
+  </header>
+
+  <p *ngIf="message" class="wallet-message" role="alert">{{ message }}</p>
+  <p *ngIf="isLoading" class="wallet-loading" role="status">Loading your wallet...</p>
+
+  <ng-container *ngIf="summary as wallet">
+    <section class="wallet-overview" aria-label="Wallet balance overview">
+      <div class="wallet-balance-card">
+        <span class="wallet-status">Active</span>
+        <span class="wallet-label">Current e-wallet balance <button type="button" class="balance-toggle" [attr.aria-label]="balanceVisible ? 'Hide balance' : 'Show balance'" (click)="toggleBalance()">{{ balanceVisible ? '◉' : '○' }}</button></span>
+        <strong class="wallet-balance">{{ balanceVisible ? ('Rs. ' + (wallet.balance | number:'1.2-2')) : 'Rs. ••••••' }}</strong>
+      </div>
+
+      <article class="wallet-stat added-stat">
+        <span class="wallet-stat-icon" aria-hidden="true">♧</span>
+        <span>Total signup credits</span>
+        <strong>₹{{ wallet.signupCreditTotal | number:'1.2-2' }}</strong>
+      </article>
+      <article class="wallet-stat transaction-stat">
+        <span class="wallet-stat-icon" aria-hidden="true">▤</span>
+        <span>Total transactions</span>
+        <strong>{{ wallet.totalTransactions }}</strong>
+      </article>
+      <div class="wallet-add-money">
+        <span class="wallet-art" aria-hidden="true">₹</span>
+        <button type="button" disabled title="Wallet top-ups are not available yet">＋ Add money</button>
+        <span>Top-ups are coming soon.</span>
+      </div>
+    </section>
+
+    <section class="wallet-content-grid">
+      <section class="wallet-transactions-panel">
+        <div class="wallet-tabs" role="tablist" aria-label="Wallet activity">
+          <button type="button" role="tab" [attr.aria-selected]="activeTab === 'transactions'" [class.active]="activeTab === 'transactions'" (click)="activeTab = 'transactions'">Transactions</button>
+          <button type="button" role="tab" [attr.aria-selected]="activeTab === 'bookings'" [class.active]="activeTab === 'bookings'" (click)="activeTab = 'bookings'">Booking History</button>
+        </div>
+
+        <ng-container *ngIf="activeTab === 'transactions'; else bookingHistory">
+          <div class="transactions-heading">
+            <h2>E-Wallet transactions</h2>
+            <label class="transaction-search">
+              <span aria-hidden="true">⌕</span>
+              <input [(ngModel)]="searchTerm" aria-label="Search transactions" placeholder="Search by transaction ID or description...">
+            </label>
+          </div>
+
+          <div class="transaction-toolbar">
+            <div class="transaction-filters" aria-label="Filter wallet transactions">
+              <button type="button" *ngFor="let filter of filters" [class.active]="selectedFilter === filter" (click)="setFilter(filter)">{{ filter }}</button>
+            </div>
+            <span class="wallet-bonus-note">₹100 welcome bonus credited at registration</span>
+          </div>
+
+          <div class="transactions-table-wrap">
+            <table class="transactions-table">
+              <thead><tr><th>S.No</th><th>Transaction ID</th><th>Description</th><th>Date &amp; Time</th><th>Amount</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr *ngFor="let transaction of filteredTransactions; let index = index">
+                  <td>{{ index + 1 }}</td>
+                  <td>#{{ transaction.id }}</td>
+                  <td>{{ transaction.description }}</td>
+                  <td>{{ transaction.createdAt | date:'dd MMM yyyy, h:mm a' }}</td>
+                  <td [class.credit-amount]="transaction.type !== 'DEBIT'" [class.debit-amount]="transaction.type === 'DEBIT'">
+                    {{ transaction.type === 'DEBIT' ? '−' : '+' }}₹{{ transaction.amount | number:'1.2-2' }}
+                  </td>
+                  <td><span class="transaction-status">{{ transaction.status }}</span></td>
+                </tr>
+                <tr *ngIf="!filteredTransactions.length"><td class="transactions-empty" colspan="6">No transactions available</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="wallet-pagination"><span>{{ filteredTransactions.length }} transaction{{ filteredTransactions.length === 1 ? '' : 's' }}</span><span>Wallet activity</span></div>
+        </ng-container>
+
+        <ng-template #bookingHistory>
+          <div class="booking-history-panel">
+            <h2>Booking history</h2>
+            <p>Review your booked tickets and PNR details.</p>
+            <a routerLink="/available-tickets">View my bookings <span aria-hidden="true">→</span></a>
+          </div>
+        </ng-template>
+      </section>
+
+      <aside class="wallet-account-details">
+        <h2>Account details</h2>
+        <div><span>Passenger name</span><strong>{{ wallet.passengerName }}</strong></div>
+        <div><span>Email address</span><strong>{{ wallet.email }}</strong></div>
+        <div><span>Phone number</span><strong>{{ wallet.phone }}</strong></div>
+        <div><span>E-wallet registration date</span><strong>{{ wallet.registeredAt ? (wallet.registeredAt | date:'dd MMM yyyy') : '—' }}</strong></div>
+        <div><span>Closing balance</span><strong>₹{{ wallet.balance | number:'1.2-2' }}</strong></div>
+      </aside>
+    </section>
+
+  </ng-container>
+</main>

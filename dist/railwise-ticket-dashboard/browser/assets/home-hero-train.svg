@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 850" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="120" y1="80" x2="1500" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2F7FF"/>
+      <stop offset=".48" stop-color="#FFF"/>
+      <stop offset="1" stop-color="#FFF1E7"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="1250" y1="160" x2="1250" y2="690" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF" stop-opacity="0"/>
+      <stop offset="1" stop-color="#F5A56C" stop-opacity=".32"/>
+    </linearGradient>
+    <linearGradient id="trainBody" x1="560" y1="340" x2="1500" y2="490" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#26343C"/>
+      <stop offset=".62" stop-color="#121D25"/>
+      <stop offset="1" stop-color="#303A3F"/>
+    </linearGradient>
+    <linearGradient id="trainRoof" x1="780" y1="275" x2="1450" y2="376" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F47B22"/>
+      <stop offset=".75" stop-color="#F26516"/>
+      <stop offset="1" stop-color="#D8490D"/>
+    </linearGradient>
+    <linearGradient id="windshield" x1="1385" y1="292" x2="1512" y2="390" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#172B39"/>
+      <stop offset="1" stop-color="#48606B"/>
+    </linearGradient>
+    <linearGradient id="rail" x1="820" y1="590" x2="820" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D49A6C"/>
+      <stop offset="1" stop-color="#F1C49A"/>
+    </linearGradient>
+    <filter id="shadow" x="398" y="488" width="1198" height="154" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1600v850H0z"/>
+  <path fill="url(#glow)" d="M650 0h950v850H650z"/>
+  <g opacity=".23" stroke="#D8E5F4">
+    <path d="M0 140h1600M0 176h1600M0 212h1600"/>
+    <path d="M1090 0v500m100-500v500m100-500v500m100-500v500"/>
+  </g>
+  <path fill="#FFF" fill-opacity=".72" d="M0 482c250-44 487-40 733-3 238 36 505 25 867-20v189H0V482Z"/>
+  <path fill="#E8EEF4" d="M0 639c392-33 858-29 1600 2v69H0v-71Z"/>
+  <ellipse cx="1010" cy="570" fill="#21313A" fill-opacity=".32" filter="url(#shadow)" rx="575" ry="36"/>
+  <g opacity=".7" stroke="url(#rail)" stroke-linecap="round">
+    <path stroke-width="14" d="M482 693 1600 649"/>
+    <path stroke-width="10" d="M472 738 1600 697"/>
+  </g>
+  <g opacity=".58" stroke="#BB8C68" stroke-width="5">
+    <path d="m568 685-17 55m108-59-14 55m110-59-12 55m112-59-9 54m113-59-6 55m113-59-4 55m113-59-1 54m113-58 2 54m112-58 5 54m112-58 7 54"/>
+  </g>
+  <g>
+    <path fill="url(#trainBody)" d="M470 499c180-25 349-75 513-132 172-60 343-111 447-104 77 5 125 48 151 107 15 34 19 75 13 106-7 34-31 58-75 70-147 39-706 49-1042 40-43-1-76-18-88-43-11-22-3-39 81-44Z"/>
+    <path fill="url(#trainRoof)" d="M504 476c178-27 328-72 486-126 168-57 333-106 432-99 54 4 91 27 119 61-106-21-255-13-422 39-190 59-341 130-556 157-69 9-124 8-159-1 21-14 54-24 100-31Z"/>
+    <path fill="#F36F1B" d="M484 493c224-20 394-74 564-136 189-70 372-117 506-96l19 27c-132-13-304 26-489 91-215 76-401 137-600 141-42 1-71-7-81-18 17-4 44-7 81-9Z"/>
+    <path fill="url(#windshield)" d="M1361 293c29-6 52-7 73-3 40 9 66 44 79 82l-137-3c-19 0-30-10-28-27 2-19 7-36 13-49Z"/>
+    <path fill="#101B23" d="M1489 386h35c8 28 8 53 2 73-7 23-22 39-49 49-23 8-54 12-91 14 54-27 88-65 103-136Z"/>
+    <path fill="#FFB261" d="M1497 425h23c-3 12-9 22-18 29h-18c6-9 10-19 13-29Z"/>
+    <path fill="#D9E5E8" fill-opacity=".75" d="m1379 311 9-2-9 67-10-1 10-64Zm-26 10 8-2-7 57h-9l8-55Z"/>
+    <path fill="#F7A14C" d="M1278 350h10l-8 91h-10l8-91Zm-166 52h12l-8 94h-12l8-94Zm-170 56h11l-4 81h-11l4-81Z"/>
+    <path fill="#101B23" d="M1308 360h44v83h-44z"/>
+    <path fill="#B5C5C9" fill-opacity=".7" d="M1320 370h4v63h-4zm13 0h3v63h-3zm12 0h3v63h-3z"/>
+    <path fill="#26353C" d="M701 433c13-4 27-9 40-14l-6 78-39 8 5-72Zm93-34 40-16-5 91-42 13 7-88Zm102-39 43-17-2 98-47 15 6-96Zm106-40 45-16-1 106-49 16 5-106Zm109-33 48-12 1 116-53 12 4-116Z"/>
+    <path fill="#9EAFB2" fill-opacity=".65" d="m714 440 20-7-4 43-19 5 3-41Zm94-34 22-8-3 50-23 7 4-49Zm103-39 23-9-1 56-25 8 3-55Zm108-39 24-8v62l-27 9 3-63Zm110-33 25-7 1 68-28 7 2-68Z"/>
+    <path fill="#E7ECEA" d="M1194 440c28-10 55-17 81-19l-1 7c-24 3-50 10-78 20l-2-8Z"/>
+    <path fill="#F6A45C" d="M1200 451c24-9 49-15 72-17l-1 4c-23 4-47 10-70 18l-1-5Z"/>
+    <path fill="#D9E3E4" d="M1443 482c9-3 18-4 26-4l-1 5c-8 1-16 2-24 5l-1-6Z"/>
+    <path fill="#D9E3E4" d="M1398 490c9-3 18-5 26-6v5c-8 2-16 3-25 7l-1-6Z"/>
+    <path fill="#121D24" d="M590 535c12-37 34-56 67-58 34-2 56 18 63 58h-20c-5-26-18-38-42-37-22 1-37 13-46 37h-22Zm471-2c12-37 35-56 68-57 34-2 56 18 63 57h-20c-5-26-18-37-42-36-23 1-38 13-47 36h-22Zm446-4c12-35 33-52 64-53 31-2 52 16 59 51h-19c-5-23-17-34-39-33-21 1-35 12-44 35h-21Z"/>
+    <path fill="#59666B" d="M608 532c8-24 23-37 46-38 23-1 37 12 42 38h-88Zm471 0c8-24 23-36 46-37 23-1 37 12 42 37h-88Zm444 0c8-22 22-33 43-34 21-1 34 11 39 34h-82Z"/>
+    <path fill="#FFF" fill-opacity=".8" d="M600 510h48l-4 7h-47l3-7Zm470-1h50l-4 7h-48l2-7Z"/>
+  </g>
+  <path fill="#FFF" fill-opacity=".22" d="M0 0h1600v850H0z"/>
+</svg>
