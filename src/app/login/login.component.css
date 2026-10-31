@@ -3,3 +3,15 @@
 .brand { display: inline-flex; gap: 8px; align-items: baseline; color: #173c59; font-size: 24px; font-weight: 700; text-decoration: none; margin-bottom: 46px; }.brand small { color: #8496a1; font-size: 9px; letter-spacing: 1.4px; text-transform: uppercase; }
 .eyebrow { color: #d27c5f; font-size: 10px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; }.auth-card h1 { margin: 8px 0; color: #17364d; font-size: 34px; }.intro { color: #71848f; font-size: 13px; line-height: 1.6; margin-bottom: 28px; }
 form { display: grid; gap: 16px; }label { display: grid; gap: 6px; color: #526674; font-size: 12px; }input { padding: 12px; border: 1px solid #cad6dd; border-radius: 4px; font: inherit; }input:focus { outline: 2px solid #b9dce5; border-color: #5198a9; }.primary-button { border: 0; padding: 13px; border-radius: 4px; background: #d27c5f; color: #fff; font-weight: 700; cursor: pointer; }.primary-button:disabled { opacity: .6; cursor: wait; }.message { font-size: 12px; }.error { color: #bc5d4d; }.auth-links { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; font-size: 12px; }.auth-links a { color: #2563a2; }
+.auth-page { display: block; padding: 0; background: #e8f5ff url('/assets/home-hero-train.svg') center 48% / cover fixed no-repeat; }
+.auth-page > .auth-content { display: grid; min-height: calc(100vh - 78px); place-items: center; padding: 32px 16px; }
+.auth-page .auth-card { border: 1px solid #ffffffd9; border-top: 5px solid #145bc4; border-radius: 18px; background: #ffffffed; box-shadow: 0 24px 70px #17455320; }
+.auth-page .auth-card h1 { color: #11264d; }
+.auth-page .eyebrow { color: #e87516; }
+.auth-page .intro { color: #61758b; }
+.auth-page label { color: #263f5b; font-weight: 700; }
+.auth-page input { border: 1px solid #abcfee; border-radius: 9px; background: #fff; color: #172a4a; }
+.auth-page input:focus { outline: 3px solid #286bd01a; border-color: #286bd0; }
+.auth-page .primary-button { border-radius: 9px; background: linear-gradient(110deg, #145bc4, #3187dd); font-weight: 800; }
+.auth-page .auth-links a { color: #145bc4; }
+@media (max-width: 520px) { .auth-page .auth-card { padding: 30px 24px; } }

@@ -3,18 +3,18 @@
 
 * { box-sizing: border-box; }
 html, body { margin: 0; min-height: 100%; font-family: 'DM Sans', sans-serif; }
-body { background: #f4f8f6; color: #193d46; }
+body { background: #e8f5ff; color: #172a4a; }
 button, input, select { font-family: inherit; }
 
 :root {
-  --rail-ink: #193d46;
-  --rail-deep: #123642;
-  --rail-teal: #197d79;
-  --rail-mint: #dceee6;
-  --rail-coral: #df815b;
-  --rail-gold: #efbb72;
-  --rail-muted: #71878a;
-  --rail-border: #d9e6e1;
+  --rail-ink: #172a4a;
+  --rail-deep: #173c70;
+  --rail-teal: #145bc4;
+  --rail-mint: #e5f2ff;
+  --rail-coral: #e87516;
+  --rail-gold: #efb36a;
+  --rail-muted: #6b7f96;
+  --rail-border: #c3d9ee;
 }
 
 button, a, input, select { transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease; }
@@ -25,9 +25,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .hero-copy { text-shadow: 0 2px 18px #102a4366; }
 .home-page .search-card { border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 .search-card input, .user-login-card input, .admin-login-card input, .auth-card input, .schedule-form input { border-radius: 9px; }
-.search-card input:focus, .user-login-card input:focus, .admin-login-card input:focus, .auth-card input:focus, .schedule-form input:focus { outline: 3px solid #197d7933; border-color: var(--rail-teal); }
-.home-page .search-card button, .user-login-page .user-login-card button, .auth-page .primary-button, .tickets-page .primary-button { border-radius: 9px; background-image: linear-gradient(110deg, var(--rail-teal), #249b8c); box-shadow: 0 8px 18px #197d7930; }
-.home-page .search-card button:hover, .user-login-page .user-login-card button:not(:disabled):hover, .admin-login-page .admin-login-card button:not(:disabled):hover, .auth-page .primary-button:hover, .tickets-page .primary-button:hover { transform: translateY(-2px); box-shadow: 0 12px 24px #197d7944; }
+.search-card input:focus, .user-login-card input:focus, .admin-login-card input:focus, .auth-card input:focus, .schedule-form input:focus { outline: 3px solid #145bc433; border-color: #145bc4; }
+.home-page .search-card button, .user-login-page .user-login-card button, .auth-page .primary-button, .tickets-page .primary-button { border-radius: 9px; background-image: linear-gradient(110deg, #145bc4, #3187dd); box-shadow: 0 8px 18px #145bc433; }
+.home-page .search-card button:hover, .user-login-page .user-login-card button:not(:disabled):hover, .admin-login-page .admin-login-card button:not(:disabled):hover, .auth-page .primary-button:hover, .tickets-page .primary-button:hover { transform: translateY(-2px); box-shadow: 0 12px 24px #145bc444; }
 .results article { border: 1px solid var(--rail-border); border-radius: 12px; box-shadow: 0 8px 24px #1745530c; }
 
 header.site-header { position: relative; z-index: 2; background: #fbfdfb; border-bottom-color: var(--rail-border); box-shadow: 0 4px 18px #1236420b; }
@@ -38,7 +38,7 @@ header.site-header { position: relative; z-index: 2; background: #fbfdfb; border
 .dashboard-header .brand small { font-size: 8px; }
 .dashboard-header nav { gap: 20px; }
 .dashboard-header nav a { color: #657b7f; font-size: 11px; }
-.dashboard-header nav a.dashboard-current { color: #197d79; font-weight: 700; }
+.dashboard-header nav a.dashboard-current { color: #145bc4; font-weight: 700; }
 .dashboard-header .session-info { gap: 9px; }
 .dashboard-header .session-info time { font-size: 10px; }
 .dashboard-header .role-badge { padding: 6px 9px; border-radius: 5px; background: #e7f3ed; color: #43856b; }
@@ -47,15 +47,26 @@ header.site-header { position: relative; z-index: 2; background: #fbfdfb; border
 @media (max-width: 1100px) { .site-header.dashboard-header { gap: 10px; padding: 0 2%; }.dashboard-header nav { gap: 12px; }.dashboard-header .identity { max-width: 145px; } }
 @media (max-width: 700px) { .site-header.dashboard-header { align-items: flex-start; gap: 12px; padding: 14px 5%; }.dashboard-header nav { order: 3; width: 100%; gap: 16px; }.dashboard-header .session-info { width: 100%; justify-content: flex-start; margin-left: 0; }.dashboard-header .session-info time { display: none; } }
 
-main.admin-page .admin-overview { padding: 4px 0 30px; }
-main.admin-page .admin-operation-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 0 7%; }
-main.admin-page .admin-operation-cards a { display: grid; grid-template-columns: 42px minmax(0, 1fr) 16px; align-items: center; gap: 12px; min-height: 100px; padding: 17px; border: 1px solid #c3d9ee; border-radius: 14px; background: linear-gradient(115deg, #fff, #eff7ff); box-shadow: 0 8px 24px #1745530c; color: #173c59; text-decoration: none; }
-main.admin-page .admin-operation-cards a:hover { transform: translateY(-2px); border-color: #8db9ed; box-shadow: 0 12px 26px #1745531c; }
-main.admin-page .admin-operation-icon { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid #b8d2f3; border-radius: 12px; background: #e5f2ff; color: #145bc4; font-size: 18px; }
-main.admin-page .admin-operation-cards a > span:nth-child(2) { display: grid; gap: 6px; }
-main.admin-page .admin-operation-cards strong { font-size: 12px; }
-main.admin-page .admin-operation-cards small { color: #71869b; font-size: 10px; line-height: 1.5; }
-main.admin-page .admin-operation-arrow { color: #145bc4; font-size: 17px; }
+main.admin-page .admin-intro .admin-badge { display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; }
+main.admin-page .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #20a274; box-shadow: 0 0 0 4px #20a2741a; }
+main.admin-page .admin-overview { padding: 0 7% 44px; }
+main.admin-page .admin-overview .admin-stats { max-width: 1200px; margin: 0 auto; padding: 24px 0 26px; }
+main.admin-page .admin-overview .admin-stats article { min-height: 88px; align-content: center; padding: 15px 19px; border-color: #dce8f6; border-radius: 14px; background: #fff; box-shadow: 0 8px 22px #173d680d; }
+main.admin-page .admin-overview .admin-stats strong { font-size: 27px; }
+main.admin-page .admin-overview .admin-stats span { font-size: 12px; }
+main.admin-page .admin-operations { max-width: 1200px; margin: 0 auto; padding: 23px; border: 1px solid #dce8f6; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px #1745530c; }
+main.admin-page .admin-operations-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+main.admin-page .admin-operations-heading h2 { margin: 5px 0 0; color: #11264d; font-size: 20px; }
+main.admin-page .admin-operations-heading p { margin: 6px 0 0; color: #61758b; font-size: 12px; }
+main.admin-page .admin-operation-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 11px; }
+main.admin-page .admin-operation-cards a { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; align-items: center; gap: 13px; min-height: 66px; padding: 10px 14px; border: 1px solid #dce8f6; border-radius: 12px; background: #fff; color: inherit; text-decoration: none; }
+main.admin-page .admin-operation-cards a:hover { transform: translateY(-1px); border-color: #a9c8ee; box-shadow: 0 7px 18px #173d6812; }
+main.admin-page .admin-operation-cards a:focus-visible { outline: 3px solid #286bd044; outline-offset: 2px; }
+main.admin-page .admin-operation-icon { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 10px; background: #e8f2ff; color: #1768c1; font-size: 11px; font-weight: 800; }
+main.admin-page .admin-operation-copy { display: grid; gap: 4px; min-width: 0; }
+main.admin-page .admin-operation-cards strong { color: #173052; font-size: 13px; }
+main.admin-page .admin-operation-cards small { color: #7185a0; font-size: 11px; }
+main.admin-page .admin-operation-arrow { display: inline-flex; align-items: center; gap: 8px; color: #1768c1; font-size: 11px; font-weight: 700; }
 main.admin-page .ticket-operations { margin: 22px 7% 40px; padding: 22px; border: 1px solid #c3d9ee; border-radius: 14px; background: #fff; box-shadow: 0 8px 24px #1745530c; }
 main.admin-page .ticket-operations-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 main.admin-page .ticket-operations h2 { margin: 5px 0 0; color: #11264d; font-size: 20px; }
@@ -71,40 +82,45 @@ main.admin-page .admin-ticket-table td:first-child small { color: #71869b; font-
 main.admin-page .ticket-status { padding: 5px 8px; border-radius: 12px; background: #e7f5ed; color: #24744d; font-size: 10px; font-weight: 700; }
 main.admin-page .ticket-status.cancelled { background: #fff0ea; color: #ad4b37; }
 main.admin-page .admin-ticket-table .admin-ticket-empty { padding: 24px; color: #71869b; text-align: center; }
-@media (max-width: 1000px) { main.admin-page .admin-operation-cards { grid-template-columns: 1fr; } }
 @media (max-width: 760px) {
-  main.admin-page .admin-operation-cards { padding-right: 5%; padding-left: 5%; }
+  main.admin-page .admin-overview { padding: 0 5% 32px; }
+  main.admin-page .admin-overview .admin-stats { padding: 18px 0 20px; }
   main.admin-page .ticket-operations { margin: 18px 5% 32px; padding: 16px; }
 }
 @media (max-width: 520px) {
+  main.admin-page .admin-intro { align-items: flex-start; flex-direction: column; }
+  main.admin-page .admin-intro .admin-badge { align-self: flex-start; }
+  main.admin-page .admin-operations { padding: 16px; }
+  main.admin-page .admin-operation-cards a { grid-template-columns: 36px minmax(0, 1fr); }
+  main.admin-page .admin-operation-arrow { grid-column: 2; }
   main.admin-page .ticket-operations-heading { align-items: flex-start; }
   main.admin-page .ticket-stats { grid-template-columns: 1fr; }
 }
 
 main.auth-page, main.user-login-page, main.admin-login-page, main.booking-page {
-  background-image: url('/assets/route-pattern.svg'), linear-gradient(135deg, #e7f2ed 0%, #f8f6ef 55%, #e6f1ed 100%);
+  background-image: url('/assets/route-pattern.svg'), linear-gradient(135deg, #e8f5ff 0%, #f8fbff 55%, #d7edff 100%);
   background-repeat: repeat, no-repeat;
   background-size: 320px 320px, cover;
   background-attachment: fixed;
 }
-.auth-page .auth-card, .user-login-page .user-login-card { border: 1px solid #ffffffd9; border-top: 5px solid var(--rail-teal); border-radius: 18px; box-shadow: 0 24px 70px #17455320; }
+.auth-page .auth-card, .user-login-page .user-login-card { border: 1px solid #ffffffd9; border-top: 5px solid #145bc4; border-radius: 18px; background: #ffffffed; box-shadow: 0 24px 70px #17455320; }
 .auth-card h1, .user-login-card h1 { color: var(--rail-deep); }
-.auth-page .brand, .user-login-page .brand { color: var(--rail-teal); }
-.user-login-page .user-login-card button { background: linear-gradient(110deg, var(--rail-teal), #249b8c); }
-.role-label, .eyebrow { color: var(--rail-coral); }
+.auth-page .brand, .user-login-page .brand { color: #145bc4; }
+.user-login-page .user-login-card button { background: linear-gradient(110deg, #145bc4, #3187dd); }
+.role-label, .eyebrow { color: #e87516; }
 .admin-login-page .admin-login-card { border: 1px solid #ffffff2b; border-top: 5px solid var(--rail-gold); border-radius: 18px; box-shadow: 0 28px 80px #102a4370; }
 .admin-login-page .admin-login-card button { background: linear-gradient(110deg, var(--rail-gold), #f4a96a); }
 
-.booking-page { background-color: #eaf3ef; }
+.booking-page { background-color: #e8f5ff; }
 .booking-content { align-items: start; }
 .booking-content > div:first-child { position: sticky; top: 40px; padding: 28px; border: 1px solid #ffffffbb; border-radius: 18px; background: #fbfdfbe8; box-shadow: 0 16px 44px #12364214; }
 .booking-content h1 { color: var(--rail-deep); }
 .booking-card { overflow: hidden; border: 1px solid var(--rail-border); border-radius: 16px; box-shadow: 0 18px 48px #12364220 !important; }
 .booking-tab, .booking-tab.active { background: var(--rail-teal); }
 .booking-card h2 { color: var(--rail-deep); }
-.search-button { background: linear-gradient(110deg, var(--rail-coral), #edaa67); }
+.search-button { background: linear-gradient(110deg, #145bc4, #3187dd); }
 
-.tickets-page { background-color: #f2f7f4; }
+.tickets-page { background-color: #e8f5ff; }
 .page-intro h1 { color: var(--rail-deep); }
 .tickets-page .metrics article, .tickets-page .ticket-panel { border-color: var(--rail-border); border-radius: 14px; box-shadow: 0 10px 28px #1236420d; }
 .metrics article strong { color: var(--rail-teal); }
@@ -112,12 +128,12 @@ main.auth-page, main.user-login-page, main.admin-login-page, main.booking-page {
 th { color: #6e8989; background: #f4f8f5; }
 .cancel-button { border-radius: 8px; }
 
-.admin-page { background-color: #153943; background-image: linear-gradient(120deg, #123642ee, #1b5c5ce8), url('/assets/railway-journey.svg'); background-position: center, center; background-size: cover; background-attachment: fixed; }
-.admin-page .admin-header { background: #0e303bd9; border-bottom-color: #ffffff24; }
-.admin-page .admin-intro { background: linear-gradient(110deg, #197d79d9, #244e58d9); }
-.admin-page .admin-stats article, .admin-page .schedule-form, .admin-page .schedule-list { border-color: #ffffff25; border-radius: 16px; background: #13343fe8; box-shadow: 0 12px 32px #071e2a30; }
-.admin-stats article strong, .coach-row > strong { color: var(--rail-gold); }
-.admin-page .schedule-form button:not(.secondary-button) { border-radius: 9px; background: linear-gradient(110deg, var(--rail-coral), #efb36a); }
+.admin-page { background-color: #e8f5ff; background-image: linear-gradient(145deg, #f8fbff, #e8f5ff); background-attachment: fixed; }
+.admin-page .admin-header { background: #0d70b3; border-bottom-color: #ffffff55; }
+.admin-page .admin-intro { background: linear-gradient(110deg, #f3f8ff, #d6eaff); }
+.admin-page .admin-stats article, .admin-page .schedule-form, .admin-page .schedule-list { border-color: #c3d9ee; border-radius: 14px; background: #fff; box-shadow: 0 8px 24px #1745530c; }
+.admin-stats article strong, .coach-row > strong { color: #145bc4; }
+.admin-page .schedule-form button:not(.secondary-button) { border-radius: 9px; background: linear-gradient(110deg, #145bc4, #3187dd); }
 .schedule-form button:hover, .schedule-summary button:hover { transform: translateY(-1px); }
 .schedule-summary button { border-radius: 8px; }
 
@@ -299,11 +315,9 @@ header.site-header.admin-home-header { padding-right: 2%; padding-left: 2%; }
 }
 
 main.admin-page {
-  color: #173a59;
-  background-color: #dcedfb;
-  background-image: linear-gradient(135deg, #d8efffeF, #f1f8ffeF), url('/assets/railway-journey.svg');
-  background-position: center, center 35%;
-  background-size: cover;
+  color: #142a50;
+  background-color: #e8f5ff;
+  background-image: linear-gradient(145deg, #f8fbff, #e8f5ff);
   background-attachment: fixed;
 }
 main.admin-page .admin-header {
@@ -317,12 +331,12 @@ main.admin-page .brand small { color: #c4e7ff; }
 main.admin-page .admin-header nav a:hover,
 main.admin-page .admin-header nav button:hover { color: #ffe2a8; }
 main.admin-page .admin-intro {
-  background: linear-gradient(110deg, #1679b9f2, #19a0b0eF);
-  box-shadow: inset 0 1px #ffffff3d;
+  background: linear-gradient(110deg, #f3f8ff, #d6eaff);
+  box-shadow: inset 0 -1px #c5dcf4;
 }
-main.admin-page .admin-intro h1 { color: #fff; }
-main.admin-page .admin-intro p { color: #e4f5ff; }
-main.admin-page .admin-intro .eyebrow { color: #ffe1a3; }
+main.admin-page .admin-intro h1 { color: #11264d; }
+main.admin-page .admin-intro p { color: #61758b; }
+main.admin-page .admin-intro .eyebrow { color: #e87516; }
 main.admin-page .admin-badge {
   border-color: #ffffffa6;
   border-radius: 999px;
@@ -333,61 +347,61 @@ main.admin-page .admin-stats article,
 main.admin-page .schedule-form,
 main.admin-page .schedule-list,
 main.admin-page .user-management {
-  border: 1px solid #ffffffd9;
-  border-radius: 18px;
-  background: #ffffffed;
-  box-shadow: 0 14px 36px #174e7620;
-  color: #173a59;
+  border: 1px solid #c3d9ee;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 24px #1745530c;
+  color: #173c59;
 }
-main.admin-page .admin-stats article strong { color: #087caa; }
-main.admin-page .admin-stats article span { color: #607d91; }
-main.admin-page .message { color: #075f98; }
+main.admin-page .admin-stats article strong { color: #145bc4; }
+main.admin-page .admin-stats article span { color: #61758b; }
+main.admin-page .message { color: #315b91; }
 main.admin-page .user-management { margin-bottom: 30px; }
 main.admin-page .user-management-heading h2,
 main.admin-page .schedule-form h2,
-main.admin-page .schedule-list h2 { color: #173a59; }
+main.admin-page .schedule-list h2 { color: #11264d; }
 main.admin-page .user-management-heading p,
 main.admin-page .schedule-form p { color: #60798b; }
-main.admin-page .user-management-heading .eyebrow { color: #0781a7; }
+main.admin-page .user-management-heading .eyebrow { color: #e87516; }
 main.admin-page .user-count {
-  border-color: #aad8ee;
-  background: #e8f7ff;
-  color: #0875a5;
+  border-color: #b8d2f3;
+  background: #e5f2ff;
+  color: #315b91;
 }
 main.admin-page .user-create-form,
 main.admin-page .registered-users {
-  border-color: #d6e8f3;
-  background: linear-gradient(145deg, #f7fcff, #edf7ff);
+  border-color: #d5e5f4;
+  background: linear-gradient(145deg, #f8fbff, #eff7ff);
 }
 main.admin-page .user-create-form h3,
-main.admin-page .registered-users h3 { color: #173a59; }
+main.admin-page .registered-users h3 { color: #173c59; }
 main.admin-page .user-create-form label { color: #47677f; }
 main.admin-page .user-create-form input {
-  border-color: #c4dce9;
+  border-color: #abcfee;
   background: #fff;
-  color: #173a59;
+  color: #172a4a;
 }
 main.admin-page .user-create-form input:focus {
-  border-color: #1687bb;
-  outline-color: #1687bb30;
+  border-color: #286bd0;
+  outline-color: #286bd030;
 }
 main.admin-page .password-hint,
 main.admin-page .users-empty { color: #678195; }
 main.admin-page .user-create-form button,
 main.admin-page .schedule-form button:not(.secondary-button) {
-  background: linear-gradient(110deg, #0879b8, #15a0ad);
+  background: linear-gradient(110deg, #145bc4, #3187dd);
   color: #fff;
-  box-shadow: 0 7px 16px #0879b82b;
+  box-shadow: 0 7px 16px #145bc433;
 }
 main.admin-page .registered-user {
   border-color: #d7e8f2;
   background: #fff;
 }
 main.admin-page .user-avatar {
-  background: linear-gradient(135deg, #087bb7, #14a2ae);
+  background: linear-gradient(135deg, #145bc4, #3187dd);
   color: #fff;
 }
-main.admin-page .registered-user-details strong { color: #173a59; }
+main.admin-page .registered-user-details strong { color: #173c59; }
 main.admin-page .registered-user-details span,
 main.admin-page .registered-user-details small { color: #617b8d; }
 main.admin-page .remove-user-button {
@@ -397,21 +411,21 @@ main.admin-page .remove-user-button {
 }
 main.admin-page .schedule-form label { color: #47677f; }
 main.admin-page .schedule-form input {
-  border-color: #c4dce9;
+  border-color: #abcfee;
   background: #fafdff;
   color: #173a59;
 }
 main.admin-page .coach-fields { border-color: #d3e4ee; }
-main.admin-page .coach-fields legend { color: #087da5; }
+main.admin-page .coach-fields legend { color: #315b91; }
 main.admin-page .coach-row > strong,
-main.admin-page .seat-preview strong { color: #087caa; }
+main.admin-page .seat-preview strong { color: #145bc4; }
 main.admin-page .seat-preview { color: #47677f; }
 main.admin-page .schedule-list small { color: #678195; }
 main.admin-page .schedule-list article { border-bottom-color: #e1edf4; }
 main.admin-page .schedule-summary button {
-  border-color: #abd4e7;
-  background: #eff9ff;
-  color: #0876a5;
+  border-color: #abcfee;
+  background: #eff7ff;
+  color: #315b91;
 }
 main.admin-page .coach-summary span {
   border-color: #d4e7f1;
@@ -496,4 +510,159 @@ main.admin-page .coach-summary span {
   .home-page .swap-stations { top: calc(33.33% + 5px); left: auto; right: 12px; transform: translateY(-50%) rotate(90deg); }
   .home-page .passenger-shortcuts a { font-size: 9px; }
   .home-page .journey-overview { padding: 12px; }
+}
+
+@media (min-width: 901px) and (max-width: 1199px) {
+  .site-header.home-header { flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; padding: 10px 4%; }
+  .home-branding { margin-right: auto; }
+  .home-header nav { order: 3; flex: 1 0 100%; width: 100%; flex-wrap: wrap; justify-content: center; gap: 6px 14px; padding: 6px 12px; }
+  .home-header nav > .home-link, .home-header .trains-menu-trigger { min-height: 34px; font-size: 11px; }
+  .home-header .session-info { order: 2; margin-left: auto; gap: 8px; }
+  .home-header .session-info .home-timestamp { font-size: 10px; }
+}
+
+main.home-page .hero { display: grid; min-height: clamp(560px, calc(100vh - 78px), 720px); gap: 18px; padding: 36px 7% 30px; background: linear-gradient(145deg, #f8fbff, #eaf3ff); }
+main.home-page .hero::before { position: absolute; z-index: 0; inset: 0; display: block; background: linear-gradient(180deg, #f8fbff14, #f8fbff55), url('/assets/home-hero-train.png') center 52% / cover no-repeat; content: ''; pointer-events: none; transform: scaleX(-1); }
+main.home-page .hero-copy { justify-self: start; width: fit-content; max-width: min(100%, 700px); padding: 26px 30px; border-radius: 16px; background: #ffffffe0; text-shadow: none; }
+main.home-page .hero-copy .eyebrow { margin-bottom: 7px; }
+main.home-page .hero h1 { color: #11264d; font-size: clamp(29px, 4vw, 42px); letter-spacing: -.8px; }
+main.home-page .hero h1 span { color: #145bc4; }
+main.home-page .booking-panel { grid-template-columns: minmax(0, 1fr); gap: 15px; margin: 0; padding: 22px; border: 1px solid #dce8f6; border-radius: 16px; background: #ffffffed; box-shadow: 0 8px 24px #173d680d; backdrop-filter: blur(8px); }
+main.home-page .search-card { grid-template-columns: minmax(0, 1fr) auto; gap: 13px; }
+main.home-page .search-title { grid-column: 1 / -1; }
+main.home-page .search-title > div > span { color: #173052; font-size: 19px; }
+main.home-page .search-fields { grid-column: 1; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+main.home-page .search-fields label { background: #fbfdff; }
+main.home-page .search-actions { grid-column: 2; grid-row: 2; align-items: stretch; }
+main.home-page .search-actions button { width: 150px; min-height: 100%; border-radius: 10px; }
+main.home-page .search-footnote { grid-column: 1 / -1; }
+main.home-page .booking-shortcuts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0; border: 0; }
+main.home-page .booking-shortcuts a { min-height: 74px; padding: 12px; border-color: #dce8f6; border-radius: 12px; background: #fbfdff; }
+main.home-page .booking-shortcuts a:hover { background: #f2f7ff; }
+main.home-page .passenger-awareness { min-height: 68px; }
+main.home-page .passenger-dashboard { min-height: auto; isolation: isolate; padding: 34px 7% 38px; background: #eaf3ff; }
+main.home-page .passenger-dashboard::before { position: absolute; z-index: 1; inset: 0; display: block; background: linear-gradient(90deg, #f8fbffeb 0%, #f8fbffcf 48%, #f8fbff80 100%); content: ''; pointer-events: none; }
+main.home-page .passenger-dashboard::after { position: absolute; z-index: 0; inset: 0; background: url('/assets/admin-control-room-train.png') center 48% / cover no-repeat; content: ''; pointer-events: none; transform: scaleX(-1); }
+main.home-page .passenger-hero-copy { position: relative; z-index: 2; margin-bottom: 19px; }
+main.home-page .passenger-hero-copy .eyebrow { color: #1768c1; }
+main.home-page .passenger-hero-copy h1 { color: #11264d; font-size: clamp(30px, 4vw, 42px); letter-spacing: -.8px; }
+main.home-page .passenger-hero-copy h1 span { color: #1768c1; }
+main.home-page .passenger-hero-copy > p:last-child { margin: 8px 0 0; color: #667e9d; font-size: 14px; }
+main.home-page .passenger-search-panel { position: relative; z-index: 2; grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 22px; border: 1px solid #dce8f6; border-radius: 16px; background: #fffffff0; box-shadow: 0 8px 24px #173d680d; backdrop-filter: blur(8px); }
+main.home-page .passenger-search-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+main.home-page .passenger-search-heading h2 { margin: 0; color: #173052; font-size: 19px; }
+main.home-page .passenger-search-heading p { margin: 6px 0 0; color: #7185a0; font-size: 12px; }
+main.home-page .passenger-search-heading > span { color: #1768c1; font-size: 23px; }
+main.home-page .passenger-search-fields { grid-template-columns: minmax(0, 1fr) 40px minmax(0, 1fr) minmax(150px, .75fr) 150px; gap: 10px; }
+main.home-page .station-field, main.home-page .date-field { border-color: #dce8f6; background: #fbfdff; }
+main.home-page .swap-stations { position: static; grid-column: 2; align-self: center; width: 34px; height: 34px; border: 1px solid #dce8f6; background: #e8f2ff; color: #1768c1; transform: none; }
+main.home-page .passenger-search-button { grid-column: 5; min-height: 72px; border-radius: 10px; font-size: 13px; }
+main.home-page .passenger-search-button span:last-child { font-size: 19px; }
+main.home-page .passenger-search-message { grid-column: 1 / -1; }
+main.home-page .passenger-shortcuts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding: 0; border: 0; }
+main.home-page .passenger-shortcuts a { justify-content: flex-start; min-height: 72px; padding: 12px; border-color: #dce8f6; border-radius: 12px; background: #fbfdff; }
+main.home-page .passenger-shortcuts a:hover { border-color: #a9c8ee; background: #f2f7ff; }
+main.home-page .passenger-shortcuts a > span:first-child { flex: 0 0 36px; width: 36px; height: 36px; background: #e8f2ff; color: #1768c1; }
+main.home-page .passenger-shortcuts a > span:last-child { display: grid; flex: 1 1 0; gap: 4px; min-width: 0; background: transparent; color: inherit; text-align: left; }
+main.home-page .passenger-shortcuts strong { color: #173052; font-size: 12px; }
+main.home-page .passenger-shortcuts small { color: #7185a0; font-size: 10px; }
+@media (max-width: 900px) {
+  main.home-page .passenger-search-fields { grid-template-columns: minmax(0, 1fr) 38px minmax(0, 1fr); }
+  main.home-page .passenger-search-fields .date-field { grid-column: 1 / 3; }
+  main.home-page .passenger-search-button { grid-column: 3; }
+}
+@media (max-width: 700px) {
+  main.home-page .hero { min-height: 680px; padding: 24px 5%; }
+  main.home-page .hero::before { background-position: center, 64% center; }
+  main.home-page .hero-copy { padding: 22px; background: #ffffffd9; }
+  main.home-page .search-card { grid-template-columns: minmax(0, 1fr); }
+  main.home-page .search-fields { grid-template-columns: minmax(0, 1fr); }
+  main.home-page .search-actions { grid-column: 1; grid-row: auto; }
+  main.home-page .search-actions button { width: 100%; min-height: 48px; }
+  main.home-page .booking-shortcuts { grid-template-columns: minmax(0, 1fr); }
+  main.home-page .passenger-dashboard { padding: 28px 5%; }
+  main.home-page .passenger-search-fields { grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr); }
+  main.home-page .passenger-search-fields .date-field { grid-column: 1 / -1; }
+  main.home-page .passenger-search-button { grid-column: 1 / -1; min-height: 50px; }
+  main.home-page .passenger-shortcuts { grid-template-columns: minmax(0, 1fr); }
+  main.home-page .passenger-shortcuts a { min-height: 62px; }
+}
+@media (max-width: 420px) {
+  main.home-page .passenger-search-fields { grid-template-columns: minmax(0, 1fr); }
+  main.home-page .passenger-search-fields .station-field,
+  main.home-page .passenger-search-fields .date-field,
+  main.home-page .passenger-search-fields .passenger-search-button { grid-column: 1; }
+  main.home-page .passenger-search-fields .swap-stations { grid-column: 1; justify-self: center; transform: rotate(90deg); }
+}
+
+.tickets-page { background: linear-gradient(145deg, #f8fbff, #eaf3ff); color: #173052; }
+.tickets-page .page-intro { padding-top: 40px; }
+.tickets-page .page-intro h1 { color: #11264d; font-size: clamp(28px, 4vw, 36px); }
+.tickets-page .page-intro p:last-child { color: #7185a0; }
+.tickets-page .metrics article { border-color: #dce8f6; border-radius: 13px; background: #fff; box-shadow: 0 8px 20px #173d680b; }
+.tickets-page .metrics strong { color: #1768c1; }
+.tickets-page .ticket-panel { border-color: #dce8f6; border-radius: 14px; }
+.tickets-page .panel-head h2 { color: #173052; }
+.tickets-page .filters button { border-radius: 18px; background: #eff5fc; color: #526b88; }
+.tickets-page .filters button.selected { background: #1768c1; color: #fff; }
+.tickets-page table th { background: #f5f9ff; color: #7185a0; }
+.tickets-page table td { border-color: #e7eef7; color: #526b88; }
+.tickets-page table td strong { color: #173052; }
+.tickets-page .status { display: inline-block; padding: 5px 9px; border-radius: 14px; background: #e2f5eb; color: #16835d; font-size: 10px; }
+.tickets-page .status.rac, .tickets-page .status.waitlisted { background: #fff3df; color: #bd7624; }
+.tickets-page .status.cancelled { background: #fceaea; color: #bf5b5b; }
+
+.user-login-page { background: linear-gradient(135deg, #f2f7ff, #e8f2ff 60%, #dceaff); }
+.user-login-page > .auth-content {
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+  gap: clamp(28px, 7vw, 92px);
+  width: min(1050px, 100%);
+  margin: 0 auto;
+  padding: 48px 28px;
+}
+.account-welcome { position: relative; overflow: hidden; max-width: 520px; padding: 42px; border: 1px solid #dce8f6; border-radius: 20px; background: linear-gradient(140deg, #fff, #eef5ff); }
+.account-welcome::after { position: absolute; right: -72px; bottom: -96px; width: 270px; height: 270px; border-radius: 50%; background: #dceaff; content: ''; }
+.account-train-art { display: grid; width: 62px; height: 62px; margin-bottom: 28px; place-items: center; border-radius: 50%; background: #e0edff; font-size: 30px; }
+.account-welcome .role-label { color: #e87516; }
+.account-welcome h2 { position: relative; z-index: 1; max-width: 390px; margin: 10px 0; color: #11264d; font-size: clamp(30px, 4vw, 42px); line-height: 1.12; }
+.account-welcome > p:last-child { position: relative; z-index: 1; max-width: 360px; color: #667e9d; font-size: 14px; line-height: 1.7; }
+.user-login-card { position: relative; z-index: 1; width: 100%; padding: 34px; }
+.user-login-card h1 { font-size: 30px; }
+.user-login-card > p:not(.message) { line-height: 1.6; }
+.user-login-card .links { gap: 11px 15px; }
+
+@media (max-width: 900px) {
+  .user-login-page > .auth-content { grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); gap: 24px; padding: 36px 5%; }
+  .account-welcome { padding: 30px; }
+  .home-page .passenger-search-fields { grid-template-columns: minmax(0, 1fr) 38px minmax(0, 1fr); }
+  .home-page .date-field { grid-column: 1 / 3; }
+  .home-page .passenger-search-button { grid-column: 3; }
+}
+@media (max-width: 700px) {
+  .home-page .hero { padding: 24px 5%; }
+  .home-page .hero-copy { padding: 22px; }
+  .home-page .search-card { grid-template-columns: minmax(0, 1fr); }
+  .home-page .search-fields { grid-template-columns: minmax(0, 1fr); }
+  .home-page .search-actions { grid-column: 1; grid-row: auto; }
+  .home-page .search-actions button { width: 100%; min-height: 48px; }
+  .home-page .booking-shortcuts { grid-template-columns: minmax(0, 1fr); }
+  .home-page .passenger-dashboard { padding: 28px 5%; }
+  .home-page .passenger-search-fields { grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr); }
+  .home-page .date-field { grid-column: 1 / -1; }
+  .home-page .passenger-search-button { grid-column: 1 / -1; min-height: 50px; }
+  .home-page .passenger-shortcuts { grid-template-columns: minmax(0, 1fr); }
+  .home-page .passenger-shortcuts a { min-height: 62px; }
+  .tickets-page .page-intro { padding-top: 30px; }
+  .user-login-page > .auth-content { grid-template-columns: minmax(0, 1fr); max-width: 500px; gap: 16px; }
+  .account-welcome { padding: 22px; }
+  .account-train-art { width: 48px; height: 48px; margin-bottom: 15px; font-size: 23px; }
+  .account-welcome h2 { font-size: 28px; }
+  .account-welcome > p:last-child { margin-bottom: 0; font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .home-page .passenger-search-fields { grid-template-columns: minmax(0, 1fr); }
+  .home-page .passenger-search-fields .station-field,
+  .home-page .passenger-search-fields .date-field,
+  .home-page .passenger-search-fields .passenger-search-button { grid-column: 1; }
+  .home-page .passenger-search-fields .swap-stations { grid-column: 1; justify-self: center; transform: rotate(90deg); }
 }

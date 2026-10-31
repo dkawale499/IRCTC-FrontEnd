@@ -77,3 +77,25 @@
   .wallet-transactions-panel { padding: 0 12px 14px; }
   .wallet-account-details > div { font-size: 10px; }
 }
+.wallet-transactions-panel h2, .wallet-account-details h2 { color: #173052; }
+.wallet-account-details > div { border-color: #e7eef7; }
+.wallet-page { background: radial-gradient(ellipse at 87% 35%, #cbe8ff 0, transparent 38%), linear-gradient(135deg, #f8fbff, #eff7ff 55%, #e1f3ff); color: #142a50; }
+.wallet-overview { border: 1px solid #c3d9ee; border-radius: 16px; background: linear-gradient(110deg, #e5f2ff, #f3f8ff 60%, #d7edff); }
+.wallet-balance-card { min-height: 154px; align-content: center; padding: 21px; border-radius: 15px; background: linear-gradient(135deg, #1768c1, #084b9a); box-shadow: 0 10px 24px #145bc433; }
+.wallet-balance-card .wallet-status { padding: 5px 10px; background: #ffffff24; color: #e7f3ff; font-size: 10px; }
+.wallet-balance-card .wallet-label { color: #d7eaff; }
+.wallet-balance-card .wallet-balance { color: #fff; font-size: clamp(26px, 3vw, 34px); }
+.wallet-balance-card .balance-toggle { background: #ffffff24; color: #fff; }
+.wallet-stat { border-color: #c3d9ee; border-radius: 14px; color: #526b79; }
+.added-stat, .transaction-stat { background: linear-gradient(135deg, #fff, #e5f2ff); }
+.wallet-stat-icon, .transaction-stat .wallet-stat-icon { background: #d3e6ff; color: #145bc4; }
+.wallet-balance, .wallet-stat strong, .wallet-account-details strong { color: #11264d; }
+.wallet-add-money button { background: #145bc4; }
+.wallet-content-grid { gap: 18px; }
+.wallet-transactions-panel, .wallet-account-details { border-color: #c3d9ee; border-radius: 14px; box-shadow: 0 8px 24px #1745530c; }
+.wallet-tabs button.active { color: #145bc4; }
+.wallet-tabs button.active::after { background: #145bc4; }
+.transaction-filters button { border-radius: 18px; }
+.transaction-filters button.active { border-color: #145bc4; background: #145bc4; color: #fff; }
+.transactions-table th { background: #f3f8ff; }
+.booking-history-panel a { border-radius: 24px; background: #145bc4; }

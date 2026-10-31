@@ -3,38 +3,51 @@
 
   <section class="admin-intro">
     <div>
-      <span class="eyebrow">ADMINISTRATOR CONTROL ROOM</span>
+      <span class="eyebrow">ADMINISTRATOR WORKSPACE</span>
       <h1>{{ operationTitle }}</h1>
       <p>{{ operationDescription }}</p>
     </div>
+    <span class="admin-badge" *ngIf="activeOperation === 'overview'">
+      <span class="status-dot" aria-hidden="true"></span>
+      ADMIN WORKSPACE
+    </span>
   </section>
 
   <p class="message" *ngIf="message" role="status">{{ message }}</p>
 
   <section class="admin-overview" *ngIf="activeOperation === 'overview'" aria-label="Admin operation overview">
     <section class="admin-stats">
-      <article><strong>{{ tickets.length }}</strong><span>All tickets</span></article>
-      <article><strong>{{ trains.length }}</strong><span>Train schedules</span></article>
-      <article><strong>{{ users.length }}</strong><span>Registered users</span></article>
+      <article><strong>{{ trains.length }}</strong><span>Schedules</span></article>
+      <article><strong>{{ schedulesToday }}</strong><span>Departing today</span></article>
+      <article><strong>{{ users.length }}</strong><span>Passengers</span></article>
       <article><strong>{{ cancelledTickets }}</strong><span>Cancelled tickets</span></article>
     </section>
-    <div class="admin-operation-cards">
-      <a routerLink="/admin/schedules">
-        <span class="admin-operation-icon" aria-hidden="true">↗</span>
-        <span><strong>Schedules &amp; fares</strong><small>Publish trains, set ticket fares, and configure coaches.</small></span>
-        <span class="admin-operation-arrow" aria-hidden="true">→</span>
-      </a>
-      <a routerLink="/admin/users">
-        <span class="admin-operation-icon" aria-hidden="true">♙</span>
-        <span><strong>Passenger accounts</strong><small>Create passenger accounts and manage registered users.</small></span>
-        <span class="admin-operation-arrow" aria-hidden="true">→</span>
-      </a>
-      <a routerLink="/admin/tickets">
-        <span class="admin-operation-icon" aria-hidden="true">▤</span>
-        <span><strong>Ticket operations</strong><small>Review ticket records and booking status.</small></span>
-        <span class="admin-operation-arrow" aria-hidden="true">→</span>
-      </a>
-    </div>
+    <section class="admin-operations" aria-labelledby="admin-operations-title">
+      <div class="admin-operations-heading">
+        <div>
+          <span class="eyebrow">WORKSPACE</span>
+          <h2 id="admin-operations-title">Admin operations</h2>
+          <p>Choose an operation to manage your railway services.</p>
+        </div>
+      </div>
+      <div class="admin-operation-cards">
+        <a routerLink="/admin/schedules">
+          <span class="admin-operation-icon" aria-hidden="true">01</span>
+          <span class="admin-operation-copy"><strong>Publish schedule</strong><small>Configure trains, fares, and availability.</small></span>
+          <span class="admin-operation-arrow">Open <span aria-hidden="true">→</span></span>
+        </a>
+        <a routerLink="/admin/users">
+          <span class="admin-operation-icon" aria-hidden="true">02</span>
+          <span class="admin-operation-copy"><strong>Passenger accounts</strong><small>Review and manage registered passengers.</small></span>
+          <span class="admin-operation-arrow">Open <span aria-hidden="true">→</span></span>
+        </a>
+        <a routerLink="/admin/tickets">
+          <span class="admin-operation-icon" aria-hidden="true">03</span>
+          <span class="admin-operation-copy"><strong>Ticket operations</strong><small>Search reservations and manage booking status.</small></span>
+          <span class="admin-operation-arrow">Open <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </section>
   </section>
 
   <section class="admin-grid" *ngIf="activeOperation === 'schedules'" aria-label="Train schedule management">
@@ -101,7 +114,7 @@
       <div>
         <span class="eyebrow">ACCOUNT MANAGEMENT</span>
         <h2 id="user-management-title">Registered users</h2>
-        <p>Create passenger accounts or remove an account that is no longer needed.</p>
+        <p>Create passenger accounts or permanently remove an account and its ticket and wallet records.</p>
       </div>
       <span class="user-count">{{ users.length }} {{ users.length === 1 ? 'user' : 'users' }}</span>
     </div>

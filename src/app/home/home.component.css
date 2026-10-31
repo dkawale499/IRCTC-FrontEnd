@@ -1,5 +1,5 @@
 .home-page { min-height: 100vh; background: #e8f5ff; color: #142a50; }
-.hero { position: relative; display: flex; min-height: clamp(520px, calc(100vh - 78px), 720px); flex-direction: column; align-items: stretch; gap: 28px; overflow: hidden; padding: 52px 8% 42px; background: #d7edff url('/assets/home-hero-train.svg') center 48% / cover no-repeat; }
+.hero { position: relative; display: flex; min-height: clamp(520px, calc(100vh - 78px), 720px); flex-direction: column; align-items: stretch; gap: 28px; overflow: hidden; padding: 52px 8% 42px; background: #d7edff url('/assets/home-hero-train.png') center 48% / cover no-repeat; }
 .hero::before { position: absolute; inset: 0; background: linear-gradient(90deg, #f3f8ffed 0%, #f3f8ffc9 35%, #f3f8ff32 65%, transparent 100%); content: ''; pointer-events: none; }
 .hero-copy { position: relative; z-index: 1; max-width: 900px; }
 .eyebrow { margin: 0 0 10px; color: #e87516; font-size: 11px; font-weight: 800; letter-spacing: 1.7px; text-transform: uppercase; }
@@ -57,6 +57,11 @@
 .select-train-button span { font-size: 16px; }
 .home-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 15px 8%; background: #086bb3; color: #fff; }
 .home-footer p { margin: 0; font-size: 11px; line-height: 1.5; }
+.social-follow { display: flex; align-items: center; justify-content: center; gap: 14px; min-height: 66px; padding: 10px 6%; border-top: 4px solid #1683c2; background: #07508a; color: #fff; }
+.social-follow > span { margin-right: 4px; font-size: 14px; font-weight: 600; }
+.social-follow a { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: #fff; color: #07508a; text-decoration: none; }
+.social-follow a:hover { background: #e5f2ff; color: #145bc4; transform: translateY(-2px); }
+.social-follow svg { width: 18px; height: 18px; fill: currentColor; }
 
 @media (max-width: 760px) {
   .hero { min-height: 680px; gap: 20px; padding: 34px 5% 28px; background-position: 63% center; }
@@ -80,6 +85,10 @@
   .train-fare { padding-left: 10px; }
   .select-train-button { justify-self: stretch; justify-content: center; }
   .home-footer { align-items: flex-start; flex-direction: column; padding: 16px 5%; }
+  .social-follow { gap: 10px; min-height: 60px; padding: 10px 5%; }
+  .social-follow > span { margin-right: auto; font-size: 12px; }
+  .social-follow a { width: 32px; height: 32px; }
+  .social-follow svg { width: 16px; height: 16px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
