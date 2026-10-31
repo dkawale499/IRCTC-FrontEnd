@@ -45,6 +45,16 @@ export class AdminComponent implements OnInit {
     return this.tickets.filter((ticket) => ticket.ticketStatus === 'Cancelled').length;
   }
 
+  get schedulesToday(): number {
+    const now = new Date();
+    const today = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, '0'),
+      String(now.getDate()).padStart(2, '0')
+    ].join('-');
+    return this.trains.filter((train) => train.journeyDate.slice(0, 10) === today).length;
+  }
+
   constructor(
     readonly authService: AuthService,
     private readonly ticketService: TicketService,
@@ -64,7 +74,7 @@ export class AdminComponent implements OnInit {
       case 'schedules': return 'Schedule management';
       case 'users': return 'Passenger accounts';
       case 'tickets': return 'Ticket operations';
-      default: return 'Operations dashboard';
+      default: return 'Operations overview';
     }
   }
 
@@ -73,7 +83,7 @@ export class AdminComponent implements OnInit {
       case 'schedules': return 'Publish trains, configure coaches, and manage ticket fares.';
       case 'users': return 'Create and manage passenger accounts.';
       case 'tickets': return 'Review ticket activity and booking status.';
-      default: return 'Manage schedules, passenger accounts, and ticket activity.';
+      default: return 'Schedules, passengers, and reservations in one place.';
     }
   }
 
@@ -214,7 +224,9 @@ export class AdminComponent implements OnInit {
   }
 
   deleteUser(user: AdminUser): void {
-    if (this.deletingUserId !== null || !window.confirm(`Permanently remove ${user.fullName}'s account?`)) {
+    if (this.deletingUserId !== null || !window.confirm(
+      `Permanently delete ${user.fullName}'s account, wallet history, and ticket records? This cannot be undone.`
+    )) {
       return;
     }
 

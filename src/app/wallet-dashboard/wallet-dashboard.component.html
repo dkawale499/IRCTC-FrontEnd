@@ -15,13 +15,13 @@
     <section class="wallet-overview" aria-label="Wallet balance overview">
       <div class="wallet-balance-card">
         <span class="wallet-status">Active</span>
-        <span class="wallet-label">Current e-wallet balance <button type="button" class="balance-toggle" [attr.aria-label]="balanceVisible ? 'Hide balance' : 'Show balance'" (click)="toggleBalance()">{{ balanceVisible ? '◉' : '○' }}</button></span>
+        <span class="wallet-label">Available balance <button type="button" class="balance-toggle" [attr.aria-label]="balanceVisible ? 'Hide balance' : 'Show balance'" (click)="toggleBalance()">{{ balanceVisible ? '◉' : '○' }}</button></span>
         <strong class="wallet-balance">{{ balanceVisible ? ('Rs. ' + (wallet.balance | number:'1.2-2')) : 'Rs. ••••••' }}</strong>
       </div>
 
       <article class="wallet-stat added-stat">
-        <span class="wallet-stat-icon" aria-hidden="true">♧</span>
-        <span>Total signup credits</span>
+        <span class="wallet-stat-icon" aria-hidden="true">₹</span>
+        <span>Signup credits</span>
         <strong>₹{{ wallet.signupCreditTotal | number:'1.2-2' }}</strong>
       </article>
       <article class="wallet-stat transaction-stat">

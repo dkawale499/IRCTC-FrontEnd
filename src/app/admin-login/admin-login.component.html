@@ -1,1 +1,17 @@
-<main class="admin-login-page"><section class="admin-login-card"><a class="brand" routerLink="/">railwise <small>operations</small></a><span class="role-label">Restricted administrator access</span><h1>Control room</h1><p>Sign in to monitor all tickets and publish train schedules.</p><form (ngSubmit)="login()"><label>Administrator email<input name="email" type="email" [(ngModel)]="email" autocomplete="username" required></label><label>Administrator password<input name="password" type="password" [(ngModel)]="password" autocomplete="current-password" required></label><button type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Verifying...' : 'Enter control room' }}</button></form><p class="message" *ngIf="message">{{ message }}</p><div class="links"><a routerLink="/user-login">User login</a><a routerLink="/">Back to home</a></div></section></main>
+<main class="admin-login-page">
+  <app-header variant="home"></app-header>
+  <div class="auth-content">
+    <section class="admin-login-card">
+      <span class="role-label">Restricted administrator access</span>
+      <h1>Control room</h1>
+      <p>Sign in to monitor all tickets and publish train schedules.</p>
+      <form (ngSubmit)="login()">
+        <label>Administrator email<input name="email" type="email" [(ngModel)]="email" autocomplete="username" required></label>
+        <label>Administrator password<input name="password" type="password" [(ngModel)]="password" autocomplete="current-password" required></label>
+        <button type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Verifying...' : 'Enter control room' }}</button>
+      </form>
+      <p class="message" *ngIf="message">{{ message }}</p>
+      <div class="links"><a routerLink="/user-login">User login</a><a routerLink="/">Back to home</a></div>
+    </section>
+  </div>
+</main>

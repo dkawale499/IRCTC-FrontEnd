@@ -1,1 +1,23 @@
-<main class="user-login-page"><section class="user-login-card"><a class="brand" routerLink="/">railwise <small>ticket desk</small></a><span class="role-label">Passenger portal</span><h1>Welcome back</h1><p>Sign in to search trains, book journeys, and manage your tickets.</p><form (ngSubmit)="login()"><label>Email<input name="email" type="email" [(ngModel)]="email" autocomplete="email" required></label><label>Password<input name="password" type="password" [(ngModel)]="password" autocomplete="current-password" required></label><button type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Signing in...' : 'Sign in as user' }}</button></form><p class="message" *ngIf="message">{{ message }}</p><div class="links"><a routerLink="/register">Create account</a><a routerLink="/forgot-password">Forgot password?</a><a routerLink="/admin-login">Admin login</a></div></section></main>
+<main class="user-login-page">
+  <app-header variant="home"></app-header>
+  <div class="auth-content">
+    <aside class="account-welcome">
+      <span class="account-train-art" aria-hidden="true">🚆</span>
+      <p class="role-label">WELCOME TO RAILWISE</p>
+      <h2>Your next journey starts here.</h2>
+      <p>Sign in to book your tickets, check your bookings, and manage your wallet.</p>
+    </aside>
+    <section class="user-login-card">
+      <span class="role-label">PASSENGER PORTAL</span>
+      <h1>Welcome back</h1>
+      <p>Sign in to continue your journey.</p>
+      <form (ngSubmit)="login()">
+        <label>Email<input name="email" type="email" [(ngModel)]="email" autocomplete="email" required></label>
+        <label>Password<input name="password" type="password" [(ngModel)]="password" autocomplete="current-password" required></label>
+        <button type="submit" [disabled]="isSubmitting">{{ isSubmitting ? 'Signing in...' : 'Sign in securely' }}</button>
+      </form>
+      <p class="message" *ngIf="message">{{ message }}</p>
+      <div class="links"><a routerLink="/register">Create account</a><a routerLink="/forgot-password">Forgot password?</a><a routerLink="/admin-login">Admin login</a></div>
+    </section>
+  </div>
+</main>

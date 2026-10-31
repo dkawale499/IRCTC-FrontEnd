@@ -1,10 +1,10 @@
 <main class="tickets-page">
-  <app-header variant="dashboard"></app-header>
+  <app-header [variant]="isAdmin ? 'admin' : 'home'"></app-header>
   <section class="page-intro">
     <div>
       <p class="eyebrow">{{ isAdmin ? 'Administrator view' : 'Passenger view' }}</p>
-      <h1>{{ isAdmin ? 'All tickets' : 'My tickets' }}</h1>
-      <p>Review live ticket status and journey details from the backend.</p>
+      <h1>{{ isAdmin ? 'All tickets' : 'Your journeys' }}</h1>
+      <p>{{ isAdmin ? 'Review live ticket status and journey details.' : 'Manage upcoming and past tickets in one place.' }}</p>
     </div>
     <a class="primary-button" routerLink="/booking">Book a ticket</a>
   </section>
@@ -19,7 +19,7 @@
   <section class="ticket-panel">
     <div class="panel-head">
       <div>
-        <h2>Ticket list</h2>
+        <h2>{{ isAdmin ? 'Ticket list' : 'Recent bookings' }}</h2>
         <p *ngIf="isLoading">Loading live tickets...</p>
         <p *ngIf="!isLoading">{{ filteredTickets.length }} ticket(s) shown</p>
       </div>

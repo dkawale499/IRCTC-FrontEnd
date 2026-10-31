@@ -35,3 +35,29 @@
 .empty{padding:38px!important;color:#819396!important;text-align:center}
 @media(max-width:1100px){.tickets-page{padding-right:5%;padding-left:5%}.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:700px){.page-intro{align-items:flex-start;flex-direction:column;padding:38px 0 23px}.page-intro h1{font-size:32px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metrics article{min-height:86px;padding:15px}.panel-head{align-items:stretch;flex-direction:column;padding:18px}.ticket-search{width:100%}.filters{flex-wrap:nowrap;overflow-x:auto;padding:0 18px 14px}.filters button{flex:0 0 auto}.tickets-page th,.tickets-page td{padding-right:13px;padding-left:13px}}
+.tickets-page { max-width: none; padding: 0 0 60px; background: linear-gradient(145deg, #f8fbff, #e8f5ff); color: #142a50; }
+.page-intro { margin: 0 6%; padding: 48px 0 26px; }
+.page-intro h1 { color: #11264d; }
+.page-intro p:last-child { color: #61758b; }
+.tickets-page .primary-button { border-radius: 24px; background: #145bc4; box-shadow: 0 8px 18px #145bc433; }
+.message { margin-right: 6%; margin-left: 6%; border-color: #f0c4b8; background: #fff5f1; color: #ad4b37; }
+.metrics { margin: 0 6% 22px; }
+.metrics article { border-color: #c3d9ee; border-radius: 14px; box-shadow: 0 8px 24px #1745530c; }
+.metrics strong { color: #145bc4; }
+.metrics span, .panel-head p { color: #71869b; }
+.ticket-panel { margin: 0 6%; border-color: #c3d9ee; border-radius: 14px; box-shadow: 0 8px 24px #1745530c; }
+.panel-head h2 { color: #11264d; }
+.ticket-search { border-color: #abcfee; border-radius: 9px; }
+.filters button { border-radius: 18px; background: #eff7ff; color: #315b91; }
+.filters button.selected { border-color: #145bc4; background: #145bc4; }
+.tickets-page th { background: #f3f8ff; color: #71869b; }
+.tickets-page td { border-color: #e3edf6; color: #526b79; }
+.tickets-page td strong { color: #173c59; }
+.cancel-button { border-color: #f0c4b8; border-radius: 18px; background: #fff5f1; color: #ad4b37; }
+.cancel-button:hover { border-color: #df815b; background: #fff0e8; }
+@media(max-width:1100px) {
+  .page-intro, .metrics, .ticket-panel, .message { margin-right: 5%; margin-left: 5%; }
+}
+@media(max-width:700px) {
+  .page-intro { padding: 34px 0 22px; }
+}

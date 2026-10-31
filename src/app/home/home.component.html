@@ -13,10 +13,15 @@
     <section class="passenger-dashboard" id="train-search">
       <div class="passenger-hero-copy">
         <p class="eyebrow">WELCOME BACK, {{ displayName }}</p>
-        <h1>Your Journey, <span>Made Simple</span></h1>
+        <h1>Plan a journey <span>you'll remember.</span></h1>
+        <p>Search trains, compare your options, and book with confidence.</p>
       </div>
 
       <section class="passenger-search-panel" aria-label="Search trains">
+        <div class="passenger-search-heading">
+          <div><h2>Where would you like to go?</h2><p>Choose your route and travel date to see available trains.</p></div>
+          <span aria-hidden="true">✦</span>
+        </div>
         <form class="passenger-search-form" (ngSubmit)="search()">
           <div class="passenger-search-fields">
             <label class="station-field">
@@ -40,27 +45,10 @@
         </form>
 
         <nav class="passenger-shortcuts" aria-label="Passenger services">
-          <a routerLink="/available-tickets"><span aria-hidden="true">▤</span>My Bookings</a>
-          <a routerLink="/booking"><span aria-hidden="true">◷</span>Book a Ticket</a>
-          <a routerLink="/wallet"><span aria-hidden="true">₹</span>E-Wallet</a>
+          <a routerLink="/available-tickets"><span aria-hidden="true">▤</span><span><strong>My tickets</strong><small>View and manage bookings</small></span></a>
+          <a routerLink="/booking"><span aria-hidden="true">◷</span><span><strong>Plan a trip</strong><small>Continue your journey</small></span></a>
+          <a routerLink="/wallet"><span aria-hidden="true">₹</span><span><strong>E-Wallet</strong><small>Balance and activity</small></span></a>
         </nav>
-
-        <div class="journey-overview">
-          <article class="journey-overview-card">
-            <div class="overview-heading"><span>Last transaction</span><a routerLink="/available-tickets">View bookings</a></div>
-            <div class="overview-empty">
-              <span class="overview-icon" aria-hidden="true">▤</span>
-              <span><strong>Your recent bookings</strong><small>Booking activity will appear here when available.</small></span>
-            </div>
-          </article>
-          <article class="journey-overview-card">
-            <div class="overview-heading"><span>Upcoming trips</span><a routerLink="/available-tickets">My bookings</a></div>
-            <div class="overview-empty">
-              <span class="overview-icon" aria-hidden="true">◷</span>
-              <span><strong>Ready for your next journey?</strong><small>Search trains to plan an upcoming trip.</small></span>
-            </div>
-          </article>
-        </div>
       </section>
     </section>
   </ng-container>
@@ -69,12 +57,12 @@
     <section class="hero" id="train-search">
       <div class="hero-copy">
         <p class="eyebrow">A smoother way to travel</p>
-        <h1>Your Journey, <span>Made Simple</span></h1>
+        <h1>Plan a journey <span>you'll remember.</span></h1>
       </div>
       <div class="booking-panel">
         <form class="search-card" (ngSubmit)="search()">
           <div class="search-title">
-            <div><span>Plan your journey</span><small>Search trains and live seat availability</small></div>
+            <div><span>Where would you like to go?</span><small>Search trains and live seat availability</small></div>
           </div>
           <div class="search-fields">
             <label><span>From</span><input name="source" [(ngModel)]="source" placeholder="Select source station" autocomplete="off" required></label>
@@ -123,6 +111,24 @@
       </div>
     </article>
   </section>
+  <nav class="social-follow" aria-label="Follow us on social media">
+    <span>Follow Us</span>
+    <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.7V3.9c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5V10H7v3h2.8v8z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.3a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6M5 9.7h3V19H5zm4.8 0h2.9V11h.1c.4-.8 1.4-1.6 2.9-1.6 3.1 0 3.7 2 3.7 4.6V19h-3v-4.4c0-1.1 0-2.6-1.6-2.6s-1.9 1.2-1.9 2.5V19h-3z"/></svg>
+    </a>
+    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.8" r="1.1"/></svg>
+    </a>
+    <a href="https://x.com/" target="_blank" rel="noopener noreferrer" aria-label="X">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3L12 14.8 6.6 21H3.4l7.3-8.4L2.8 3h6.5l4.4 5.8zm-1.1 16h1.7L8.3 4.9H6.5z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4a2.5 2.5 0 0 0-1.8 1.8A26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8M10 15.2V8.8l5.5 3.2z"/></svg>
+    </a>
+  </nav>
   <footer class="home-footer" id="home-footer">
     <p>Copyright © 2026 - [Dnyaneswar kawale] All Rights Reserved</p>
     <p>Designed &amp; hosted by CRIS: Dnyaneshwar &amp; Pallavi</p>
