@@ -127,7 +127,15 @@
         <label>Full name<input name="newUserFullName" [(ngModel)]="newUser.fullName" autocomplete="name" required></label>
         <label>Email<input name="newUserEmail" type="email" [(ngModel)]="newUser.email" autocomplete="email" required></label>
         <label>Phone<input name="newUserPhone" type="tel" [(ngModel)]="newUser.phone" autocomplete="tel" required></label>
-        <label>Password<input name="newUserPassword" type="password" [(ngModel)]="newUser.password" autocomplete="new-password" minlength="8" required></label>
+        <div class="password-field">
+          <label for="admin-new-user-password">Password</label>
+          <span class="password-input-wrapper">
+            <input id="admin-new-user-password" name="newUserPassword" [type]="showNewUserPassword ? 'text' : 'password'" [(ngModel)]="newUser.password" autocomplete="new-password" minlength="8" required>
+            <button class="password-toggle" type="button" [attr.aria-label]="showNewUserPassword ? 'Hide password' : 'Show password'" [attr.aria-pressed]="showNewUserPassword" (click)="showNewUserPassword = !showNewUserPassword">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle><path *ngIf="!showNewUserPassword" d="m4 4 16 16"></path></svg>
+            </button>
+          </span>
+        </div>
         <small class="password-hint">Use at least 8 characters. The password is securely hashed by the server.</small>
         <button type="submit" [disabled]="isSavingUser">{{ isSavingUser ? 'Creating account...' : 'Create user account' }}</button>
       </form>

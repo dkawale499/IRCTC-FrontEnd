@@ -16,6 +16,7 @@ export class ForgotPasswordComponent {
   email = '';
   token = '';
   newPassword = '';
+  showNewPassword = false;
   message = '';
 
   constructor(private readonly authService: AuthService) {}

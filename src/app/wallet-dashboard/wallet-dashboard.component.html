@@ -31,8 +31,8 @@
       </article>
       <div class="wallet-add-money">
         <span class="wallet-art" aria-hidden="true">₹</span>
-        <button type="button" disabled title="Wallet top-ups are not available yet">＋ Add money</button>
-        <span>Top-ups are coming soon.</span>
+        <button type="button" (click)="openTopUpDialog()">＋ Add money</button>
+        <span>Quick, secure wallet top-ups</span>
       </div>
     </section>
 
@@ -100,4 +100,64 @@
     </section>
 
   </ng-container>
+
+  <div *ngIf="isTopUpDialogOpen" class="topup-overlay">
+    <section class="topup-dialog" role="dialog" aria-modal="true" aria-labelledby="topup-title">
+      <header class="topup-dialog-header">
+        <div>
+          <span class="topup-eyebrow">WALLET TOP-UP</span>
+          <h2 id="topup-title">{{ paymentCompleted ? 'Top-up complete' : 'Add money to your wallet' }}</h2>
+        </div>
+        <button *ngIf="!paymentCompleted" type="button" class="topup-close" aria-label="Close" (click)="closeTopUpDialog()">×</button>
+      </header>
+
+      <ng-container *ngIf="paymentCompleted; else topUpForm">
+        <div class="topup-success-icon" aria-hidden="true">✓</div>
+        <p class="topup-success-title">₹{{ topUpAmount | number:'1.0-0' }} demo payment completed</p>
+        <p class="topup-success-copy">Your displayed wallet balance has been updated.</p>
+        <p class="topup-demo-notice">This was a local demo only. No money was charged or transferred, and the change will not persist after reloading.</p>
+        <button type="button" class="topup-primary" (click)="closeTopUpDialog()">Done</button>
+      </ng-container>
+
+      <ng-template #topUpForm>
+        <label class="topup-amount-label" for="topup-amount">Enter top-up amount</label>
+        <div class="topup-amount-input">
+          <span aria-hidden="true">₹</span>
+          <input id="topup-amount" type="number" min="1" max="100000" step="1" [(ngModel)]="topUpAmount" (ngModelChange)="onTopUpAmountChange()" [disabled]="isPaymentProcessing" aria-label="Top-up amount in rupees">
+        </div>
+        <div class="topup-quick-amounts" aria-label="Suggested top-up amounts">
+          <button *ngFor="let amount of quickAmounts" type="button" [class.active]="topUpAmount === amount" [attr.aria-pressed]="topUpAmount === amount" [disabled]="isPaymentProcessing" (click)="selectQuickAmount(amount)">₹{{ amount | number:'1.0-0' }}</button>
+        </div>
+
+        <h3 class="topup-section-title">Choose a payment method</h3>
+        <div class="topup-methods">
+          <button *ngFor="let method of paymentMethods" type="button" class="topup-method" [class.active]="selectedPaymentMethod === method.name" [attr.aria-pressed]="selectedPaymentMethod === method.name" [disabled]="isPaymentProcessing" (click)="selectPaymentMethod(method.name)">
+            <span class="topup-method-icon" aria-hidden="true">{{ method.icon }}</span>
+            <span class="topup-method-copy"><strong>{{ method.name }}</strong><small>{{ method.detail }}</small></span>
+            <span class="topup-method-check" aria-hidden="true">{{ selectedPaymentMethod === method.name ? '✓' : '' }}</span>
+          </button>
+        </div>
+
+        <section *ngIf="selectedPaymentMethod === 'UPI' && qrImage" class="topup-qr-panel" aria-label="Demo UPI QR code">
+          <img [src]="qrImage" alt="QR code for this demo wallet top-up">
+          <div>
+            <strong>Scan the demo QR</strong>
+            <p>Demo QR preview only; it cannot start a real UPI payment.</p>
+            <p class="topup-countdown" role="status">Demo completes in {{ countdown }} seconds</p>
+          </div>
+        </section>
+
+        <p *ngIf="selectedPaymentMethod && selectedPaymentMethod !== 'UPI'" class="topup-method-note">
+          Demo mode: no card, Paytm, or bank details are collected.
+        </p>
+        <p *ngIf="paymentError" class="topup-error" role="alert">{{ paymentError }}</p>
+        <button *ngIf="selectedPaymentMethod && selectedPaymentMethod !== 'UPI'" type="button" class="topup-primary" [disabled]="!isTopUpAmountValid || isPaymentProcessing" (click)="startDemoPayment()">
+          {{ countdown < 10 ? 'Processing demo payment… ' + countdown + 's' : 'Pay ₹' + (topUpAmount | number:'1.0-0') }}
+        </button>
+        <button *ngIf="selectedPaymentMethod === 'UPI' && !qrImage && !paymentError" type="button" class="topup-primary" disabled>Generating demo QR…</button>
+        <p class="topup-demo-notice">Demo only — no real payment will be made. Top-ups are not sent to the server.</p>
+        <button type="button" class="topup-cancel" (click)="closeTopUpDialog()">Cancel</button>
+      </ng-template>
+    </section>
+  </div>
 </main>

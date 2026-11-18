@@ -21,6 +21,7 @@ export class AdminComponent implements OnInit {
   fareUpdates: Record<number, number> = {};
   users: AdminUser[] = [];
   newUser: RegisterRequest = this.createEmptyUser();
+  showNewUserPassword = false;
   message = '';
   userMessage = '';
   isUserMessageError = false;

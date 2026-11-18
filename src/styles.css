@@ -20,6 +20,14 @@ button, input, select { font-family: inherit; }
 button, a, input, select { transition: background-color .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease, transform .18s ease; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #efbb72; outline-offset: 3px; }
 
+.password-field { display: grid; gap: 6px; }
+.password-input-wrapper { position: relative; display: block; min-width: 0; }
+.password-input-wrapper > input { box-sizing: border-box; width: 100%; padding-right: 42px !important; }
+button.password-toggle { position: absolute; top: 50%; right: 6px; display: grid; width: 30px; height: 30px; place-items: center; padding: 5px; border: 0; border-radius: 50%; background: transparent !important; background-image: none !important; box-shadow: none !important; color: #526b79 !important; cursor: pointer; transform: translateY(-50%) !important; transition: color .18s ease, background-color .18s ease !important; }
+button.password-toggle:hover { background: #e8f2ff !important; background-image: none !important; color: #145bc4 !important; transform: translateY(-50%) !important; }
+button.password-toggle svg { display: block; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.user-login-page .user-login-card button.password-toggle, .admin-login-page .admin-login-card button.password-toggle { padding: 5px !important; }
+
 .home-page { background: #e8f5ff; color: var(--rail-ink); }
 .hero { position: relative; overflow: hidden; }
 .hero-copy { text-shadow: 0 2px 18px #102a4366; }
@@ -150,11 +158,8 @@ header.site-header.home-header { position: relative; z-index: 5; width: 100%; mi
 header.site-header.admin-home-header { padding-right: 2%; padding-left: 2%; }
 .home-branding { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; }
 .beta-badge { padding: 9px 11px; border: 1px solid #7da8ff; border-radius: 5px; background: #10168e; box-shadow: 0 3px 8px #08255838; color: #fff; font-size: 11px; font-weight: 800; white-space: nowrap; }
-.railway-mark, .irctc-mark { display: grid; flex: 0 0 48px; width: 48px; height: 48px; place-items: center; border: 2px solid #fff; border-radius: 50%; text-decoration: none; }
-.railway-mark { background: #e72c37; color: #fff; }
-.railway-mark span { display: grid; width: 33px; height: 33px; place-items: center; border: 1px solid #ffffffb3; border-radius: 50%; font-family: Georgia, serif; font-size: 22px; font-weight: 700; }
-.irctc-mark { background: #fff; color: #133a97; }
-.irctc-mark span { display: grid; width: 36px; height: 36px; place-items: center; border: 2px solid #173b99; border-radius: 50%; font-size: 10px; font-weight: 900; letter-spacing: -1px; }
+.railways-logo { display: block; flex: 0 0 44px; width: 44px; height: 44px; overflow: hidden; border-radius: 50%; }
+.railways-logo img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .home-header nav { position: static; justify-content: center; gap: clamp(10px, 1.5vw, 25px); flex: 1 1 auto; padding: 7px 18px; border: 1px solid #ffffff55; border-radius: 32px; background: #1683c2; box-shadow: inset 0 1px 5px #14577c55; }
 .home-header nav > .home-link { position: relative; display: inline-flex; align-items: center; min-height: 42px; color: #fff !important; font-size: 13px; font-weight: 700; text-transform: uppercase; text-shadow: 0 1px 2px #00252b55; }
 .home-header nav > .home-link:hover, .home-header nav > .home-link:focus-visible { color: #fff !important; }
@@ -213,9 +218,7 @@ header.site-header.admin-home-header { padding-right: 2%; padding-left: 2%; }
   .site-header.home-header { gap: 12px; }
   .home-branding { gap: 7px; }
   .beta-badge { padding: 7px; font-size: 9px; }
-  .railway-mark, .irctc-mark { flex-basis: 38px; width: 38px; height: 38px; }
-  .railway-mark span { width: 27px; height: 27px; font-size: 18px; }
-  .irctc-mark span { width: 29px; height: 29px; font-size: 8px; }
+  .home-branding .railways-logo { flex-basis: 42px; width: 42px; height: 42px; }
   .home-header nav { order: 3; width: 100%; gap: 8px 12px; padding: 7px 10px; }
   .home-header nav > .home-link, .trains-menu-trigger { min-height: 30px; font-size: 10px; }
   .home-header .session-info { margin-left: auto; }
@@ -279,9 +282,7 @@ header.site-header.admin-home-header { padding-right: 2%; padding-left: 2%; }
 .login-dialog-banner h2 { position: relative; z-index: 1; margin: 0; color: #11264d; font-size: 23px; }
 .login-dialog-banner p { position: relative; z-index: 1; margin: 5px 0 0; color: #52657e; font-size: 12px; }
 .login-brand-marks { position: absolute; top: 24px; right: 30px; display: flex; align-items: center; gap: 12px; }
-.login-brand-marks .railway-mark, .login-brand-marks .irctc-mark { flex-basis: 54px; width: 54px; height: 54px; }
-.login-brand-marks .railway-mark span { width: 39px; height: 39px; }
-.login-brand-marks .irctc-mark span { width: 41px; height: 41px; }
+.login-brand-marks .railways-logo-image { display: block; width: 46px; height: 46px; border-radius: 50%; object-fit: cover; }
 .login-close { position: absolute; z-index: 2; top: 12px; right: 12px; display: grid; width: 32px; height: 32px; place-items: center; border: 0; border-radius: 50%; background: #fff; color: #182b44; font-size: 23px; line-height: 1; cursor: pointer; box-shadow: 0 3px 12px #16375b2e; }
 .login-tabs { display: grid; grid-template-columns: 1fr 1fr; background: #f9fcff; }
 .login-tabs button { display: flex; align-items: center; justify-content: center; gap: 9px; min-height: 54px; border: 0; border-bottom: 3px solid transparent; background: transparent; color: #53647b; font: inherit; font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; }
@@ -290,6 +291,10 @@ header.site-header.admin-home-header { padding-right: 2%; padding-left: 2%; }
 .login-form { display: grid; gap: 13px; padding: 24px 24px 10px; }
 .login-form label { position: relative; display: grid; gap: 4px; padding: 9px 42px 9px 14px; border: 1px solid #b8d7f0; border-radius: 11px; background: #eaf4ff; color: #445773; font-size: 10px; }
 .login-form label:focus-within { border-color: #286bd0; box-shadow: 0 0 0 3px #286bd01a; }
+.login-form .login-password-field { position: relative; display: grid; gap: 4px; padding: 9px 14px; border: 1px solid #b8d7f0; border-radius: 11px; background: #eaf4ff; color: #445773; font-size: 10px; }
+.login-form .login-password-field:focus-within { border-color: #286bd0; box-shadow: 0 0 0 3px #286bd01a; }
+.login-form .login-password-field > label { position: static; display: block; padding: 0; border: 0; border-radius: 0; background: transparent; color: inherit; font-size: inherit; }
+.login-form .login-password-field .password-input-wrapper { width: 100%; }
 .login-form input { width: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: #172a4a; font: inherit; font-size: 14px; }
 .login-form input::placeholder { color: #8293a8; }
 .field-icon { position: absolute; top: 50%; right: 15px; color: #3150d8; font-size: 18px; transform: translateY(-50%); }
@@ -307,9 +312,7 @@ header.site-header.admin-home-header { padding-right: 2%; padding-left: 2%; }
 @media (max-width: 560px) {
   .login-dialog-banner { min-height: 140px; padding: 18px; }
   .login-brand-marks { top: 27px; right: 54px; gap: 8px; }
-  .login-brand-marks .railway-mark, .login-brand-marks .irctc-mark { flex-basis: 44px; width: 44px; height: 44px; }
-  .login-brand-marks .railway-mark span { width: 32px; height: 32px; }
-  .login-brand-marks .irctc-mark span { width: 34px; height: 34px; }
+  .login-brand-marks .railways-logo-image { width: 40px; height: 40px; }
   .login-form { padding: 18px 16px 8px; }
   .login-signup { margin-right: 16px; margin-left: 16px; }
 }
