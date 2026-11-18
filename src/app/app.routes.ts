@@ -7,14 +7,15 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminComponent } from './admin/admin.component';
 import { WalletDashboardComponent } from './wallet-dashboard/wallet-dashboard.component';
+import { adminGuard } from './admin.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', redirectTo: 'user-login', pathMatch: 'full' },
   { path: 'user-login', component: UserLoginComponent },
   { path: 'admin-login', component: AdminLoginComponent },
-  { path: 'admin', component: AdminComponent },
-  { path: 'admin/:operation', component: AdminComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [adminGuard] },
+  { path: 'admin/:operation', component: AdminComponent, canActivate: [adminGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'available-tickets', component: AvailableTicketsComponent },

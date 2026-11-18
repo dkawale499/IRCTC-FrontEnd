@@ -20,6 +20,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
   loginRole: 'user' | 'admin' = 'user';
   loginEmail = '';
   loginPassword = '';
+  showLoginPassword = false;
   loginMessage = '';
   isSubmittingLogin = false;
   private clockId?: number;

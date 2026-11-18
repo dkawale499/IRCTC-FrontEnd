@@ -15,6 +15,7 @@ import { AppHeaderComponent } from '../app-header/app-header.component';
 export class AdminLoginComponent {
   email = '';
   password = '';
+  showPassword = false;
   message = '';
   isSubmitting = false;
 

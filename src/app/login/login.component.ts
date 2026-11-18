@@ -14,6 +14,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent {
   email = '';
   password = '';
+  showPassword = false;
   message = '';
   isSubmitting = false;
 

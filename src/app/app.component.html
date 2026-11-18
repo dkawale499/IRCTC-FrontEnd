@@ -34,7 +34,15 @@
     </header>
     <form class="auth-panel" *ngIf="showAuthForm && !isAuthenticated && authMode === 'login'" (ngSubmit)="login()">
       <label>Email <input name="authEmail" type="email" [(ngModel)]="authEmail" required></label>
-      <label>Password <input name="authPassword" type="password" [(ngModel)]="authPassword" required></label>
+      <div class="password-field">
+        <label for="dashboard-auth-password">Password</label>
+        <span class="password-input-wrapper">
+          <input id="dashboard-auth-password" name="authPassword" [type]="showAuthPassword ? 'text' : 'password'" [(ngModel)]="authPassword" autocomplete="current-password" required>
+          <button class="password-toggle" type="button" [attr.aria-label]="showAuthPassword ? 'Hide password' : 'Show password'" [attr.aria-pressed]="showAuthPassword" (click)="showAuthPassword = !showAuthPassword">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle><path *ngIf="!showAuthPassword" d="m4 4 16 16"></path></svg>
+          </button>
+        </span>
+      </div>
       <button type="submit">Login</button>
       <button type="button" (click)="authMode = 'forgot'">Forgot password?</button>
       <span *ngIf="authMessage">{{ authMessage }}</span>
@@ -43,7 +51,15 @@
       <label>Full name <input name="authFullName" [(ngModel)]="authFullName" required></label>
       <label>Email <input name="authEmail" type="email" [(ngModel)]="authEmail" required></label>
       <label>Phone <input name="authPhone" type="tel" [(ngModel)]="authPhone" required></label>
-      <label>Password <input name="authPassword" type="password" [(ngModel)]="authPassword" required></label>
+      <div class="password-field">
+        <label for="dashboard-auth-password">Password</label>
+        <span class="password-input-wrapper">
+          <input id="dashboard-auth-password" name="authPassword" [type]="showAuthPassword ? 'text' : 'password'" [(ngModel)]="authPassword" autocomplete="new-password" required>
+          <button class="password-toggle" type="button" [attr.aria-label]="showAuthPassword ? 'Hide password' : 'Show password'" [attr.aria-pressed]="showAuthPassword" (click)="showAuthPassword = !showAuthPassword">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle><path *ngIf="!showAuthPassword" d="m4 4 16 16"></path></svg>
+          </button>
+        </span>
+      </div>
       <button type="submit">Register</button>
       <span *ngIf="authMessage">{{ authMessage }}</span>
     </form>
@@ -55,7 +71,15 @@
     </form>
     <form class="auth-panel" *ngIf="showAuthForm && !isAuthenticated && authMode === 'reset'" (ngSubmit)="resetAccountPassword()">
       <label>Reset token <input name="resetToken" [(ngModel)]="resetToken" required></label>
-      <label>New password <input name="resetPassword" type="password" [(ngModel)]="resetPassword" required></label>
+      <div class="password-field">
+        <label for="dashboard-reset-password">New password</label>
+        <span class="password-input-wrapper">
+          <input id="dashboard-reset-password" name="resetPassword" [type]="showResetPassword ? 'text' : 'password'" [(ngModel)]="resetPassword" autocomplete="new-password" required>
+          <button class="password-toggle" type="button" [attr.aria-label]="showResetPassword ? 'Hide password' : 'Show password'" [attr.aria-pressed]="showResetPassword" (click)="showResetPassword = !showResetPassword">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle><path *ngIf="!showResetPassword" d="m4 4 16 16"></path></svg>
+          </button>
+        </span>
+      </div>
       <button type="submit">Reset password</button>
       <span *ngIf="authMessage">{{ authMessage }}</span>
     </form>

@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   trainResults: TrainSchedule[] = [];
   authEmail = '';
   authPassword = '';
+  showAuthPassword = false;
   authFullName = '';
   authPhone = '';
   authMessage = '';
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit {
   adminMessage = '';
   resetToken = '';
   resetPassword = '';
+  showResetPassword = false;
 
   tickets: Ticket[] = [
     { ticketId: 847291, name: 'Ananya Sharma', dob: '14 Aug 1996', gender: 'Female', doj: '18 Sep 2024', source: 'New Delhi', dest: 'Jaipur', trainNo: '12915', ticketStatus: 'Confirmed', coach: 'A2', berth: '32 · Lower' },

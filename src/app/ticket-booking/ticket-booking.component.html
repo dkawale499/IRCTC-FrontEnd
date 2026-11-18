@@ -75,6 +75,21 @@
             <span class="payment-method-copy"><strong>E-Wallet</strong><small>Pay securely from your Railwise wallet</small></span>
             <span class="recommended-badge">Recommended</span>
           </div>
+          <div class="other-payment-methods" aria-label="Other payment methods currently unavailable">
+            <button class="other-payment-method" type="button" disabled aria-label="UPI, currently unavailable">
+              <span class="payment-logo upi-logo" aria-hidden="true">UPI</span>
+              <span>UPI</span>
+            </button>
+            <button class="other-payment-method" type="button" disabled aria-label="Credit or debit card, currently unavailable">
+              <svg class="payment-logo card-logo" viewBox="0 0 40 28" aria-hidden="true"><rect x="1" y="1" width="38" height="26" rx="4"/><path d="M1 9h38M7 20h10"/></svg>
+              <span>Credit / Debit Card</span>
+            </button>
+            <button class="other-payment-method" type="button" disabled aria-label="Net banking, currently unavailable">
+              <svg class="payment-logo bank-logo" viewBox="0 0 40 32" aria-hidden="true"><path d="M2 10 20 2l18 8H2ZM5 13h30M7 27h26M3 31h34M10 14v12m7-12v12m7-12v12m7-12v12"/></svg>
+              <span>Net Banking</span>
+            </button>
+          </div>
+          <p class="payment-method-note">UPI, cards, and net banking are not available yet. E-Wallet is the only enabled payment method.</p>
           <div class="wallet-payment-summary">
             <div class="wallet-available"><span><span class="wallet-small-icon" aria-hidden="true">₹</span><span><small>Available wallet balance</small><strong *ngIf="!isWalletLoading && !walletError">₹{{ walletBalance | number:'1.2-2' }}</strong><strong *ngIf="isWalletLoading">Loading balance…</strong><strong class="balance-error" *ngIf="walletError">{{ walletError }}</strong></span></span><a routerLink="/wallet">Wallet details</a></div>
             <div class="fare-line"><span>Ticket fare</span><strong *ngIf="ticketFare !== null">₹{{ ticketFare | number:'1.2-2' }}</strong><strong *ngIf="ticketFare === null">—</strong></div>
